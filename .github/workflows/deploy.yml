@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - homepage
+      - main
 
 jobs:
   build:
