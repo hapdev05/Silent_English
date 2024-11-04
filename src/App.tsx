@@ -6,7 +6,7 @@ import Letgo4 from "./components/Letgo4";
 function App() {
   return (
     <>
-      <Router basename="/Silent_English/">
+      <Router>
         <Routes>
           <Route path="/Silent_English/" element={<HomePage/>} />
           <Route path="/let-go-3/" element={<Letgo3/>} />
