@@ -5,9 +5,9 @@
     { "path": "./tsconfig.node.json" }
   ],
   "compilerOptions": {
-    "baseUrl": "/Silent_English",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["/Silent_English/src/*"]
+      "@/*": ["./src/*"]
     }
   }
 }

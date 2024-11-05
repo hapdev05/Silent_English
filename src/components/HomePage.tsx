@@ -39,13 +39,13 @@ const HomePage: React.FC = () => {
                 {isDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
                     <a
-                      href="/Silent_English/let-go-3"
+                      href="/let-go-3"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Let’s go 3
                     </a>
                     <a
-                      href="/Silent_English/let-go-3"
+                      href="/let-go-4"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
                       Let’s go 4
