@@ -1,4 +1,3 @@
-import React from 'react';
 
 const Unit4 = () => {
     return (
