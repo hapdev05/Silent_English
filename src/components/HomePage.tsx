@@ -95,9 +95,29 @@ const HomePage: React.FC = () => {
           <a href="#" className="text-white text-lg">
             Giới thiệu
           </a>
-          <a href="#" className="text-white text-lg">
-            Bài tập
-          </a>
+          <button
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="text-white hover:text-blue-200 flex items-center"
+                >
+                  Bài tập
+                  <ChevronDown className="ml-1 h-4 w-4" />
+                </button>
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1">
+                    <a
+                      href="/let-go-3"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Let’s go 3
+                    </a>
+                    <a
+                      href="/let-go-4"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Let’s go 4
+                    </a>
+                  </div>
+                )}
           <a href="#" className="text-white text-lg">
             Liên hệ
           </a>

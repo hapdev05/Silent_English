@@ -1,6 +1,6 @@
 // import React from 'react'
-import { ScrollArea } from "../components/ui/scroll-area"
-import { Button } from "../components/ui/button"
+import { ScrollArea } from "../ui/scroll-area"
+import { Button } from "../ui/button"
 
 export default function Letgo4() {
   const units = Array.from({ length: 8 }, (_, i) => `Unit ${i + 1}`)
