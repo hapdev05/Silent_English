@@ -31,8 +31,8 @@ export default function Letgo3() {
   const renderUnitContent = () => {
     if (!selectedUnit || !selectedSubmenu) {
       return (
-        <div>
-          <h1 className="text-3xl font-bold mb-6 text-primary">
+        <div className="p-20">
+          <h1 className="text-3xl font-bold mb-6 text-primary ">
             Welcome to Let&apos;s Go 3
           </h1>
           <p className="text-lg text-muted-foreground mb-4">
