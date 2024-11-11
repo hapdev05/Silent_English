@@ -262,7 +262,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
             </div>
           </section>
         );
-      case "B - Điền vào chỗ trống hoặc sắp xếp các chữ cái sao cho chính xác (Fill in the blanks or arrange the letters correctly)":
+      case "B - Điền vào chỗ trống hoặc sắp xếp các chữ cái sao cho chính xác  (Fill in the blanks or arrange the letters correctly)":
         return (
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4 text-pink-600 dark:text-pink-300">
