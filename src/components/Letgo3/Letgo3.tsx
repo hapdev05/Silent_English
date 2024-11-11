@@ -1,5 +1,3 @@
-import { Button } from "../ui/button";
-import { ScrollArea } from "../ui/scroll-area";
 import Unit1 from "./Unit1";
 import Unit2 from "./Unit2";
 import Unit3 from "./Unit3";
@@ -8,66 +6,121 @@ import Unit5 from "./Unit5";
 import Unit6 from "./Unit6";
 import Unit7 from "./Unit7";
 import Unit8 from "./Unit8";
+import { Button } from "@/components/ui/button";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { ChevronDown, ChevronUp, Menu } from "lucide-react";
 import { useState } from "react";
 
 // Import other units as needed
 
 export default function Letgo3() {
   const units = Array.from({ length: 8 }, (_, i) => `Unit ${i + 1}`);
+  const submenus = [
+    "A - Từ vựng (VOCABULARY)",
+    "B - Điền vào chỗ trống hoặc sắp xếp các chữ cái sao cho chính xác  (Fill in the blanks or arrange the letters correctly)",
+    "C - Chọn đáp án đúng (Choose the correct answer)",
+    "D",
+    "E",
+    "F",
+  ];
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
+  const [selectedSubmenu, setSelectedSubmenu] = useState<string | null>(null);
+  const [expandedUnit, setExpandedUnit] = useState<string | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const renderUnitContent = () => {
-    switch (selectedUnit) {
-      case "Unit 1":
-        return <Unit1 />;
-      case "Unit 2":
-        return <Unit2 />;
-      case "Unit 3":
-        return <Unit3 />;
-      case "Unit 4":
-        return <Unit4 />;
-      case "Unit 5":
-        return <Unit5 />;
-      case "Unit 6":
-        return <Unit6 />;
-      case "Unit 7":
-        return <Unit7 />;
-      case "Unit 8":
-        return <Unit8 />;
-      // Add cases for other units
-      default:
-        return (
-          <div>
-            <h1 className="text-3xl font-bold mb-6 text-indigo-800">
-              Welcome to Let go 3
-            </h1>
-            <p className="text-lg text-gray-700 mb-4">
-              Select a unit from the menu to start your learning journey.
-            </p>
-          </div>
-        );
+    if (!selectedUnit || !selectedSubmenu) {
+      return (
+        <div>
+          <h1 className="text-3xl font-bold mb-6 text-primary">
+            Welcome to Let&apos;s Go 3
+          </h1>
+          <p className="text-lg text-muted-foreground mb-4">
+            Select a unit and submenu from the sidebar to start your learning
+            journey.
+          </p>
+        </div>
+      );
     }
+
+    const UnitComponent = {
+      "Unit 1": Unit1,
+      "Unit 2": Unit2,
+      "Unit 3": Unit3,
+      "Unit 4": Unit4,
+      "Unit 5": Unit5,
+      "Unit 6": Unit6,
+      "Unit 7": Unit7,
+      "Unit 8": Unit8,
+    }[selectedUnit];
+
+    return UnitComponent ? <UnitComponent submenu={selectedSubmenu} /> : null;
+  };
+
+  const toggleUnit = (unit: string) => {
+    setExpandedUnit(expandedUnit === unit ? null : unit);
+  };
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
   };
 
   return (
-    <div className="flex h-screen bg-gradient-to-br from-indigo-50 to-cyan-50">
-      {/* Fixed vertical menu with scroll */}
-      <ScrollArea className="w-1/4 h-full border-r border-indigo-100 bg-white/50 backdrop-blur-sm">
+    <div className="flex flex-col md:flex-row h-screen bg-gradient-to-br from-indigo-50 to-cyan-50">
+      {/* Mobile menu button */}
+      <Button
+        variant="ghost"
+        className="md:hidden fixed top-4 left-4 z-50"
+        onClick={toggleSidebar}
+      >
+        <Menu className="h-6 w-6" />
+      </Button>
+
+      {/* Sidebar */}
+      <ScrollArea
+        className={`w-full md:w-1/4 h-full border-r border-indigo-100 bg-white/50 backdrop-blur-sm transition-all duration-300 ${
+          isSidebarOpen ? "fixed inset-0 z-40" : "hidden md:block"
+        }`}
+      >
         <div className="p-6">
-          <h2 className="text-4xl font-bold mb-3 pt-3 h-[100px] bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">
-            Let's go 3
+          <h2 className="text-4xl font-bold mb-6 pt-3 h-[100px] bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">
+            Let&apos;s Go 3
           </h2>
           <nav>
-            <ul className="space-y-10">
+            <ul className="space-y-2">
               {units.map((unit, index) => (
                 <li key={index}>
                   <Button
                     variant="ghost"
-                    className="w-full justify-start text-left font-medium transition-all duration-200 hover:translate-x-1 hover:bg-indigo-100 hover:text-indigo-700"
-                    onClick={() => setSelectedUnit(unit)}
+                    className="w-full justify-between text-left font-medium transition-all duration-200 hover:bg-indigo-100 hover:text-indigo-700"
+                    onClick={() => toggleUnit(unit)}
                   >
                     {unit}
+                    {expandedUnit === unit ? (
+                      <ChevronUp className="h-4 w-4" />
+                    ) : (
+                      <ChevronDown className="h-4 w-4" />
+                    )}
                   </Button>
+                  {expandedUnit === unit && (
+                    <ul className="ml-4 mt-2 space-y-2">
+                      {submenus.map((submenu, subIndex) => (
+                        <li key={subIndex}>
+                          <Button
+                            variant="ghost"
+                            className="w-full justify-start text-left text-sm transition-all duration-200 hover:bg-indigo-100 hover:text-indigo-700 whitespace-normal h-auto py-2"
+                            onClick={() => {
+                              setSelectedUnit(unit);
+                              setSelectedSubmenu(submenu);
+                              setIsSidebarOpen(false);
+                            }}
+                          >
+                            {submenu}
+                          </Button>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </li>
               ))}
             </ul>
@@ -75,8 +128,8 @@ export default function Letgo3() {
         </div>
       </ScrollArea>
 
-      {/* Scrollable content area */}
-      <ScrollArea className="flex-1 p-6">
+      {/* Content area */}
+      <ScrollArea className="flex-1 p-6 md:p-10">
         <div className="max-w-3xl mx-auto">{renderUnitContent()}</div>
       </ScrollArea>
     </div>
