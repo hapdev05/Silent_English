@@ -247,30 +247,90 @@ export default function Unit2({ submenu }: { submenu: string }) {
             <div>
               <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300">2. Vocabulary (Từ vựng)</h3>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              { [
-                { word: "music room", translation: "phòng âm nhạc" },
-                { word: "science room", translation: "phòng khoa học" },
-                { word: "gym", translation: "phòng thể dục" },
-                { word: "classroom", translation: "phòng học" },
-                { word: "art room", translation: "phòng nghệ thuật" },
-                { word: "lunchroom", translation: "phòng ăn trưa" },
-                { word: "office", translation: "văn phòng" },
-                { word: "library", translation: "thư viện" },
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {[
+                { 
+                  word: "classroom",
+                  translation: "phòng học",
+                  pronunciation: "(n)",
+                  image: "/images/classroom.jpg",
+                  example: "Ex: Where is the classroom?"
+                },
+                { 
+                  word: "music room",
+                  translation: "phòng âm nhạc",
+                  pronunciation: "(n)",
+                  image: "/images/music-room.jpg",
+                  example: "Ex: The music room is on the second floor."
+                },
+                { 
+                  word: "science room",
+                  translation: "phòng khoa học",
+                  pronunciation: "(n)",
+                  image: "/images/science-room.jpg",
+                  example: "Ex: We have experiments in the science room."
+                },
+                { 
+                  word: "gym",
+                  translation: "phòng thể dục",
+                  pronunciation: "(n)",
+                  image: "/images/gym.jpg",
+                  example: "Ex: The gym is next to the cafeteria."
+                },
+                { 
+                  word: "art room",
+                  translation: "phòng nghệ thuật",
+                  pronunciation: "(n)",
+                  image: "/images/art-room.jpg",
+                  example: "Ex: Students paint in the art room."
+                },
+                { 
+                  word: "lunchroom",
+                  translation: "phòng ăn trưa",
+                  pronunciation: "(n)",
+                  image: "/images/lunchroom.jpg",
+                  example: "Ex: Let's meet in the lunchroom."
+                },
+                { 
+                  word: "office",
+                  translation: "văn phòng",
+                  pronunciation: "(n)",
+                  image: "/images/office.jpg",
+                  example: "Ex: The principal's office is on the first floor."
+                },
+                { 
+                  word: "library",
+                  translation: "thư viện",
+                  pronunciation: "(n)",
+                  image: "/images/library.jpg",
+                  example: "Ex: I study in the library after school."
+                },
               ].map((item) => (
                 <Card
                   key={item.word}
                   className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 hover:shadow-lg transition-shadow duration-200"
                 >
                   <CardContent className="p-4">
-                    <p className="text-center font-semibold text-purple-700 dark:text-purple-300">
-                      {item.word}
+                    <div className="flex items-center justify-between mb-3">
+                      <p className="font-semibold text-lg text-purple-700 dark:text-purple-300 min-w-[100px]">
+                        {item.word}
+                      </p>
+                      <p className="text-sm text-gray-600 dark:text-gray-400 px-2">
+                        {item.pronunciation}
+                      </p>
+                      <p className="text-sm font-medium text-pink-600 dark:text-pink-300 min-w-[80px] text-right">
+                        {item.translation}
+                      </p>
+                    </div>
+                    <div className="w-full h-40 bg-gray-200 dark:bg-gray-700 rounded-md mb-3 overflow-hidden">
+                      {/* Image placeholder - you'll need to add actual images */}
+                      <div className="w-full h-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-gray-500">
+                        Image
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-700 dark:text-gray-300">
+                      {item.example}
                     </p>
-                    <p className="text-center text-sm text-pink-600 dark:text-pink-300">
-                      {item.translation}
-                    </p>
-                    <div className="w-full h-32 bg-white dark:bg-gray-700 rounded-md mt-2 shadow-inner"></div>
-                    <div className="w-full h-8 bg-gray-200 dark:bg-gray-600 rounded-md mt-2 shadow-inner"></div>
                   </CardContent>
                 </Card>
               ))}
