@@ -226,14 +226,29 @@ export default function Unit2({ submenu }: { submenu: string }) {
 
   const renderContent = () => {
     switch (submenu) {
-      case "A - Từ vựng (VOCABULARY)":
+      case "A - COMPETENCES - VOCABULARY - SENTENCES PATTERNS (Những năng lực - Từ vựng - Các mẫu câu)":
         return (
           <section className="mb-8">
             <h2 className="text-2xl font-semibold mb-4 text-pink-600 dark:text-pink-300">
-              A - Từ vựng (VOCABULARY)
+              A - COMPETENCES - VOCABULARY - SENTENCES PATTERNS (Những năng lực - Từ vựng - Các mẫu câu)
             </h2>
+
+            {/* Competences Section */}
+            <div className="mb-6 bg-blue-50 dark:bg-blue-900 p-4 rounded-lg">
+              <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300">
+               1. COMPETENCES (Những năng lực)
+              </h3>
+              <ul className="list-disc pl-6 space-y-2 text-blue-800 dark:text-blue-200">
+                <li>Describing locations (Mô tả địa điểm)</li>
+                <li>Asking questions and writing about past and current locations (singular) (Đặt câu hỏi và viết về các địa điểm trong quá khứ và hiện tại (số ít))</li>
+                <li>Asking questions and writing about past and current locations (plural) (Đặt câu hỏi và viết về các địa điểm trong quá khứ và hiện tại (số nhiều))</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300">2. Vocabulary (Từ vựng)</h3>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {[
+              { [
                 { word: "music room", translation: "phòng âm nhạc" },
                 { word: "science room", translation: "phòng khoa học" },
                 { word: "gym", translation: "phòng thể dục" },
@@ -436,7 +451,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
         return (
           <div>
             <h2 className="text-2xl font-semibold mb-4 text-pink-600 dark:text-pink-300">
-              Welcome to Unit 2: Places
+              Welcome to topic 2: Places
             </h2>
             <p className="text-lg text-gray-700 dark:text-gray-300">
               Please select a submenu (A, B, or C) to start your lesson.
@@ -450,18 +465,20 @@ export default function Unit2({ submenu }: { submenu: string }) {
     <ScrollArea className="h-full">
       <div className="container mx-auto p-4 bg-gradient-to-b from-blue-50 to-purple-50 dark:from-gray-900 dark:to-purple-900 min-h-screen">
         <h1 className="text-3xl font-bold mb-6 text-center text-purple-600 dark:text-purple-300">
-          UNIT 2: PLACES
+          TOPIC 2: PLACES (Các địa điểm/nơi chốn)
         </h1>
         {renderContent()}
-        {submenu !== "A" && (
-          <Button
-            onClick={handleSubmit}
-            className="mt-6 w-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-2 px-4 rounded-full transition-all duration-200 transform hover:scale-105"
-          >
-            Submit
-          </Button>
+        {!submenu.startsWith("A") && submenu !== "" && (
+          <div className="flex justify-center mt-8">
+            <Button
+              onClick={handleSubmit}
+              className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-2 rounded-full"
+            >
+              Submit
+            </Button>
+          </div>
         )}
-        {showResults && (
+        {showResults && !submenu.startsWith("A") && (
           <p className="mt-4 text-center text-lg font-semibold text-purple-700 dark:text-purple-300">
             You got {correctCount} out of{" "}
             {Object.keys(correctAnswers.fillInBlank).length +

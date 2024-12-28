@@ -14,9 +14,9 @@ import { useState } from "react";
 // Import other units as needed
 
 export default function Letgo3() {
-  const units = Array.from({ length: 8 }, (_, i) => `Unit ${i + 1}`);
+  const units = Array.from({ length: 8 }, (_, i) => `TOPIC ${i + 1}`);
   const submenus = [
-    "A - Từ vựng (VOCABULARY)",
+    "A - COMPETENCES - VOCABULARY - SENTENCES PATTERNS (Những năng lực - Từ vựng - Các mẫu câu)",
     "B - Điền vào chỗ trống hoặc sắp xếp các chữ cái sao cho chính xác  (Fill in the blanks or arrange the letters correctly)",
     "C - Chọn đáp án đúng (Choose the correct answer)",
     "D",
@@ -36,7 +36,7 @@ export default function Letgo3() {
             Welcome to Let&apos;s Go 3
           </h1>
           <p className="text-lg text-muted-foreground mb-4">
-            Select a unit and submenu from the sidebar to start your learning
+            Select a topic and submenu from the sidebar to start your learning
             journey.
           </p>
         </div>
@@ -44,14 +44,14 @@ export default function Letgo3() {
     }
 
     const UnitComponent = {
-      "Unit 1": Unit1,
-      "Unit 2": Unit2,
-      "Unit 3": Unit3,
-      "Unit 4": Unit4,
-      "Unit 5": Unit5,
-      "Unit 6": Unit6,
-      "Unit 7": Unit7,
-      "Unit 8": Unit8,
+      "TOPIC 1": Unit1,
+      "TOPIC 2": Unit2,
+      "TOPIC 3": Unit3,
+      "TOPIC 4": Unit4,
+      "TOPIC 5": Unit5,
+      "TOPIC 6": Unit6,
+      "TOPIC 7": Unit7,
+      "TOPIC 8": Unit8,
     }[selectedUnit];
 
     return UnitComponent ? <UnitComponent submenu={selectedSubmenu} /> : null;
