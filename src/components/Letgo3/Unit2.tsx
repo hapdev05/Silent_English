@@ -6,13 +6,239 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import React, { useState, useEffect } from "react";
-
+import classroom from "../../assets/imgs/classroom.png";
+import musicRoom from "../../assets/imgs/musicRoom.png";
+import scienceRoom from "../../assets/imgs/scienceRoom.png";
+import gym from "../../assets/imgs/gym.png";
+import artRoom from "../../assets/imgs/artRoom.png";
+import lunchRoom from "../../assets/imgs/lunchRoom.png";
+import office from "../../assets/imgs/office.png";
+import library from "../../assets/imgs/library.png";
+import pool from "../../assets/imgs/pool.png";
+import stairs from "../../assets/imgs/stairs.png";
+import computerLab from "../../assets/imgs/computerLab.png";
+import hallway from "../../assets/imgs/hallway.png";
+import auditorium from "../../assets/imgs/auditorium.png";
+import nurseOffice from "../../assets/imgs/nursesoffice.png";
+import restroom from "../../assets/imgs/restroom.png";
+import playground from "../../assets/imgs/playground.png";
+import clinic from "../../assets/imgs/clinic.png";
+import repairShop from "../../assets/imgs/repairShop.png";
+import factory from "../../assets/imgs/factory.png";
+import store from "../../assets/imgs/store.png";
+import bookstore from "../../assets/imgs/bookstore.png";
+import airport from "../../assets/imgs/airport.png";
+import trainStation from "../../assets/imgs/trainStation.png";
+import busStop from "../../assets/imgs/busStop.png";
+import bakery from "../../assets/imgs/bakery.png";
+import acrossFrom from "../../assets/imgs/acrossFrom.png";
+import between from "../../assets/imgs/between.png";
+import nextTo from "../../assets/imgs/nextTo.png";
 type WordType = "classroom" | "artRoom";
 
 interface LetterCell {
   letter: string;
   id: number;
 }
+
+const vocabularyData = [
+  {
+    word: "classroom",
+    translation: "phòng học",
+    pronunciation: "(n)",
+    image: classroom,
+    example: "Ex: Where is the classroom?"
+  },
+  {
+    word: "music room",
+    translation: "phòng âm nhạc",
+    pronunciation: "(n)",
+    image: musicRoom,
+    example: "Ex: He's going to the music room."
+  },
+  {
+    word: "science room",
+    translation: "phòng khoa học",
+    pronunciation: "(n)",
+    image: scienceRoom,
+    example: "Ex: It's across from the science room."
+  },
+  {
+    word: "gym",
+    translation: "phòng thể dục",
+    pronunciation: "(n)",
+    image: gym,
+    example: "Ex: It is next to the gym."
+  },
+  {
+    word: "art room",
+    translation: "phòng nghệ thuật",
+    pronunciation: "(n)",
+    image: artRoom,
+    example: "Ex: She is in the art room now."
+  },
+  {
+    word: "lunchroom",
+    translation: "nhà ăn",
+    pronunciation: "(n)",
+    image: lunchRoom,
+    example: "Ex: He was in the lunchroom."
+  },
+  {
+    word: "office",
+    translation: "văn phòng",
+    pronunciation: "(n)",
+    image: office,
+    example: "Ex: Were you in the office this afternoon?"
+  },
+  {
+    word: "library",
+    translation: "thư viện",
+    pronunciation: "(n)",
+    image: library,
+    example: "Ex: Where is the library?"
+  },
+  {
+    word: "pool",
+    translation: "bể bơi",
+    pronunciation: "(n)",
+    image: pool,
+    example: "Ex: She was in the pool this morning."
+  },
+  {
+    word: "stairs",
+    translation: "cầu thang",
+    pronunciation: "(n)",
+    image: stairs,
+    example: "Ex: I am on the stairs."
+  },
+  {
+    word: "computer lab",
+    translation: "phòng máy tính/ phòng Tin học",
+    pronunciation: "(n)",
+    image: computerLab,
+    example: "Ex: She is in the computer lab now."
+  },
+  {
+    word: "hallway",
+    translation: "hành lang",
+    pronunciation: "(n)",
+    image: hallway,
+    example: "Ex: He was in the hallway."
+  },
+  {
+    word: "auditorium",
+    translation: "hội trường",
+    pronunciation: "(n)",
+    image: auditorium,
+    example: "Ex: Were you in the auditorium this morning?"
+  },
+  {
+    word: "nurse's office",
+    translation: "phòng y tế",
+    pronunciation: "(n)",
+    image: nurseOffice,
+    example: "Ex: Where is the nurse's office?"
+  },
+  {
+    word: "restroom",
+    translation: "nhà vệ sinh",
+    pronunciation: "(n)",
+    image: restroom,
+    example: "Ex: Are you in the restroom?"
+  },
+  {
+    word: "playground",
+    translation: "sân chơi",
+    pronunciation: "(n)",
+    image: playground,
+    example: "Ex: Is he on the playground now?"
+  },
+  {
+    word: "clinic",
+    translation: "trạm xá, phòng khám chữa bệnh",
+    pronunciation: "(n)",
+    image: clinic,
+    example: "Ex: They were at the clinic yesterday."
+  },
+  {
+    word: "repair shop",
+    translation: "cửa hàng sửa chữa",
+    pronunciation: "(n)",
+    image: repairShop,
+    example: "Ex: Are they at the repair shop now?"
+  },
+  {
+    word: "factory",
+    translation: "nhà máy",
+    pronunciation: "(n)",
+    image: factory,
+    example: "Ex: Are they going to the factory?"
+  },
+  {
+    word: "store",
+    translation: "cửa hàng",
+    pronunciation: "(n)",
+    image: store,
+    example: "Ex: He's going to the store."
+  },
+  {
+    word: "bookstore",
+    translation: "nhà sách",
+    pronunciation: "(n)",
+    image: bookstore,
+    example: "Ex: They're at the bookstore."
+  },
+  {
+    word: "airport",
+    translation: "sân bay",
+    pronunciation: "(n)",
+    image: airport,
+    example: "Ex: He was at the airport yesterday."
+  },
+  {
+    word: "train station",
+    translation: "nhà ga",
+    pronunciation: "(n)",
+    image: trainStation,
+    example: "Ex: Are you at the train station now?"
+  },
+  {
+    word: "bus stop",
+    translation: "trạm dừng xe buýt",
+    pronunciation: "(n)",
+    image: busStop,
+    example: "Ex: Are they at the bus stop now?"
+  },
+  {
+    word: "bakery",
+    translation: "tiệm bánh",
+    pronunciation: "(n)",
+    image: bakery,
+    example: "Ex: She is going to the bakery."
+  },
+  {
+    word: "across from",
+    translation: "đối diện với",
+    pronunciation: "(prep)",
+    image: acrossFrom,
+    example: "Ex: The lunchroom is across from the library."
+  },
+  {
+    word: "between",
+    translation: "ở giữa",
+    pronunciation: "(prep)",
+    image: between,
+    example: "Ex: It's between the science room and the art room."
+  },
+  {
+    word: "next to",
+    translation: "bên cạnh",
+    pronunciation: "(prep)",
+    image: nextTo,
+    example: "Ex: It's next to the classroom."
+  }
+];
 
 export default function Unit2({ submenu }: { submenu: string }) {
   const [fillInBlankAnswers, setFillInBlankAnswers] = useState({
@@ -248,64 +474,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
               <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300">2. Vocabulary (Từ vựng)</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {[
-                { 
-                  word: "classroom",
-                  translation: "phòng học",
-                  pronunciation: "(n)",
-                  image: "/images/classroom.jpg",
-                  example: "Ex: Where is the classroom?"
-                },
-                { 
-                  word: "music room",
-                  translation: "phòng âm nhạc",
-                  pronunciation: "(n)",
-                  image: "/images/music-room.jpg",
-                  example: "Ex: The music room is on the second floor."
-                },
-                { 
-                  word: "science room",
-                  translation: "phòng khoa học",
-                  pronunciation: "(n)",
-                  image: "/images/science-room.jpg",
-                  example: "Ex: We have experiments in the science room."
-                },
-                { 
-                  word: "gym",
-                  translation: "phòng thể dục",
-                  pronunciation: "(n)",
-                  image: "/images/gym.jpg",
-                  example: "Ex: The gym is next to the cafeteria."
-                },
-                { 
-                  word: "art room",
-                  translation: "phòng nghệ thuật",
-                  pronunciation: "(n)",
-                  image: "/images/art-room.jpg",
-                  example: "Ex: Students paint in the art room."
-                },
-                { 
-                  word: "lunchroom",
-                  translation: "phòng ăn trưa",
-                  pronunciation: "(n)",
-                  image: "/images/lunchroom.jpg",
-                  example: "Ex: Let's meet in the lunchroom."
-                },
-                { 
-                  word: "office",
-                  translation: "văn phòng",
-                  pronunciation: "(n)",
-                  image: "/images/office.jpg",
-                  example: "Ex: The principal's office is on the first floor."
-                },
-                { 
-                  word: "library",
-                  translation: "thư viện",
-                  pronunciation: "(n)",
-                  image: "/images/library.jpg",
-                  example: "Ex: I study in the library after school."
-                },
-              ].map((item) => (
+              {vocabularyData.map((item) => (
                 <Card
                   key={item.word}
                   className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 hover:shadow-lg transition-shadow duration-200"
@@ -323,10 +492,11 @@ export default function Unit2({ submenu }: { submenu: string }) {
                       </p>
                     </div>
                     <div className="w-full h-40 bg-gray-200 dark:bg-gray-700 rounded-md mb-3 overflow-hidden">
-                      {/* Image placeholder - you'll need to add actual images */}
-                      <div className="w-full h-full bg-gray-300 dark:bg-gray-600 flex items-center justify-center text-gray-500">
-                        Image
-                      </div>
+                      <img
+                        src={item.image}
+                        alt=""
+                        className="w-full h-full object-cover"
+                      />
                     </div>
                     <p className="text-sm text-gray-700 dark:text-gray-300">
                       {item.example}
