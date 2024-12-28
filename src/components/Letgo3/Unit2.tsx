@@ -241,6 +241,22 @@ const vocabularyData = [
 ];
 
 export default function Unit2({ submenu }: { submenu: string }) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 9; // Số từ vựng trên mỗi trang
+  
+  // Tính toán từ vựng cho trang hiện tại
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = vocabularyData.slice(indexOfFirstItem, indexOfLastItem);
+  
+  // Tính tổng số trang
+  const totalPages = Math.ceil(vocabularyData.length / itemsPerPage);
+
+  // Hàm chuyển trang
+  const handlePageChange = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+  };
+
   const [fillInBlankAnswers, setFillInBlankAnswers] = useState({
     musicRoom: "",
     scienceRoom: "",
@@ -474,7 +490,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
               <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300">2. Vocabulary (Từ vựng)</h3>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {vocabularyData.map((item) => (
+              {currentItems.map((item) => (
                 <Card
                   key={item.word}
                   className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 hover:shadow-lg transition-shadow duration-200"
@@ -504,6 +520,38 @@ export default function Unit2({ submenu }: { submenu: string }) {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+            {/* Phân trang */}
+            <div className="flex justify-center mt-6 gap-2">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="px-4 py-2 rounded-md bg-blue-500 text-white disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
+              
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
+                <button
+                  key={pageNumber}
+                  onClick={() => handlePageChange(pageNumber)}
+                  className={`px-4 py-2 rounded-md ${
+                    currentPage === pageNumber
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
+                >
+                  {pageNumber}
+                </button>
+              ))}
+              
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className="px-4 py-2 rounded-md bg-blue-500 text-white disabled:bg-gray-300 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
             </div>
           </section>
         );
