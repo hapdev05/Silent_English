@@ -10,12 +10,15 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  publicDir: 'public',
+  assetsInclude: ['**/*.mp4', '**/*.webm', '**/*.ogg'],
   build: {
+    assetsDir: 'assets',
     rollupOptions: {
       output: {
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name.split('.');
-          const ext = info[info.length - 1];
+          if (!assetInfo.name) return 'assets/[name].[hash][extname]';
+          
           if (/\.(mp4|webm|ogg)$/i.test(assetInfo.name)) {
             return `assets/videos/[name].[hash][extname]`;
           }
