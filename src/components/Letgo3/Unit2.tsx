@@ -6,6 +6,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 import React, { useState, useEffect } from "react";
+import ReactPlayer from 'react-player/lazy';
 import classroom from "../../assets/imgs/classroom.png";
 import musicRoom from "../../assets/imgs/musicroom.png";
 import scienceRoom from "../../assets/imgs/scienceroom.png";
@@ -34,6 +35,37 @@ import bakery from "../../assets/imgs/bakery.png";
 import acrossFrom from "../../assets/imgs/acrossfrom.png";
 import between from "../../assets/imgs/between.png";
 import nextTo from "../../assets/imgs/nextto.png";
+
+// Import videos
+const classroomVideo = "/src/assets/videos/classroom.mp4";
+const musicRoomVideo = "/src/assets//videos/musicroom.mp4";
+const scienceRoomVideo = "/src/assets//videos/scienceroom.mp4";
+const gymVideo = "/src/assets//videos/gym.mp4";
+const artRoomVideo = "/src/assets//videos/artroom.mp4";
+const lunchRoomVideo = "/src/assets//videos/lunchroom.mp4";
+const officeVideo = "/src/assets//videos/office.mp4";
+const libraryVideo = "/src/assets//videos/library.mp4";
+const poolVideo = "/src/assets//videos/pool.mp4";
+const stairsVideo = "/src/assets//videos/stairs.mp4";
+const computerLabVideo = "/src/assets//videos/computerlab.mp4";
+const hallwayVideo = "/src/assets//videos/hallway.mp4";
+const auditoriumVideo = "/src/assets//videos/auditorium.mp4";
+const nurseOfficeVideo = "/src/assets//videos/nurseoffice.mp4";
+const restroomVideo = "/src/assets//videos/restroom.mp4";
+const playgroundVideo = "/src/assets//videos/playground.mp4";
+const clinicVideo = "/src/assets//videos/clinic.mp4";
+const repairShopVideo = "/src/assets//videos/repairshop.mp4";
+const factoryVideo = "/src/assets//videos/factory.mp4";
+const storeVideo = "/src/assets//videos/store.mp4";
+const bookstoreVideo = "/src/assets//videos/bookstore.mp4";
+const airportVideo = "/src/assets//videos/airport.mp4";
+const trainStationVideo = "/src/assets//videos/trainstation.mp4";
+const busStopVideo = "/src/assets//videos/busstop.mp4";
+const bakeryVideo = "/src/assets//videos/bakery.mp4";
+const acrossFromVideo = "/src/assets//videos/acrossfrom.mp4";
+const betweenVideo = "/src/assets//videos/between.mp4";
+const nextToVideo = "/src/assets//videos/nextto.mp4";
+
 type WordType = "classroom" | "artRoom";
 
 interface LetterCell {
@@ -47,6 +79,7 @@ const vocabularyData = [
     translation: "phòng học",
     pronunciation: "(n)",
     image: classroom,
+    video: classroomVideo,
     example: "Ex: Where is the classroom?"
   },
   {
@@ -54,6 +87,7 @@ const vocabularyData = [
     translation: "phòng âm nhạc",
     pronunciation: "(n)",
     image: musicRoom,
+    video: musicRoomVideo,
     example: "Ex: He's going to the music room."
   },
   {
@@ -61,6 +95,7 @@ const vocabularyData = [
     translation: "phòng khoa học",
     pronunciation: "(n)",
     image: scienceRoom,
+    video: scienceRoomVideo,
     example: "Ex: It's across from the science room."
   },
   {
@@ -68,6 +103,7 @@ const vocabularyData = [
     translation: "phòng thể dục",
     pronunciation: "(n)",
     image: gym,
+    video: gymVideo,
     example: "Ex: It is next to the gym."
   },
   {
@@ -75,6 +111,7 @@ const vocabularyData = [
     translation: "phòng nghệ thuật",
     pronunciation: "(n)",
     image: artRoom,
+    video: artRoomVideo,
     example: "Ex: She is in the art room now."
   },
   {
@@ -82,6 +119,7 @@ const vocabularyData = [
     translation: "nhà ăn",
     pronunciation: "(n)",
     image: lunchRoom,
+    video: lunchRoomVideo,
     example: "Ex: He was in the lunchroom."
   },
   {
@@ -89,6 +127,7 @@ const vocabularyData = [
     translation: "văn phòng",
     pronunciation: "(n)",
     image: office,
+    video: officeVideo,
     example: "Ex: Were you in the office this afternoon?"
   },
   {
@@ -96,6 +135,7 @@ const vocabularyData = [
     translation: "thư viện",
     pronunciation: "(n)",
     image: library,
+    video: libraryVideo,
     example: "Ex: Where is the library?"
   },
   {
@@ -103,6 +143,7 @@ const vocabularyData = [
     translation: "bể bơi",
     pronunciation: "(n)",
     image: pool,
+    video: poolVideo,
     example: "Ex: She was in the pool this morning."
   },
   {
@@ -110,6 +151,7 @@ const vocabularyData = [
     translation: "cầu thang",
     pronunciation: "(n)",
     image: stairs,
+    video: stairsVideo,
     example: "Ex: I am on the stairs."
   },
   {
@@ -117,6 +159,7 @@ const vocabularyData = [
     translation: "phòng máy tính/ phòng Tin học",
     pronunciation: "(n)",
     image: computerLab,
+    video: computerLabVideo,
     example: "Ex: She is in the computer lab now."
   },
   {
@@ -124,6 +167,7 @@ const vocabularyData = [
     translation: "hành lang",
     pronunciation: "(n)",
     image: hallway,
+    video: hallwayVideo,
     example: "Ex: He was in the hallway."
   },
   {
@@ -131,6 +175,7 @@ const vocabularyData = [
     translation: "hội trường",
     pronunciation: "(n)",
     image: auditorium,
+    video: auditoriumVideo,
     example: "Ex: Were you in the auditorium this morning?"
   },
   {
@@ -138,6 +183,7 @@ const vocabularyData = [
     translation: "phòng y tế",
     pronunciation: "(n)",
     image: nurseOffice,
+    video: nurseOfficeVideo,
     example: "Ex: Where is the nurse's office?"
   },
   {
@@ -145,6 +191,7 @@ const vocabularyData = [
     translation: "nhà vệ sinh",
     pronunciation: "(n)",
     image: restroom,
+    video: restroomVideo,
     example: "Ex: Are you in the restroom?"
   },
   {
@@ -152,6 +199,7 @@ const vocabularyData = [
     translation: "sân chơi",
     pronunciation: "(n)",
     image: playground,
+    video: playgroundVideo,
     example: "Ex: Is he on the playground now?"
   },
   {
@@ -159,6 +207,7 @@ const vocabularyData = [
     translation: "trạm xá, phòng khám chữa bệnh",
     pronunciation: "(n)",
     image: clinic,
+    video: clinicVideo,
     example: "Ex: They were at the clinic yesterday."
   },
   {
@@ -166,6 +215,7 @@ const vocabularyData = [
     translation: "cửa hàng sửa chữa",
     pronunciation: "(n)",
     image: repairShop,
+    video: repairShopVideo,
     example: "Ex: Are they at the repair shop now?"
   },
   {
@@ -173,6 +223,7 @@ const vocabularyData = [
     translation: "nhà máy",
     pronunciation: "(n)",
     image: factory,
+    video: factoryVideo,
     example: "Ex: Are they going to the factory?"
   },
   {
@@ -180,6 +231,7 @@ const vocabularyData = [
     translation: "cửa hàng",
     pronunciation: "(n)",
     image: store,
+    video: storeVideo,
     example: "Ex: He's going to the store."
   },
   {
@@ -187,6 +239,7 @@ const vocabularyData = [
     translation: "nhà sách",
     pronunciation: "(n)",
     image: bookstore,
+    video: bookstoreVideo,
     example: "Ex: They're at the bookstore."
   },
   {
@@ -194,6 +247,7 @@ const vocabularyData = [
     translation: "sân bay",
     pronunciation: "(n)",
     image: airport,
+    video: airportVideo,
     example: "Ex: He was at the airport yesterday."
   },
   {
@@ -201,6 +255,7 @@ const vocabularyData = [
     translation: "nhà ga",
     pronunciation: "(n)",
     image: trainStation,
+    video: trainStationVideo,
     example: "Ex: Are you at the train station now?"
   },
   {
@@ -208,6 +263,7 @@ const vocabularyData = [
     translation: "trạm dừng xe buýt",
     pronunciation: "(n)",
     image: busStop,
+    video: busStopVideo,
     example: "Ex: Are they at the bus stop now?"
   },
   {
@@ -215,6 +271,7 @@ const vocabularyData = [
     translation: "tiệm bánh",
     pronunciation: "(n)",
     image: bakery,
+    video: bakeryVideo,
     example: "Ex: She is going to the bakery."
   },
   {
@@ -222,6 +279,7 @@ const vocabularyData = [
     translation: "đối diện với",
     pronunciation: "(prep)",
     image: acrossFrom,
+    video: acrossFromVideo,
     example: "Ex: The lunchroom is across from the library."
   },
   {
@@ -229,6 +287,7 @@ const vocabularyData = [
     translation: "ở giữa",
     pronunciation: "(prep)",
     image: between,
+    video: betweenVideo,
     example: "Ex: It's between the science room and the art room."
   },
   {
@@ -236,12 +295,14 @@ const vocabularyData = [
     translation: "bên cạnh",
     pronunciation: "(prep)",
     image: nextTo,
+    video: nextToVideo,
     example: "Ex: It's next to the classroom."
   }
 ];
 
 export default function Unit2({ submenu }: { submenu: string }) {
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
   const itemsPerPage = 9; // Số từ vựng trên mỗi trang
   
   // Tính toán từ vựng cho trang hiện tại
@@ -507,12 +568,62 @@ export default function Unit2({ submenu }: { submenu: string }) {
                         {item.translation}
                       </p>
                     </div>
-                    <div className="w-full h-40 bg-gray-200 dark:bg-gray-700 rounded-md mb-3 overflow-hidden">
-                      <img
-                        src={item.image}
-                        alt=""
-                        className="w-full h-full object-cover"
-                      />
+                    <div className="relative">
+                      {selectedCard === item.word ? (
+                        <div className="relative aspect-video w-full">
+                          <ReactPlayer
+                            url={item.video}
+                            controls={true}
+                            width="100%"
+                            height="100%"
+                            playing={false}
+                            pip={false}
+                            stopOnUnmount={true}
+                            className="absolute top-0 left-0"
+                            config={{
+                              file: {
+                                attributes: {
+                                  controlsList: 'nodownload',
+                                  disablePictureInPicture: true,
+                                }
+                              }
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <div className="w-full h-40 bg-gray-200 dark:bg-gray-700 rounded-md mb-3 overflow-hidden relative group">
+                          <img
+                            src={item.image}
+                            alt=""
+                            className="w-full h-full object-cover"
+                          />
+                          <button
+                            onClick={() => setSelectedCard(item.word)}
+                            className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity"
+                          >
+                            <svg
+                              className="w-12 h-12 text-white"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M14.752 11.168l-3.197-2.132A1 11 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                              />
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </button>
+                        </div>
+                      )}
                     </div>
                     <p className="text-sm text-gray-700 dark:text-gray-300">
                       {item.example}
@@ -742,9 +853,14 @@ export default function Unit2({ submenu }: { submenu: string }) {
   return (
     <ScrollArea className="h-full">
       <div className="container mx-auto p-4 bg-gradient-to-b from-blue-50 to-purple-50 dark:from-gray-900 dark:to-purple-900 min-h-screen">
-        <h1 className="text-3xl font-bold mb-6 text-center text-purple-600 dark:text-purple-300">
-          TOPIC 2: PLACES (Các địa điểm/nơi chốn)
-        </h1>
+        <div className="mb-4 flex justify-between items-center">
+          <h1 className="text-3xl font-bold mb-6 text-center text-purple-600 dark:text-purple-300">
+            TOPIC 2: PLACES (Các địa điểm/nơi chốn)
+          </h1>
+         
+        </div>
+
+
         {renderContent()}
         {!submenu.startsWith("A") && submenu !== "" && (
           <div className="flex justify-center mt-8">
