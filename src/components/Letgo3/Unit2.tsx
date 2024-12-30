@@ -65,6 +65,16 @@ import bakeryVideo from "../../assets/videos/bakery.mp4";
 import acrossFromVideo from "../../assets/videos/acrossfrom.mp4";
 import betweenVideo from "../../assets/videos/between.mp4";
 import nextToVideo from "../../assets/videos/nextto.mp4";
+import whereIsHeNowVideo from "../../assets/videos/whereishenow.mp4";
+import heIsInTheRestroomVideo from "../../assets/videos/heisintherestroom.mp4";
+import whereWasSheThisMorningVideo from "../../assets/videos/wherewasshethismorning.mp4";
+import sheWasInThePoolVideo from "../../assets/videos/shewasinthepool.mp4";
+import areTheyInThePoolNowVideo from "../../assets/videos/aretheyinthepoolnow.mp4";
+import yesTheyAreVideo from "../../assets/videos/yestheyareNotheyaren't.mp4";
+import wereYouInThePoolVideo from "../../assets/videos/wereyouinthepoolthismorning.mp4";
+import whereIsTheLibraryVideo from "../../assets/videos/whereisthelibrary.mp4";
+import itIsNextToTheClassroomVideo from "../../assets/videos/itisnexttotheclassroom.mp4";
+
 type WordType = "classroom" | "artRoom";
 
 interface LetterCell {
@@ -757,7 +767,18 @@ export default function Unit2({ submenu }: { submenu: string }) {
                                 <video
                                   className="w-full max-w-[300px] mt-2"
                                   controls
-                                  src={`/src/assets/videos/${row.replace('⦿ ', '').toLowerCase()}`}
+                                  src={
+                                    row.includes('whereishenow') ? whereIsHeNowVideo :
+                                    row.includes('heisintherestroom') ? heIsInTheRestroomVideo :
+                                    row.includes('wherewasshethismorning') ? whereWasSheThisMorningVideo :
+                                    row.includes('shewasinthepool') ? sheWasInThePoolVideo :
+                                    row.includes('aretheyinthepoolnow') ? areTheyInThePoolNowVideo :
+                                    row.includes('yestheyareNotheyaren') ? yesTheyAreVideo :
+                                    row.includes('wereyouinthepoolthismorning') ? wereYouInThePoolVideo :
+                                    row.includes('whereisthelibrary') ? whereIsTheLibraryVideo :
+                                    row.includes('itisnexttotheclassroom') ? itIsNextToTheClassroomVideo :
+                                    ''
+                                  }
                                 />
                               ) : (
                                 row
