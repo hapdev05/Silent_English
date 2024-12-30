@@ -65,7 +65,6 @@ import bakeryVideo from "../../assets/videos/bakery.mp4";
 import acrossFromVideo from "../../assets/videos/acrossfrom.mp4";
 import betweenVideo from "../../assets/videos/between.mp4";
 import nextToVideo from "../../assets/videos/nextto.mp4";
-
 type WordType = "classroom" | "artRoom";
 
 interface LetterCell {
@@ -641,7 +640,6 @@ export default function Unit2({ submenu }: { submenu: string }) {
               >
                 Previous
               </button>
-              
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNumber) => (
                 <button
                   key={pageNumber}
@@ -655,7 +653,6 @@ export default function Unit2({ submenu }: { submenu: string }) {
                   {pageNumber}
                 </button>
               ))}
-              
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
@@ -664,8 +661,120 @@ export default function Unit2({ submenu }: { submenu: string }) {
                 Next
               </button>
             </div>
+            <br />
+            <div>
+              <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300">3. Sentences Patterns (Các mẫu câu)</h3>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <tbody>
+                    {[
+                      {
+                        id: 1,
+                        content: [
+                          "1.",
+                          "Where is he now?",
+                          "(Anh ấy ở đâu bây giờ? / Bây giờ anh ấy ở đâu?)",
+                          "Sign language: he - now - Where?",
+                          "⦿ whereishenow.mp4",
+                          "He is in the restroom.",
+                          "(Anh ấy đang ở nhà vệ sinh.)",
+                          "Sign language: He - (now) - restroom.",
+                          "⦿ heisintherestroom.mp4"
+                        ]
+                      },
+                      {
+                        id: 2,
+                        content: [
+                          "2.",
+                          "Where was she this morning?",
+                          "(Cô ấy ở đâu sáng nay? / Sáng nay cô ấy ở đâu?)",
+                          "Sign language: she - this morning - Where?",
+                          "⦿ wherewasshethismorning.mp4",
+                          "She was in the pool.",
+                          "(Cô ấy đã ở bể bơi.)",
+                          "Sign language: She - (this morning) - pool.",
+                          "⦿ shewasinthepool.mp4"
+                        ]
+                      },
+                      {
+                        id: 3,
+                        content: [
+                          "3.",
+                          "Are they in the pool now?",
+                          "(Họ có đang ở bể bơi bây giờ không?)",
+                          "Sign language: they - now - pool?",
+                          "⦿ aretheyinthepoolnow.mp4",
+                          "Yes, they are. / No, they aren't.",
+                          "(Vâng, đúng vậy. / Không, họ không (ở đó).)",
+                          "Sign language: Yes. / No.",
+                          "⦿ yestheyareNotheyaren't.mp4"
+                        ]
+                      },
+                      {
+                        id: 4,
+                        content: [
+                          "4.",
+                          "Were you in the pool this morning?",
+                          "(Bạn có ở bể bơi sáng nay không?)",
+                          "Sign language: you - this morning - pool?",
+                          "⦿ wereyouinthepoolthismorning.mp4",
+                          "Yes, I was. / No, I wasn't.",
+                          "(Vâng, đúng vậy. / Không, tôi đã không (ở đó).)",
+                          "Sign language: Yes. / No.",
+                          "⦿ yestheyareNotheyaren't.mp4"
+                        ]
+                      },
+                      {
+                        id: 5,
+                        content: [
+                          "5.",
+                          "Where is the library?",
+                          "(Thư viện ở đâu?)",
+                          "Sign language: library - where?",
+                          "⦿ whereisthelibrary.mp4",
+                          "It is next to the classroom.",
+                          "(Nó ở bên cạnh phòng học.)",
+                          "Sign language: classroom - next.",
+                          "⦿ itisnexttotheclassroom.mp4"
+                        ]
+                      }
+                    ].map((item) => (
+                      <tr key={item.id} className="border-b">
+                        <td className="p-4 border">
+                          {item.content.map((row, index) => (
+                            <div 
+                              key={index}
+                              className={`py-3  ${
+                                row.startsWith('⦿') ? 'text-red-500' : 
+                                index % 8 === 1 ? 'text-red-600 font-bold text-lg' :
+                                index % 8 === 5 ? 'text-red-600 font-bold text-lg' :
+                                index % 8 === 0 ? 'text-blue-600 font-semibold' :
+                                row.startsWith('Sign language') ? 'font-bold' : ''                                                           
+                              }`
+                            }
+                            >
+                              {row.startsWith('⦿') ? (
+                                <video
+                                  className="w-full max-w-[300px] mt-2"
+                                  controls
+                                  src={`/src/assets/videos/${row.replace('⦿ ', '').toLowerCase()}`}
+                                />
+                              ) : (
+                                row
+                              )}
+
+                            </div>													  
+                          ))}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </section>
         );
+        
       case "B - Điền vào chỗ trống hoặc sắp xếp các chữ cái sao cho chính xác  (Fill in the blanks or arrange the letters correctly)":
         return (
           <section className="mb-8">
