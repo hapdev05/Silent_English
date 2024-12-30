@@ -35,7 +35,14 @@ import bakery from "../../assets/imgs/bakery.png";
 import acrossFrom from "../../assets/imgs/acrossfrom.png";
 import between from "../../assets/imgs/between.png";
 import nextTo from "../../assets/imgs/nextto.png";
-
+import image6 from "../../assets/imgs/image6.png";
+import image7 from "../../assets/imgs/image7.png";
+import image8 from "../../assets/imgs/image8.png";
+import image12 from "../../assets/imgs/image12.jpg";
+import image13 from "../../assets/imgs/image13.png";
+import image34 from "../../assets/imgs/image34.png";
+import image41 from "../../assets/imgs/image41.png";
+import image49 from "../../assets/imgs/image49.png";
 // Import videos
 import classroomVideo from "../../assets/videos/classroom.mp4";
 import musicRoomVideo from "../../assets/videos/musicroom.mp4";
@@ -333,12 +340,14 @@ export default function Unit2({ submenu }: { submenu: string }) {
     gym: "",
     classroom: "",
     artRoom: "",
+    question4_english: "",
   });
 
   const [multipleChoiceAnswers, setMultipleChoiceAnswers] = useState({
     library: "",
     playground: "",
     cafeteria: "",
+    question4: "",
   });
 
   const [scrambledWords, setScrambledWords] = useState<
@@ -362,16 +371,21 @@ export default function Unit2({ submenu }: { submenu: string }) {
       gym: "gym",
       classroom: "classroom",
       artRoom: "art room",
+      question4_english: "auditorium",
     },
     multipleChoice: {
       library: "a",
       playground: "b",
       cafeteria: "b",
+      question4: "d",
     },
   };
 
   const [showResults, setShowResults] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
+  const [, setIsQuestion4Correct] = useState(false);
+  const [isQuestion4MultipleChoiceCorrect, setIsQuestion4MultipleChoiceCorrect] = useState(false);
+  const [isQuestion4EnglishCorrect, setIsQuestion4EnglishCorrect] = useState(false);
 
   useEffect(() => {
     setScrambledWords({
@@ -429,48 +443,62 @@ export default function Unit2({ submenu }: { submenu: string }) {
   const handleSubmit = () => {
     let count = 0;
 
+    // Check fill in blank answers (3 questions)
     Object.keys(fillInBlankAnswers).forEach((key) => {
       if (
         key !== "classroom" &&
         key !== "artRoom" &&
-        fillInBlankAnswers[
-          key as keyof typeof fillInBlankAnswers
-        ].toLowerCase() ===
-          correctAnswers.fillInBlank[
-            key as keyof typeof correctAnswers.fillInBlank
-          ]
+        key !== "question4_english" &&
+        fillInBlankAnswers[key as keyof typeof fillInBlankAnswers].toLowerCase() ===
+        correctAnswers.fillInBlank[key as keyof typeof correctAnswers.fillInBlank]
       ) {
         count++;
       }
     });
+
+    // Check scrambled word answers (2 questions)
     ["classroom", "artRoom"].forEach((word) => {
       const userAnswer = userAnswers[word as WordType]
         .map((cell) => cell.letter)
         .join("");
+      if (userAnswer.toLowerCase() === word.toLowerCase()) {
+        count++;
+      }
+    });
+
+    // Check multiple choice answers (3 questions)
+    ["library", "playground", "cafeteria"].forEach((key) => {
       if (
-        userAnswer.toLowerCase() ===
-        correctAnswers.fillInBlank[
-          word as keyof typeof correctAnswers.fillInBlank
-        ]
+        multipleChoiceAnswers[key as keyof typeof multipleChoiceAnswers] ===
+        correctAnswers.multipleChoice[key as keyof typeof correctAnswers.multipleChoice]
       ) {
         count++;
       }
     });
 
-    Object.keys(multipleChoiceAnswers).forEach((key) => {
-      if (
-        multipleChoiceAnswers[key as keyof typeof multipleChoiceAnswers] ===
-        correctAnswers.multipleChoice[
-          key as keyof typeof correctAnswers.multipleChoice
-        ]
-      ) {
-        count++;
-      }
-    });
+    // Check Question 4 (1 question)
+    if (multipleChoiceAnswers.question4 === correctAnswers.multipleChoice.question4 &&
+        fillInBlankAnswers.question4_english.toLowerCase() === correctAnswers.fillInBlank.question4_english) {
+      count++;
+    }
 
     setCorrectCount(count);
     setShowResults(true);
   };
+
+  const checkQuestion4 = () => {
+    const isMultipleChoiceCorrect = multipleChoiceAnswers.question4 === correctAnswers.multipleChoice.question4;
+    const isEnglishCorrect = fillInBlankAnswers.question4_english.toLowerCase() === correctAnswers.fillInBlank.question4_english;
+    setIsQuestion4MultipleChoiceCorrect(isMultipleChoiceCorrect);
+    setIsQuestion4EnglishCorrect(isEnglishCorrect);
+    setIsQuestion4Correct(isMultipleChoiceCorrect && isEnglishCorrect);
+  };
+
+  useEffect(() => {
+    if (showResults) {
+      checkQuestion4();
+    }
+  }, [showResults, multipleChoiceAnswers.question4, fillInBlankAnswers.question4_english]);
 
   const renderWordScramble = (word: WordType) => (
     <Card className="mb-6 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900 dark:to-pink-900">
@@ -509,7 +537,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
               userAnswers[word]
                 .map((cell) => cell.letter)
                 .join("")
-                .toLowerCase() === correctAnswers.fillInBlank[word]
+                .toLowerCase() === word.toLowerCase()
                 ? "text-green-500"
                 : "text-red-500"
             }`}
@@ -517,7 +545,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
             {userAnswers[word]
               .map((cell) => cell.letter)
               .join("")
-              .toLowerCase() === correctAnswers.fillInBlank[word] ? (
+              .toLowerCase() === word.toLowerCase() ? (
               <CheckCircle2 className="h-5 w-5" />
             ) : (
               <AlertCircle className="h-5 w-5" />
@@ -526,9 +554,9 @@ export default function Unit2({ submenu }: { submenu: string }) {
               {userAnswers[word]
                 .map((cell) => cell.letter)
                 .join("")
-                .toLowerCase() === correctAnswers.fillInBlank[word]
+                .toLowerCase() === word.toLowerCase()
                 ? "Correct!"
-                : `Incorrect. Correct answer: ${correctAnswers.fillInBlank[word]}`}
+                : `Incorrect. Correct answer: ${word}`}
             </p>
           </div>
         )}
@@ -540,8 +568,8 @@ export default function Unit2({ submenu }: { submenu: string }) {
     switch (submenu) {
       case "A - COMPETENCES - VOCABULARY - SENTENCES PATTERNS (Những năng lực - Từ vựng - Các mẫu câu)":
         return (
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4 text-pink-600 dark:text-pink-300">
+          <section className="mb-12">
+            <h2 className="text-2xl font-semibold mb-8 text-pink-600 dark:text-pink-300 border-b pb-4">
               A - COMPETENCES - VOCABULARY - SENTENCES PATTERNS (Những năng lực - Từ vựng - Các mẫu câu)
             </h2>
 
@@ -796,31 +824,53 @@ export default function Unit2({ submenu }: { submenu: string }) {
           </section>
         );
         
-      case "B - Điền vào chỗ trống hoặc sắp xếp các chữ cái sao cho chính xác  (Fill in the blanks or arrange the letters correctly)":
+      case "B - LET’S REVIEW VOCABULARY TOGETHER! (Hãy cùng ôn luyện từ vựng!)":
         return (
-          <section className="mb-8">
-            <h2 className="text-2xl font-semibold mb-4 text-pink-600 dark:text-pink-300">
+          <section className="mb-12">
+            <h2 className="text-2xl font-semibold mb-8 text-pink-600 dark:text-pink-300 border-b pb-4">
               B - Điền vào chỗ trống hoặc sắp xếp các chữ cái sao cho chính xác
               (Fill in the blanks or arrange the letters correctly)
             </h2>
-            <div className="space-y-4">
-              {["musicRoom", "scienceRoom", "gym"].map((item) => (
+            <div className="space-y-8">
+              {["musicRoom", "scienceRoom", "classroom"].map((item, index) => (
                 <Card
                   key={item}
-                  className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800"
+                  className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 transform transition-all duration-200 hover:shadow-lg"
                 >
-                  <CardHeader>
+                  <div className="px-6 pt-6">
+                    <span className="font-bold text-lg bg-purple-200 dark:bg-purple-700 px-4 py-2 rounded-lg inline-block text-purple-700 dark:text-purple-300 mb-4">
+                      Question {index + 1}
+                    </span>
+                  </div>
+                  <CardHeader className="pb-2">
                     <CardTitle className="text-purple-700 dark:text-purple-300">
-                      {item === "musicRoom"
-                        ? "mus_ _ r_ _ m"
-                        : item === "scienceRoom"
-                        ? "s_ _ _ nce ro _ _"
-                        : "_ _ _"}
+                      <div className="space-y-4 w-full">
+                      {item === "musicRoom" ? (
+                        <div>
+                          <p className="text-xl mb-4">mus_ _ r_ _ m</p>
+                          <img src={musicRoom} alt="Music Room Hint" className="mt-2 rounded-lg max-w-sm shadow-md" />
+                        </div>
+                      ) : item === "scienceRoom" ? (
+                        <div>
+                          <p className="text-xl mb-4">sc_ _ n_ _ r_ _m</p>
+                          <video 
+                            className="mt-2 rounded-lg max-w-sm shadow-md"
+                            controls
+                            src={scienceRoomVideo}
+                          >
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="text-xl mb-4">cl_ _sr_ _m</p>
+                          <img src={classroom} alt="Classroom Hint" className="mt-2 rounded-lg max-w-sm shadow-md" />
+                        </div>
+                      )}
+                      </div>
                     </CardTitle>
                   </CardHeader>
-                  <CardContent>
-                    <div className="w-full h-32 bg-white dark:bg-gray-700 rounded-md mb-2 shadow-inner"></div>
-                    <div className="w-full h-8 bg-gray-200 dark:bg-gray-600 rounded-md mb-2 shadow-inner"></div>
+                  <CardContent className="pt-4">                
                     <Input
                       name={item}
                       value={
@@ -830,7 +880,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
                       }
                       onChange={handleFillInBlankChange}
                       placeholder="Enter your answer"
-                      className={`bg-white dark:bg-gray-800 ${
+                      className={`bg-white dark:bg-gray-800 text-lg p-6 ${
                         showResults
                           ? fillInBlankAnswers[
                               item as keyof typeof fillInBlankAnswers
@@ -838,9 +888,9 @@ export default function Unit2({ submenu }: { submenu: string }) {
                             correctAnswers.fillInBlank[
                               item as keyof typeof correctAnswers.fillInBlank
                             ]
-                            ? "border-green-500"
-                            : "border-red-500"
-                          : ""
+                            ? "border-green-500 focus:ring-green-500"
+                            : "border-red-500 focus:ring-red-500"
+                          : "focus:ring-purple-500"
                       }`}
                     />
                     {showResults &&
@@ -850,18 +900,162 @@ export default function Unit2({ submenu }: { submenu: string }) {
                         correctAnswers.fillInBlank[
                           item as keyof typeof correctAnswers.fillInBlank
                         ] && (
-                        <p className="text-red-500 mt-2">
+                        <p className="text-red-500 mt-4 flex items-center gap-2">
+                          <AlertCircle className="h-5 w-5" />
                           Correct answer:{" "}
+                          <span className="font-semibold">
                           {
                             correctAnswers.fillInBlank[
                               item as keyof typeof correctAnswers.fillInBlank
                             ]
                           }
+                          </span>
                         </p>
                       )}
                   </CardContent>
                 </Card>
               ))}
+              <Card className="w-full mt-4">
+                <CardHeader>
+                  <CardTitle className="font-bold text-lg bg-purple-200 dark:bg-purple-700 px-4 py-2 rounded-lg inline-block text-purple-700 dark:text-purple-300 mb-4 w-[120px]">Question 4</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex flex-col items-center gap-4">
+                      <img className="w-[300px] h-[200px]" src={auditorium} alt="Auditorium" />
+                      <div className="flex flex-wrap md:flex-nowrap gap-2 justify-start w-full ">
+                        <img src={image8} alt="Sign 1" className="w-[calc(20%-8px)] sm:w-[calc(16.66%-8px)] md:w-16 h-auto" />
+                        <img src={image12} alt="Sign 2" className="w-[calc(20%-8px)] sm:w-[calc(16.66%-8px)] md:w-16 h-auto" />
+                        <img src={image34} alt="Sign 3" className="w-[calc(20%-8px)] sm:w-[calc(16.66%-8px)] md:w-16 h-auto" />
+                        <img src={image49} alt="Sign 4" className="w-[calc(20%-8px)] sm:w-[calc(16.66%-8px)] md:w-16 h-auto" />
+                        <img src={image41} alt="Sign 5" className="w-[calc(20%-8px)] sm:w-[calc(16.66%-8px)] md:w-16 h-auto" />
+                        <img src={image13} alt="Sign 6" className="w-[calc(20%-8px)] sm:w-[calc(16.66%-8px)] md:w-16 h-auto" />
+                        <img src={image7} alt="Sign 7" className="w-[calc(20%-8px)] sm:w-[calc(16.66%-8px)] md:w-16 h-auto" />
+                        <img src={image49} alt="Sign 8" className="w-[calc(20%-8px)] sm:w-[calc(16.66%-8px)] md:w-16 h-auto" />
+                        <img src={image13} alt="Sign 9" className="w-[calc(20%-8px)] sm:w-[calc(16.66%-8px)] md:w-16 h-auto" />
+                        <img src={image6} alt="Sign 10" className="w-[calc(20%-8px)] sm:w-[calc(16.66%-8px)] md:w-16 h-auto" />
+                      </div>
+                      <div className="w-full pl-4">
+                        <p className="text-lg font-medium">Chữ cái kí hiệu nào bên trên là sai:</p>
+                      </div>
+                      <RadioGroup
+                        defaultValue="answer"
+                        className="grid grid-cols-1 gap-4 w-full pl-4"
+                        onValueChange={(value) => handleMultipleChoiceChange("question4", value)}
+                      >
+                        <div className="flex items-center gap-4">
+                          <RadioGroupItem 
+                            value="a" 
+                            id="q4-a"
+                            className={`${
+                              showResults
+                                ? multipleChoiceAnswers.question4 === "a"
+                                  ? "border-red-500"
+                                  : ""
+                                : ""
+                            }`}
+                          />
+                          <Label htmlFor="q4-a" className="flex items-center gap-4">
+                            <span className="w-8">A.</span>
+                            <img src={image12} alt="Option A" className="w-16" />
+                          </Label>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <RadioGroupItem 
+                            value="b" 
+                            id="q4-b"
+                            className={`${
+                              showResults
+                                ? multipleChoiceAnswers.question4 === "b"
+                                  ? "border-red-500"
+                                  : ""
+                                : ""
+                            }`}
+                          />
+                          <Label htmlFor="q4-b" className="flex items-center gap-4">
+                            <span className="w-8">B.</span>
+                            <img src={image8} alt="Option B" className="w-16" />
+                          </Label>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <RadioGroupItem 
+                            value="c" 
+                            id="q4-c"
+                            className={`${
+                              showResults
+                                ? multipleChoiceAnswers.question4 === "c"
+                                  ? "border-red-500"
+                                  : ""
+                                : ""
+                            }`}
+                          />
+                          <Label htmlFor="q4-c" className="flex items-center gap-4">
+                            <span className="w-8">C.</span>
+                            <img src={image34} alt="Option C" className="w-16" />
+                          </Label>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <RadioGroupItem 
+                            value="d" 
+                            id="q4-d"
+                            className={`${
+                              showResults
+                                ? multipleChoiceAnswers.question4 === "d"
+                                  ? "border-green-500"
+                                  : ""
+                                : ""
+                            }`}
+                          />
+                          <Label htmlFor="q4-d" className="flex items-center gap-4">
+                            <span className="w-8">D.</span>
+                            <img src={image13} alt="Option D" className="w-16" />
+                          </Label>
+                        </div>
+                      </RadioGroup>
+                      <div className="w-full pl-4">
+                        <Label>Tiếng Anh:</Label>
+                        <Input
+                          name="question4_english"
+                          value={fillInBlankAnswers.question4_english}
+                          onChange={handleFillInBlankChange}
+                          placeholder="Enter your answer"
+                          className={`bg-white dark:bg-gray-800 text-lg p-6 ${
+                            showResults
+                              ? fillInBlankAnswers.question4_english.toLowerCase() === correctAnswers.fillInBlank.question4_english
+                                ? "border-green-500"
+                                : "border-red-500"
+                              : ""
+                          }`}
+                        />
+                      </div>
+                      {showResults && (
+                        <div className="mt-2 flex items-center gap-2 pl-4">
+                          {isQuestion4MultipleChoiceCorrect ? (
+                            <CheckCircle2 className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <AlertCircle className="h-5 w-5 text-red-500" />
+                          )}
+                          <p className={`text-lg ${isQuestion4MultipleChoiceCorrect ? 'text-green-500' : 'text-red-500'}`}>
+                            {isQuestion4MultipleChoiceCorrect ? 'Correct!' : 'Incorrect'}
+                          </p>
+                        </div>
+                      )}
+                      {showResults && (
+                        <div className="mt-2 flex items-center gap-2 pl-4">
+                          {isQuestion4EnglishCorrect ? (
+                            <CheckCircle2 className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <AlertCircle className="h-5 w-5 text-red-500" />
+                          )}
+                          <p className={`text-lg ${isQuestion4EnglishCorrect ? 'text-green-500' : 'text-red-500'}`}>
+                            {isQuestion4EnglishCorrect ? 'Correct! : auditorium' : 'Incorrect : auditorium'}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
               {renderWordScramble("classroom")}
               {renderWordScramble("artRoom")}
             </div>
@@ -870,22 +1064,31 @@ export default function Unit2({ submenu }: { submenu: string }) {
       case "C - Chọn đáp án đúng (Choose the correct answer)":
         return (
           <section>
-            <h2 className="text-2xl font-semibold mb-4 text-pink-600 dark:text-pink-300">
+            <h2 className="text-2xl font-semibold mb-8 text-pink-600 dark:text-pink-300 border-b pb-4">
               C - Chọn đáp án đúng (Choose the correct answer)
             </h2>
-            <div className="space-y-4">
-              {["library", "playground", "cafeteria"].map((item) => (
+            <div className="space-y-8">
+              {["library", "playground", "cafeteria"].map((item, index) => (
                 <Card
                   key={item}
-                  className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800"
+                  className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 transform transition-all duration-200 hover:shadow-lg"
                 >
-                  <CardHeader>
+                  <div className="px-6 pt-6">
+                    <span className="font-bold text-lg bg-purple-200 dark:bg-purple-700 px-4 py-2 rounded-lg inline-block text-purple-700 dark:text-purple-300 mb-4">
+                      Question {index + 4}
+                    </span>
+                  </div>
+                  <CardHeader className="pb-2">
                     <CardTitle className="text-purple-700 dark:text-purple-300">
-                      {item === "library"
-                        ? "Where is the library?"
-                        : item === "playground"
-                        ? "Where are the students?"
-                        : "Where is the cafeteria?"}
+                      <div className="space-y-4 w-full">
+                        <p className="text-xl">
+                        {item === "library"
+                          ? "Where is the library?"
+                          : item === "playground"
+                          ? "Where are the students?"
+                          : "Where is the cafeteria?"}
+                        </p>
+                      </div>
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -903,7 +1106,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
                       {["a", "b", "c"].map((option) => (
                         <div
                           key={option}
-                          className="flex items-center space-x-2"
+                          className="flex items-center space-x-2 pl-4"
                         >
                           <RadioGroupItem
                             value={option}
@@ -951,13 +1154,16 @@ export default function Unit2({ submenu }: { submenu: string }) {
                         correctAnswers.multipleChoice[
                           item as keyof typeof correctAnswers.multipleChoice
                         ] && (
-                        <p className="text-red-500 mt-2">
+                        <p className="text-red-500 mt-4 flex items-center gap-2">
+                          <AlertCircle className="h-5 w-5" />
                           Correct answer:{" "}
+                          <span className="font-semibold">
                           {
                             correctAnswers.multipleChoice[
                               item as keyof typeof correctAnswers.multipleChoice
                             ]
                           }
+                          </span>
                         </p>
                       )}
                   </CardContent>
@@ -1004,10 +1210,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
         )}
         {showResults && !submenu.startsWith("A") && (
           <p className="mt-4 text-center text-lg font-semibold text-purple-700 dark:text-purple-300">
-            You got {correctCount} out of{" "}
-            {Object.keys(correctAnswers.fillInBlank).length +
-              Object.keys(correctAnswers.multipleChoice).length}{" "}
-            correct.
+            You got {correctCount} out of 9 correct.
           </p>
         )}
       </div>

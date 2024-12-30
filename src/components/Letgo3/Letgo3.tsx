@@ -17,7 +17,7 @@ export default function Letgo3() {
   const units = Array.from({ length: 8 }, (_, i) => `TOPIC ${i + 1}`);
   const submenus = [
     "A - COMPETENCES - VOCABULARY - SENTENCES PATTERNS (Những năng lực - Từ vựng - Các mẫu câu)",
-    "B - Điền vào chỗ trống hoặc sắp xếp các chữ cái sao cho chính xác  (Fill in the blanks or arrange the letters correctly)",
+    "B - LET’S REVIEW VOCABULARY TOGETHER! (Hãy cùng ôn luyện từ vựng!)",
     "C - Chọn đáp án đúng (Choose the correct answer)",
     "D",
     "E",
