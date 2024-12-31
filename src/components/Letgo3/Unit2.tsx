@@ -848,13 +848,13 @@ export default function Unit2({ submenu }: { submenu: string }) {
                       {item === "musicRoom" ? (
                         <div>
                           <p className="text-xl mb-4">mus_ _ r_ _ m</p>
-                          <img src={musicRoom} alt="Music Room Hint" className="mt-2 rounded-lg max-w-sm shadow-md" />
+                          <img src={musicRoom} alt="Music Room Hint" className="mt-2 rounded-lg max-w-sm-[100px] shadow-md" />
                         </div>
                       ) : item === "scienceRoom" ? (
                         <div>
                           <p className="text-xl mb-4">sc_ _ n_ _ r_ _m</p>
-                          <video 
-                            className="mt-2 rounded-lg max-w-sm shadow-md"
+                          <video
+                            className="mt-2 rounded-lg max-w-sm-[100px] shadow-md"
                             controls
                             src={scienceRoomVideo}
                           >
@@ -864,7 +864,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
                       ) : (
                         <div>
                           <p className="text-xl mb-4">cl_ _sr_ _m</p>
-                          <img src={classroom} alt="Classroom Hint" className="mt-2 rounded-lg max-w-sm shadow-md" />
+                          <img src={classroom} alt="Classroom Hint" className="mt-2 rounded-lg max-w-sm-[100px] shadow-md" />
                         </div>
                       )}
                       </div>
