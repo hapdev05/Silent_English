@@ -316,6 +316,18 @@ const vocabularyData = [
   }
 ];
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { ScoreDialog } from "./ScoreDialog";
+
 export default function Unit2({ submenu }: { submenu: string }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedCard, setSelectedCard] = useState<string | null>(null);
@@ -341,6 +353,13 @@ export default function Unit2({ submenu }: { submenu: string }) {
     classroom: "",
     artRoom: "",
     question4_english: "",
+    question5_1: "",
+    question5_2: "",
+    question5_3: "",
+    question5_4: "",
+    question5_5: "",
+    question5_6: "",
+    question5_7: "",
   });
 
   const [multipleChoiceAnswers, setMultipleChoiceAnswers] = useState({
@@ -372,6 +391,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
       classroom: "classroom",
       artRoom: "art room",
       question4_english: "auditorium",
+      question5: "art room",
     },
     multipleChoice: {
       library: "a",
@@ -382,10 +402,16 @@ export default function Unit2({ submenu }: { submenu: string }) {
   };
 
   const [showResults, setShowResults] = useState(false);
+  const [partBCount, setPartBCount] = useState(0);
+  const [partCCount, setPartCCount] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [, setIsQuestion4Correct] = useState(false);
   const [isQuestion4MultipleChoiceCorrect, setIsQuestion4MultipleChoiceCorrect] = useState(false);
   const [isQuestion4EnglishCorrect, setIsQuestion4EnglishCorrect] = useState(false);
+  const [isQuestion5Correct, setIsQuestion5Correct] = useState(false);
+
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [showScoreDialog, setShowScoreDialog] = useState(false);
 
   useEffect(() => {
     setScrambledWords({
@@ -441,49 +467,56 @@ export default function Unit2({ submenu }: { submenu: string }) {
   };
 
   const handleSubmit = () => {
-    let count = 0;
+    let countB = 0; // LET'S REVIEW VOCABULARY TOGETHER - 5 câu
+    let countC = 0; // Choose the correct answer - 3 câu
 
-    // Check fill in blank answers (3 questions)
-    Object.keys(fillInBlankAnswers).forEach((key) => {
-      if (
-        key !== "classroom" &&
-        key !== "artRoom" &&
-        key !== "question4_english" &&
-        fillInBlankAnswers[key as keyof typeof fillInBlankAnswers].toLowerCase() ===
-        correctAnswers.fillInBlank[key as keyof typeof correctAnswers.fillInBlank]
-      ) {
-        count++;
-      }
-    });
-
-    // Check scrambled word answers (2 questions)
-    ["classroom", "artRoom"].forEach((word) => {
-      const userAnswer = userAnswers[word as WordType]
-        .map((cell) => cell.letter)
-        .join("");
-      if (userAnswer.toLowerCase() === word.toLowerCase()) {
-        count++;
-      }
-    });
-
-    // Check multiple choice answers (3 questions)
-    ["library", "playground", "cafeteria"].forEach((key) => {
-      if (
-        multipleChoiceAnswers[key as keyof typeof multipleChoiceAnswers] ===
-        correctAnswers.multipleChoice[key as keyof typeof correctAnswers.multipleChoice]
-      ) {
-        count++;
-      }
-    });
-
-    // Check Question 4 (1 question)
-    if (multipleChoiceAnswers.question4 === correctAnswers.multipleChoice.question4 &&
-        fillInBlankAnswers.question4_english.toLowerCase() === correctAnswers.fillInBlank.question4_english) {
-      count++;
+    // Part B - LET'S REVIEW VOCABULARY TOGETHER (5 câu, mỗi câu 1 điểm)
+    // Music Room, Science Room, Classroom
+    if (fillInBlankAnswers.musicRoom.toLowerCase() === correctAnswers.fillInBlank.musicRoom) {
+      countB++;
+    }
+    if (fillInBlankAnswers.scienceRoom.toLowerCase() === correctAnswers.fillInBlank.scienceRoom) {
+      countB++;
+    }
+    if (fillInBlankAnswers.classroom.toLowerCase() === correctAnswers.fillInBlank.classroom) {
+      countB++;
+    }
+    if (fillInBlankAnswers.question4_english.toLowerCase() === correctAnswers.fillInBlank.question4_english) {
+      countB++;
+    }
+    // Art room
+    if (fillInBlankAnswers.question5_1.toLowerCase() === 'a' &&
+        fillInBlankAnswers.question5_2.toLowerCase() === 'r' &&
+        fillInBlankAnswers.question5_3.toLowerCase() === 't' &&
+        fillInBlankAnswers.question5_4.toLowerCase() === 'r' &&
+        fillInBlankAnswers.question5_5.toLowerCase() === 'o' &&
+        fillInBlankAnswers.question5_6.toLowerCase() === 'o' &&
+        fillInBlankAnswers.question5_7.toLowerCase() === 'm') {
+      countB++;
     }
 
-    setCorrectCount(count);
+    // Part C - Choose the correct answer (3 câu, mỗi câu khoảng 1.67 điểm)
+    ["library", "playground", "cafeteria"].forEach((key) => {
+      if (multipleChoiceAnswers[key as keyof typeof multipleChoiceAnswers] ===
+          correctAnswers.multipleChoice[key as keyof typeof correctAnswers.multipleChoice]) {
+        countC++;
+      }
+    });
+
+    setPartBCount(countB);
+    setPartCCount(countC);
+    setCorrectCount(countB + countC);
     setShowResults(true);
+  };
+
+  const handleSubmitClick = () => {
+    setShowConfirmDialog(true);
+  };
+
+  const handleConfirm = () => {
+    handleSubmit();
+    setShowConfirmDialog(false);
+    setShowScoreDialog(true);
   };
 
   const checkQuestion4 = () => {
@@ -494,75 +527,23 @@ export default function Unit2({ submenu }: { submenu: string }) {
     setIsQuestion4Correct(isMultipleChoiceCorrect && isEnglishCorrect);
   };
 
+  const checkQuestion5 = () => {
+    const isQuestion5Correct = fillInBlankAnswers.question5_1.toLowerCase() === 'a' &&
+        fillInBlankAnswers.question5_2.toLowerCase() === 'r' &&
+        fillInBlankAnswers.question5_3.toLowerCase() === 't' &&
+        fillInBlankAnswers.question5_4.toLowerCase() === 'r' &&
+        fillInBlankAnswers.question5_5.toLowerCase() === 'o' &&
+        fillInBlankAnswers.question5_6.toLowerCase() === 'o' &&
+        fillInBlankAnswers.question5_7.toLowerCase() === 'm';
+    setIsQuestion5Correct(isQuestion5Correct);
+  };
+
   useEffect(() => {
     if (showResults) {
       checkQuestion4();
+      checkQuestion5();
     }
-  }, [showResults, multipleChoiceAnswers.question4, fillInBlankAnswers.question4_english]);
-
-  const renderWordScramble = (word: WordType) => (
-    <Card className="mb-6 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900 dark:to-pink-900">
-      <CardHeader>
-        <CardTitle>{word === "classroom" ? "Classroom" : "Art Room"}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="flex flex-wrap gap-2 mb-4 min-h-[48px] p-2 border rounded bg-gray-100 dark:bg-gray-700 shadow-inner">
-          {userAnswers[word].map((letterCell) => (
-            <Button
-              key={letterCell.id}
-              variant="outline"
-              className="w-10 h-10 text-lg font-bold bg-pink-200 hover:bg-pink-300 dark:bg-pink-700 dark:hover:bg-pink-600 transition-colors duration-200"
-              onClick={() => handleAnswerClick(word, letterCell)}
-            >
-              {letterCell.letter}
-            </Button>
-          ))}
-        </div>
-        <div className="flex flex-wrap gap-2 mb-4 min-h-[48px] p-2 border rounded bg-white dark:bg-gray-800 shadow-inner">
-          {scrambledWords[word].map((letterCell) => (
-            <Button
-              key={letterCell.id}
-              variant="outline"
-              className="w-10 h-10 text-lg font-bold bg-purple-200 hover:bg-purple-300 dark:bg-purple-700 dark:hover:bg-purple-600 transition-colors duration-200"
-              onClick={() => handleLetterClick(word, letterCell)}
-            >
-              {letterCell.letter}
-            </Button>
-          ))}
-        </div>
-
-        {showResults && (
-          <div
-            className={`flex items-center gap-2 ${
-              userAnswers[word]
-                .map((cell) => cell.letter)
-                .join("")
-                .toLowerCase() === word.toLowerCase()
-                ? "text-green-500"
-                : "text-red-500"
-            }`}
-          >
-            {userAnswers[word]
-              .map((cell) => cell.letter)
-              .join("")
-              .toLowerCase() === word.toLowerCase() ? (
-              <CheckCircle2 className="h-5 w-5" />
-            ) : (
-              <AlertCircle className="h-5 w-5" />
-            )}
-            <p>
-              {userAnswers[word]
-                .map((cell) => cell.letter)
-                .join("")
-                .toLowerCase() === word.toLowerCase()
-                ? "Correct!"
-                : `Incorrect. Correct answer: ${word}`}
-            </p>
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
+  }, [showResults, multipleChoiceAnswers.question4, fillInBlankAnswers.question4_english, fillInBlankAnswers.question5_1, fillInBlankAnswers.question5_2, fillInBlankAnswers.question5_3, fillInBlankAnswers.question5_4, fillInBlankAnswers.question5_5, fillInBlankAnswers.question5_6, fillInBlankAnswers.question5_7]);
 
   const renderContent = () => {
     switch (submenu) {
@@ -1056,8 +1037,97 @@ export default function Unit2({ submenu }: { submenu: string }) {
                   </div>
                 </CardContent>
               </Card>
-              {renderWordScramble("classroom")}
-              {renderWordScramble("artRoom")}
+              <Card className="w-full mt-4">
+                <CardHeader>
+                  <CardTitle className="font-bold text-lg bg-purple-200 dark:bg-purple-700 px-4 py-2 rounded-lg inline-block text-purple-700 dark:text-purple-300 mb-4 w-[120px]">Question 5</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex flex-col items-center gap-4">
+                      <video
+                        className="w-full max-w-[500px] rounded-lg shadow-md"
+                        controls
+                        src={artRoomVideo}
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                      <div className="w-full pl-4">
+                        <Label>Điền vào khoảng trống:</Label>
+                        <div className="flex gap-2 mt-2 flex-wrap">
+                          <Input
+                            name="question5_1"
+                            value={fillInBlankAnswers.question5_1 || ''}
+                            onChange={handleFillInBlankChange}
+                            placeholder="_"
+                            className="w-12 text-center p-2"
+                            maxLength={1}
+                          />
+                          <Input
+                            name="question5_2"
+                            value={fillInBlankAnswers.question5_2 || ''}
+                            onChange={handleFillInBlankChange}
+                            placeholder="_"
+                            className="w-12 text-center p-2"
+                            maxLength={1}
+                          />
+                          <Input
+                            name="question5_3"
+                            value={fillInBlankAnswers.question5_3 || ''}
+                            onChange={handleFillInBlankChange}
+                            placeholder="_"
+                            className="w-12 text-center p-2"
+                            maxLength={1}
+                          />
+                          <Input
+                            name="question5_4"
+                            value={fillInBlankAnswers.question5_4 || ''}
+                            onChange={handleFillInBlankChange}
+                            placeholder="_"
+                            className="w-12 text-center p-2"
+                            maxLength={1}
+                          />
+                          <Input
+                            name="question5_5"
+                            value={fillInBlankAnswers.question5_5 || ''}
+                            onChange={handleFillInBlankChange}
+                            placeholder="_"
+                            className="w-12 text-center p-2"
+                            maxLength={1}
+                          />
+                          <Input
+                            name="question5_6"
+                            value={fillInBlankAnswers.question5_6 || ''}
+                            onChange={handleFillInBlankChange}
+                            placeholder="_"
+                            className="w-12 text-center p-2"
+                            maxLength={1}
+                          />
+                          <Input
+                            name="question5_7"
+                            value={fillInBlankAnswers.question5_7 || ''}
+                            onChange={handleFillInBlankChange}
+                            placeholder="_"
+                            className="w-12 text-center p-2"
+                            maxLength={1}
+                          />
+                        </div>
+                      </div>
+                      {showResults && (
+                        <div className="mt-2 flex items-center gap-2 pl-4">
+                          {isQuestion5Correct ? (
+                            <CheckCircle2 className="h-5 w-5 text-green-500" />
+                          ) : (
+                            <AlertCircle className="h-5 w-5 text-red-500" />
+                          )}
+                          <p className={`text-lg ${isQuestion5Correct ? 'text-green-500' : 'text-red-500'}`}>
+                            {isQuestion5Correct ? 'Correct! : art room' : 'Incorrect. The answer is: art room'}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
           </section>
         );
@@ -1186,6 +1256,36 @@ export default function Unit2({ submenu }: { submenu: string }) {
     }
   };
 
+  const scores = [
+    {
+      partName: "B",
+      count: partBCount,
+      maxCount: 5,
+      score: Math.round((partBCount / 5) * 5 * 100) / 100,
+      maxScore: 5,
+      description: "B - LET'S REVIEW VOCABULARY TOGETHER! (Hãy cùng ôn luyện từ vựng!)"
+    },
+    {
+      partName: "C",
+      count: partCCount,
+      maxCount: 3,
+      score: Math.round((partCCount / 3) * 5 * 100) / 100,
+      maxScore: 5,
+      description: "C - Chọn đáp án đúng (Choose the correct answer)"
+    }
+  ];
+
+  const calculateScore = (count: number, maxScore: number) => {
+    return (count * maxScore).toFixed(2);
+  };
+
+  const scoreA = 2; // Music Room - 1 câu phức tạp
+  const scoreB = 1.5; // Science Room - 1 câu
+  const scoreC = 1.5; // Classroom - 1 câu
+  const scoreD = 3; // Multiple Choice - 3 câu (1 điểm/câu)
+  const scoreE = 1; // Auditorium - 1 câu
+  const scoreF = 1; // Art Room - 1 câu
+
   return (
     <ScrollArea className="h-full">
       <div className="container mx-auto p-4 bg-gradient-to-b from-blue-50 to-purple-50 dark:from-gray-900 dark:to-purple-900 min-h-screen">
@@ -1193,26 +1293,40 @@ export default function Unit2({ submenu }: { submenu: string }) {
           <h1 className="text-3xl font-bold mb-6 text-center text-purple-600 dark:text-purple-300">
             TOPIC 2: PLACES (Các địa điểm/nơi chốn)
           </h1>
-         
         </div>
-
 
         {renderContent()}
         {!submenu.startsWith("A") && submenu !== "" && (
           <div className="flex justify-center mt-8">
             <Button
-              onClick={handleSubmit}
+              onClick={handleSubmitClick}
               className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-2 rounded-full"
             >
-              Submit
+              Nộp bài
             </Button>
           </div>
         )}
-        {showResults && !submenu.startsWith("A") && (
-          <p className="mt-4 text-center text-lg font-semibold text-purple-700 dark:text-purple-300">
-            You got {correctCount} out of 9 correct.
-          </p>
-        )}
+        <AlertDialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Xác nhận nộp bài</AlertDialogTitle>
+              <AlertDialogDescription>
+                Bạn có chắc chắn muốn nộp bài không? 
+                Sau khi nộp bài, bạn sẽ không thể thay đổi câu trả lời.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Hủy</AlertDialogCancel>
+              <AlertDialogAction onClick={handleConfirm}>Nộp bài</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+
+        <ScoreDialog 
+          open={showScoreDialog}
+          onOpenChange={setShowScoreDialog}
+          scores={scores}
+        />
       </div>
     </ScrollArea>
   );
