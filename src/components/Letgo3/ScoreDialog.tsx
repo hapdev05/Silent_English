@@ -20,10 +20,6 @@ interface ScoreDialogProps {
   }[];
 }
 
-const calculateScore = (count: number, maxScore: number) => {
-  return (count * maxScore).toFixed(2);
-};
-
 export function ScoreDialog({ open, onOpenChange, scores }: ScoreDialogProps) {
   const totalScore = scores.reduce((acc, curr) => acc + curr.score, 0);
   const totalMaxScore = scores.reduce((acc, curr) => acc + curr.maxScore, 0);

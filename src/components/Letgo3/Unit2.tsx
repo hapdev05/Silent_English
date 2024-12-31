@@ -82,12 +82,7 @@ import wereYouInThePoolVideo from "../../assets/videos/wereyouinthepoolthismorni
 import whereIsTheLibraryVideo from "../../assets/videos/whereisthelibrary.mp4";
 import itIsNextToTheClassroomVideo from "../../assets/videos/itisnexttotheclassroom.mp4";
 
-type WordType = "classroom" | "artRoom";
 
-interface LetterCell {
-  letter: string;
-  id: number;
-}
 
 const vocabularyData = [
   {
@@ -369,19 +364,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
     question4: "",
   });
 
-  const [scrambledWords, setScrambledWords] = useState<
-    Record<WordType, LetterCell[]>
-  >({
-    classroom: [],
-    artRoom: [],
-  });
-
-  const [userAnswers, setUserAnswers] = useState<
-    Record<WordType, LetterCell[]>
-  >({
-    classroom: [],
-    artRoom: [],
-  });
+ 
 
   const correctAnswers = {
     fillInBlank: {
@@ -404,7 +387,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
   const [showResults, setShowResults] = useState(false);
   const [partBCount, setPartBCount] = useState(0);
   const [partCCount, setPartCCount] = useState(0);
-  const [correctCount, setCorrectCount] = useState(0);
+  const [, setCorrectCount] = useState(0);
   const [, setIsQuestion4Correct] = useState(false);
   const [isQuestion4MultipleChoiceCorrect, setIsQuestion4MultipleChoiceCorrect] = useState(false);
   const [isQuestion4EnglishCorrect, setIsQuestion4EnglishCorrect] = useState(false);
@@ -413,22 +396,9 @@ export default function Unit2({ submenu }: { submenu: string }) {
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [showScoreDialog, setShowScoreDialog] = useState(false);
 
-  useEffect(() => {
-    setScrambledWords({
-      classroom: scrambleWord("classroom"),
-      artRoom: scrambleWord("art room"),
-    });
-  }, []);
+ 
 
-  const scrambleWord = (word: string): LetterCell[] => {
-    return word
-      .split("")
-      .sort(() => Math.random() - 0.5)
-      .map((letter, index) => ({
-        letter,
-        id: index,
-      }));
-  };
+
 
   const handleFillInBlankChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFillInBlankAnswers({
@@ -444,27 +414,7 @@ export default function Unit2({ submenu }: { submenu: string }) {
     });
   };
 
-  const handleLetterClick = (word: WordType, letterCell: LetterCell) => {
-    setScrambledWords((prev) => ({
-      ...prev,
-      [word]: prev[word].filter((cell) => cell.id !== letterCell.id),
-    }));
-    setUserAnswers((prev) => ({
-      ...prev,
-      [word]: [...prev[word], letterCell],
-    }));
-  };
 
-  const handleAnswerClick = (word: WordType, letterCell: LetterCell) => {
-    setUserAnswers((prev) => ({
-      ...prev,
-      [word]: prev[word].filter((cell) => cell.id !== letterCell.id),
-    }));
-    setScrambledWords((prev) => ({
-      ...prev,
-      [word]: [...prev[word], letterCell],
-    }));
-  };
 
   const handleSubmit = () => {
     let countB = 0; // LET'S REVIEW VOCABULARY TOGETHER - 5 câu
@@ -1275,16 +1225,6 @@ export default function Unit2({ submenu }: { submenu: string }) {
     }
   ];
 
-  const calculateScore = (count: number, maxScore: number) => {
-    return (count * maxScore).toFixed(2);
-  };
-
-  const scoreA = 2; // Music Room - 1 câu phức tạp
-  const scoreB = 1.5; // Science Room - 1 câu
-  const scoreC = 1.5; // Classroom - 1 câu
-  const scoreD = 3; // Multiple Choice - 3 câu (1 điểm/câu)
-  const scoreE = 1; // Auditorium - 1 câu
-  const scoreF = 1; // Art Room - 1 câu
 
   return (
     <ScrollArea className="h-full">
