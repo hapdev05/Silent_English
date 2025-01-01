@@ -1007,70 +1007,137 @@ export default function Unit2({ submenu }: { submenu: string }) {
                           <Input
                             name="question5_1"
                             value={fillInBlankAnswers.question5_1 || ''}
-                            onChange={handleFillInBlankChange}
-                            placeholder="_"
-                            className="w-12 text-center p-2"
+                            onChange={(e) => {
+                              handleFillInBlankChange(e);
+                              if (e.target.value && e.target.value.length === 1) {
+                                const nextInput = document.querySelector('input[name="question5_2"]') as HTMLInputElement;
+                                if (nextInput) nextInput.focus();
+                              }
+                            }}
                             maxLength={1}
+                            className="w-12 text-center p-2"
                           />
                           <Input
                             name="question5_2"
                             value={fillInBlankAnswers.question5_2 || ''}
-                            onChange={handleFillInBlankChange}
-                            placeholder="_"
-                            className="w-12 text-center p-2"
+                            onChange={(e) => {
+                              handleFillInBlankChange(e);
+                              if (e.target.value && e.target.value.length === 1) {
+                                const nextInput = document.querySelector('input[name="question5_3"]') as HTMLInputElement;
+                                if (nextInput) nextInput.focus();
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Backspace' && !fillInBlankAnswers.question5_2) {
+                                const prevInput = document.querySelector('input[name="question5_1"]') as HTMLInputElement;
+                                if (prevInput) prevInput.focus();
+                              }
+                            }}
                             maxLength={1}
+                            className="w-12 text-center p-2"
                           />
                           <Input
                             name="question5_3"
                             value={fillInBlankAnswers.question5_3 || ''}
-                            onChange={handleFillInBlankChange}
-                            placeholder="_"
-                            className="w-12 text-center p-2"
+                            onChange={(e) => {
+                              handleFillInBlankChange(e);
+                              if (e.target.value && e.target.value.length === 1) {
+                                const nextInput = document.querySelector('input[name="question5_4"]') as HTMLInputElement;
+                                if (nextInput) nextInput.focus();
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Backspace' && !fillInBlankAnswers.question5_3) {
+                                const prevInput = document.querySelector('input[name="question5_2"]') as HTMLInputElement;
+                                if (prevInput) prevInput.focus();
+                              }
+                            }}
                             maxLength={1}
+                            className="w-12 text-center p-2"
                           />
                           <Input
                             name="question5_4"
                             value={fillInBlankAnswers.question5_4 || ''}
-                            onChange={handleFillInBlankChange}
-                            placeholder="_"
-                            className="w-12 text-center p-2"
+                            onChange={(e) => {
+                              handleFillInBlankChange(e);
+                              if (e.target.value && e.target.value.length === 1) {
+                                const nextInput = document.querySelector('input[name="question5_5"]') as HTMLInputElement;
+                                if (nextInput) nextInput.focus();
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Backspace' && !fillInBlankAnswers.question5_4) {
+                                const prevInput = document.querySelector('input[name="question5_3"]') as HTMLInputElement;
+                                if (prevInput) prevInput.focus();
+                              }
+                            }}
                             maxLength={1}
+                            className="w-12 text-center p-2"
                           />
                           <Input
                             name="question5_5"
                             value={fillInBlankAnswers.question5_5 || ''}
-                            onChange={handleFillInBlankChange}
-                            placeholder="_"
-                            className="w-12 text-center p-2"
+                            onChange={(e) => {
+                              handleFillInBlankChange(e);
+                              if (e.target.value && e.target.value.length === 1) {
+                                const nextInput = document.querySelector('input[name="question5_6"]') as HTMLInputElement;
+                                if (nextInput) nextInput.focus();
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Backspace' && !fillInBlankAnswers.question5_5) {
+                                const prevInput = document.querySelector('input[name="question5_4"]') as HTMLInputElement;
+                                if (prevInput) prevInput.focus();
+                              }
+                            }}
                             maxLength={1}
+                            className="w-12 text-center p-2"
                           />
                           <Input
                             name="question5_6"
                             value={fillInBlankAnswers.question5_6 || ''}
-                            onChange={handleFillInBlankChange}
-                            placeholder="_"
-                            className="w-12 text-center p-2"
+                            onChange={(e) => {
+                              handleFillInBlankChange(e);
+                              if (e.target.value && e.target.value.length === 1) {
+                                const nextInput = document.querySelector('input[name="question5_7"]') as HTMLInputElement;
+                                if (nextInput) nextInput.focus();
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Backspace' && !fillInBlankAnswers.question5_6) {
+                                const prevInput = document.querySelector('input[name="question5_5"]') as HTMLInputElement;
+                                if (prevInput) prevInput.focus();
+                              }
+                            }}
                             maxLength={1}
+                            className="w-12 text-center p-2"
                           />
                           <Input
                             name="question5_7"
                             value={fillInBlankAnswers.question5_7 || ''}
-                            onChange={handleFillInBlankChange}
-                            placeholder="_"
-                            className="w-12 text-center p-2"
+                            onChange={(e) => {
+                              handleFillInBlankChange(e);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Backspace' && !fillInBlankAnswers.question5_7) {
+                                const prevInput = document.querySelector('input[name="question5_6"]') as HTMLInputElement;
+                                if (prevInput) prevInput.focus();
+                              }
+                            }}
                             maxLength={1}
+                            className="w-12 text-center p-2"
                           />
                         </div>
                       </div>
                       {showResults && (
-                        <div className="mt-2 flex items-center gap-2 pl-4">
+                        <div className="mt-2 flex items-center gap-2">
                           {isQuestion5Correct ? (
                             <CheckCircle2 className="h-5 w-5 text-green-500" />
                           ) : (
                             <AlertCircle className="h-5 w-5 text-red-500" />
                           )}
                           <p className={`text-lg ${isQuestion5Correct ? 'text-green-500' : 'text-red-500'}`}>
-                            {isQuestion5Correct ? 'Correct! : art room' : 'Incorrect. The answer is: art room'}
+                            {isQuestion5Correct ? 'Correct!' : 'Incorrect'}
                           </p>
                         </div>
                       )}
