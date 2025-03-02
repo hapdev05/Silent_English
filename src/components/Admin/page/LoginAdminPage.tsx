@@ -1,12 +1,34 @@
 import React, { useState } from "react";
+import { collection, getDocs } from "firebase/firestore";
+// import db from "../../../firebase/"; 
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // Hàm đọc dữ liệu từ Firestore
+  const fetchData = async () => {
+    try {
+      // Đọc dữ liệu từ collection 'score89888'
+      const querySnapshot = await getDocs(collection(db, "score89888"));
+      querySnapshot.forEach((doc) => {
+        // In từng document ra console
+        console.log("Document ID:", doc.id);
+        console.log("Data:", doc.data());
+      });
+    } catch (error) {
+      console.error("Error fetching data: ", error);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    // In dữ liệu form ra console
     console.log({ email, password });
+
+    // Gọi hàm đọc dữ liệu từ Firestore
+    fetchData();
   };
 
   return (
@@ -19,7 +41,7 @@ const SignIn: React.FC = () => {
         className="absolute w-full h-full object-cover z-0"
       >
         <source
-          src="https://assets.mixkit.co/videos/4366/4366-720.mp4" // Thay đường dẫn video của bạn tại đây
+          src="https://assets.mixkit.co/videos/4366/4366-720.mp4"
           type="video/mp4"
         />
         Your browser does not support the video tag.
