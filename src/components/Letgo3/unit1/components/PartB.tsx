@@ -5,6 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { useState, useEffect } from "react"
 import { AlertCircle, CheckCircle, RefreshCw } from "lucide-react"
+import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
 import stapler from "../../../../assets/imgs/stapler.jpg"
 import paintbrush from "../../../../assets/imgs/paintbrush.jpg"
 import paint from "../../../../assets/imgs/paint.png"
@@ -20,10 +21,25 @@ import scissors from "../../../../assets/imgs/scissors.png"
 import coloredPencil from "../../../../assets/imgs/coloredpencil.jpeg"
 import rubberBand from "../../../../assets/videos/rubberband.mp4"
 import potatoChips from "../../../../assets/videos/potatochips.mp4"
+// Import videos for questions
+import foodTvVideo from "../../../../assets/videos/food-tv.mp4"
+import craftSuppliesVideo from "../../../../assets/videos/craft-supplies.mp4"
+import calculatorVideo from "../../../../assets/videos/calculator.mp4"
+import attachPaperVideo from "../../../../assets/videos/attach-paper.mp4"
 const PartB = () => {
   const [showResults, setShowResults] = useState(false)
   const [score, setScore] = useState(0)
   const [activeTab, setActiveTab] = useState("complete-words")
+  const [dragDropAnswers, setDragDropAnswers] = useState<{[key: string]: string[]}>({"1": [], "2": [], "3": [], "4": []})
+  const [availableWords, setAvailableWords] = useState(["candy", "tape", "magnet", "glue", "popcorn", "scissors", "crackers", "T-shirt", "calculator", "push pin"])
+  const [showVideo, setShowVideo] = useState<string | null>(null)
+
+  const questionVideos = {
+    "1": foodTvVideo,
+    "2": craftSuppliesVideo,
+    "3": calculatorVideo,
+    "4": attachPaperVideo
+  }
   const [fillInBlankAnswers, setFillInBlankAnswers] = useState({
     stapler: "",
     paintbrush: "",
@@ -62,6 +78,34 @@ const PartB = () => {
     })
   }
 
+  const handleDragEnd = (result: any) => {
+    if (!result.destination) return;
+
+    const { source, destination } = result;
+    
+    if (source.droppableId === 'wordBank' && destination.droppableId !== 'wordBank') {
+      // Moving from word bank to an answer slot
+      const newAvailableWords = [...availableWords];
+      const [removed] = newAvailableWords.splice(source.index, 1);
+      
+      const newDragDropAnswers = {...dragDropAnswers};
+      newDragDropAnswers[destination.droppableId] = [...(newDragDropAnswers[destination.droppableId] || []), removed];
+      
+      setAvailableWords(newAvailableWords);
+      setDragDropAnswers(newDragDropAnswers);
+    } else if (source.droppableId !== 'wordBank' && destination.droppableId === 'wordBank') {
+      // Moving back to word bank
+      const sourceAnswers = [...dragDropAnswers[source.droppableId]];
+      const [removed] = sourceAnswers.splice(source.index, 1);
+      
+      setAvailableWords([...availableWords, removed]);
+      setDragDropAnswers({
+        ...dragDropAnswers,
+        [source.droppableId]: sourceAnswers
+      });
+    }
+  };
+
   const correctAnswers = {
     fillInBlank: {
       stapler: "stapler",
@@ -74,6 +118,12 @@ const PartB = () => {
       paper: "paper",
       peanuts: "peanuts",
       string: "string",
+    },
+    dragDrop: {
+      "1": ["candy", "popcorn", "crackers"],
+      "2": ["tape", "glue", "scissors"],
+      "3": ["calculator"],
+      "4": ["push pin", "magnet"]
     },
     arrangeLetters: {
       calculator: "calculator",
@@ -173,7 +223,7 @@ const PartB = () => {
           correctCount++
         }
       })
-    } else {
+    } else if (activeTab === "arrange-letters") {
       // Đếm số câu trả lời đúng cho phần sắp xếp chữ
       Object.keys(arrangeLettersAnswers).forEach((key) => {
         const userAnswer = arrangeLettersAnswers[key as keyof typeof arrangeLettersAnswers].join("")
@@ -181,6 +231,13 @@ const PartB = () => {
           userAnswer.toLowerCase() ===
           correctAnswers.arrangeLetters[key as keyof typeof correctAnswers.arrangeLetters].toLowerCase()
         ) {
+          correctCount++
+        }
+      })
+    } else if (activeTab === "drag-drop") {
+      // Đếm số câu trả lời đúng cho phần kéo thả
+      Object.keys(dragDropAnswers).forEach((key) => {
+        if (JSON.stringify(dragDropAnswers[key]) === JSON.stringify(correctAnswers.dragDrop[key])) {
           correctCount++
         }
       })
@@ -208,7 +265,7 @@ const PartB = () => {
         paper: "",
         string: "",
       })
-    } else {
+    } else if (activeTab === "arrange-letters") {
       // Reset phần sắp xếp chữ
       const initialScrambledLetters = {} as any
       const initialArrangeLettersAnswers = {} as any
@@ -223,6 +280,10 @@ const PartB = () => {
 
       setScrambledLetters(initialScrambledLetters)
       setArrangeLettersAnswers(initialArrangeLettersAnswers)
+    } else if (activeTab === "drag-drop") {
+      // Reset phần kéo thả
+      setDragDropAnswers({"1": [], "2": [], "3": [], "4": []})
+      setAvailableWords(["candy", "tape", "magnet", "glue", "popcorn", "scissors", "crackers", "T-shirt", "calculator", "push pin"])
     }
   }
 
@@ -261,6 +322,31 @@ const PartB = () => {
         correctly)
       </h2>
 
+      {showVideo && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 p-4 rounded-lg w-[80vw] max-w-4xl">
+            <div className="flex justify-end mb-2">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => setShowVideo(null)}
+                className="hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                ✕
+              </Button>
+            </div>
+            <div className="relative" style={{ paddingBottom: '56.25%' }}>
+              <video
+                src={showVideo}
+                className="absolute inset-0 w-full h-full"
+                controls
+                autoPlay
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
       <Tabs
         defaultValue="complete-words"
         className="mb-8"
@@ -270,10 +356,10 @@ const PartB = () => {
           setScore(0)
         }}
       >
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="complete-words">I. Complete words</TabsTrigger>
           <TabsTrigger value="arrange-letters">II. Arrange the letters</TabsTrigger>
-          <TabsTrigger value="drag-and-drop">III. Arrange the words</TabsTrigger>
+          <TabsTrigger value="drag-drop">III. Arrange the words</TabsTrigger>
         </TabsList>
 
         <div className="mt-6 mb-6 flex gap-4">
@@ -461,6 +547,115 @@ const PartB = () => {
             ))}
           </div>
         </TabsContent>
+        <TabsContent value="drag-drop">
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <div className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-2xl font-bold text-center">
+                    Arrange the words
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-6">
+                    {/* Word Bank */}
+                    <div className="p-4 border rounded-lg bg-gray-50 dark:bg-gray-800">
+                      <h3 className="mb-4 font-semibold">Word Bank</h3>
+                      <Droppable droppableId="wordBank" direction="horizontal">
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                            className="flex flex-wrap gap-2"
+                          >
+                            {availableWords.map((word, index) => (
+                              <Draggable key={word} draggableId={word} index={index}>
+                                {(provided) => (
+                                  <div
+                                    ref={provided.innerRef}
+                                    {...provided.draggableProps}
+                                    {...provided.dragHandleProps}
+                                    className="px-3 py-2 bg-white dark:bg-gray-700 rounded-md shadow-sm border border-gray-200 dark:border-gray-600"
+                                  >
+                                    {word}
+                                  </div>
+                                )}
+                              </Draggable>
+                            ))}
+                            {provided.placeholder}
+                          </div>
+                        )}
+                      </Droppable>
+                    </div>
+
+                    {/* Questions */}
+                    <div className="space-y-4">
+                      {Object.entries({
+                        "1": "I have some food, so let's watch TV together!",
+                        "2": "I have some supplies for the craft class.",
+                        "3": "I have a tool for very fast calculations.",
+                        "4": "I have some tools to attach the paper to the board."
+                      }).map(([id, question]) => (
+                        <div 
+                          key={id} 
+                          className="p-4 border rounded-lg"
+                        >
+                          <p 
+                            className="mb-2 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400" 
+                            onClick={() => setShowVideo(questionVideos[id as keyof typeof questionVideos])}
+                          >
+                            {question}
+                          </p>
+                          <Droppable droppableId={id} direction="horizontal">
+                            {(provided) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                                className="min-h-[50px] p-2 bg-gray-50 dark:bg-gray-800 rounded-md flex flex-wrap gap-2"
+                              >
+                                {dragDropAnswers[id]?.map((word, index) => (
+                                  <Draggable key={word} draggableId={word} index={index}>
+                                    {(provided) => (
+                                      <div
+                                        ref={provided.innerRef}
+                                        {...provided.draggableProps}
+                                        {...provided.dragHandleProps}
+                                        className="px-3 py-2 bg-white dark:bg-gray-700 rounded-md shadow-sm border border-gray-200 dark:border-gray-600"
+                                      >
+                                        {word}
+                                      </div>
+                                    )}
+                                  </Draggable>
+                                ))}
+                                {provided.placeholder}
+                              </div>
+                            )}
+                          </Droppable>
+                          {showResults && (
+                            <div className="mt-2">
+                              {JSON.stringify(dragDropAnswers[id]) === JSON.stringify(correctAnswers.dragDrop[id]) ? (
+                                <div className="flex items-center text-green-600 dark:text-green-400">
+                                  <CheckCircle className="w-5 h-5 mr-2" />
+                                  <span>Correct!</span>
+                                </div>
+                              ) : (
+                                <div className="flex items-center text-red-600 dark:text-red-400">
+                                  <AlertCircle className="w-5 h-5 mr-2" />
+                                  <span>Incorrect</span>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </DragDropContext>
+        </TabsContent>
+
         <TabsContent value="arrange-letters">
           <div className="space-y-8">
             {arrangeLettersItems.map((item, index) => (
