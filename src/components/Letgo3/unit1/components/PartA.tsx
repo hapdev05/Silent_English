@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -8,6 +7,7 @@ import WhatdoeshaveVideo from "@/assets/videos/unit1/Whatdoeshehave.mp4";
 import HehassomechalkVideo from "@/assets/videos/unit1/Hehassomechalk.mp4";
 import DotheyhaveanymagnetsVideo from "@/assets/videos/unit1/Dotheyhaveanymagnets.mp4";
 import YestheydoNotheydontVideo from "@/assets/videos/unit1/Yestheydonotheydon't.mp4";
+import { useState } from "react";
 
 
 const PartA = ({ currentItems, currentPage, totalPages, handlePageChange }) => {

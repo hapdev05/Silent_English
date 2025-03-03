@@ -1,0 +1,604 @@
+import type React from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Input } from "@/components/ui/input"
+import { useState, useEffect } from "react"
+import { AlertCircle, CheckCircle, RefreshCw } from "lucide-react"
+import stapler from "../../../../assets/imgs/stapler.jpg"
+import paintbrush from "../../../../assets/imgs/paintbrush.jpg"
+import paint from "../../../../assets/imgs/paint.png"
+import ribbon from "../../../../assets/imgs/ribbon.png"
+import popcorn from "../../../../assets/imgs/popcorn.png"
+import crackers from "../../../../assets/imgs/crackers.png"
+import chalk from "../../../../assets/videos/chalk.mp4"
+import peanuts from "../../../../assets/videos/peanuts.mp4"
+import paper from "../../../../assets/videos/paper.mp4"
+import string from "../../../../assets/videos/string.mp4"
+import calculator from "../../../../assets/imgs/calculator.jpg"
+import scissors from "../../../../assets/imgs/scissors.png"
+import coloredPencil from "../../../../assets/imgs/coloredpencil.jpeg"
+import rubberBand from "../../../../assets/videos/rubberband.mp4"
+import potatoChips from "../../../../assets/videos/potatochips.mp4"
+const PartB = () => {
+  const [showResults, setShowResults] = useState(false)
+  const [score, setScore] = useState(0)
+  const [activeTab, setActiveTab] = useState("complete-words")
+  const [fillInBlankAnswers, setFillInBlankAnswers] = useState({
+    stapler: "",
+    paintbrush: "",
+    paint: "",
+    ribbon: "",
+    popcorn: "",
+    crackers: "",
+    chalk: "",
+    peanuts: "",
+    paper: "",
+    string: "",
+  })
+
+  // State mới cho phần sắp xếp chữ
+  const [arrangeLettersAnswers, setArrangeLettersAnswers] = useState({
+    calculator: [],
+    scissors: [],
+    coloredPencil: [],
+    rubberBand: [],
+    potatoChips: [],
+  })
+
+  // State để lưu trữ các chữ cái đã xáo trộn cho mỗi từ
+  const [scrambledLetters, setScrambledLetters] = useState({
+    calculator: [],
+    scissors: [],
+    coloredPencil: [],
+    rubberBand: [],
+    potatoChips: [],
+  })
+
+  const handleFillInBlankChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFillInBlankAnswers({
+      ...fillInBlankAnswers,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  const correctAnswers = {
+    fillInBlank: {
+      stapler: "stapler",
+      paintbrush: "paint brush",
+      paint: "paint",
+      ribbon: "ribbon",
+      popcorn: "popcorn",
+      crackers: "crackers",
+      chalk: "chalk",
+      paper: "paper",
+      peanuts: "peanuts",
+      string: "string",
+    },
+    arrangeLetters: {
+      calculator: "calculator",
+      scissors: "scissors",
+      coloredPencil: "colored pencil",
+      rubberBand: "rubber band",
+      potatoChips: "potato chips",
+    },
+    scrambledWords: {
+      calculator: "tacluactor",
+      scissors: "sosicras",
+      coloredPencil: "ncloodpeecil",
+      rubberBand: "bubnerdrab",
+      potatoChips: "hoptostaci",
+    },
+  }
+
+  // Khởi tạo các chữ cái đã xáo trộn
+  useEffect(() => {
+    const initialScrambledLetters = {} as any
+
+    Object.keys(correctAnswers.arrangeLetters).forEach((key) => {
+      const word = correctAnswers.arrangeLetters[key as keyof typeof correctAnswers.arrangeLetters]
+      // Chuyển từ thành mảng các chữ cái và xáo trộn
+      const letters = word.split("").sort(() => Math.random() - 0.5)
+      initialScrambledLetters[key] = letters
+    })
+
+    setScrambledLetters(initialScrambledLetters)
+
+    // Khởi tạo mảng rỗng cho các đáp án
+    const initialArrangeLettersAnswers = {} as any
+    Object.keys(correctAnswers.arrangeLetters).forEach((key) => {
+      initialArrangeLettersAnswers[key] = []
+    })
+    setArrangeLettersAnswers(initialArrangeLettersAnswers)
+  }, [])
+
+  // Hàm xử lý khi người dùng nhấp vào một chữ cái
+  const handleLetterClick = (item: string, letterIndex: number) => {
+    if (showResults) return
+
+    const letter = scrambledLetters[item as keyof typeof scrambledLetters][letterIndex]
+
+    // Tạo bản sao của mảng chữ cái đã xáo trộn và xóa chữ cái đã chọn
+    const newScrambledLetters = { ...scrambledLetters }
+    newScrambledLetters[item as keyof typeof newScrambledLetters] = [
+      ...newScrambledLetters[item as keyof typeof newScrambledLetters].slice(0, letterIndex),
+      ...newScrambledLetters[item as keyof typeof newScrambledLetters].slice(letterIndex + 1),
+    ]
+
+    // Thêm chữ cái vào mảng đáp án
+    const newArrangeLettersAnswers = { ...arrangeLettersAnswers }
+    newArrangeLettersAnswers[item as keyof typeof newArrangeLettersAnswers] = [
+      ...newArrangeLettersAnswers[item as keyof typeof newArrangeLettersAnswers],
+      letter,
+    ]
+
+    setScrambledLetters(newScrambledLetters)
+    setArrangeLettersAnswers(newArrangeLettersAnswers)
+  }
+
+  // Hàm xử lý khi người dùng nhấp vào một chữ cái trong ô đáp án để xóa
+  const handleAnswerLetterClick = (item: string, letterIndex: number) => {
+    if (showResults) return
+
+    const letter = arrangeLettersAnswers[item as keyof typeof arrangeLettersAnswers][letterIndex]
+
+    // Tạo bản sao của mảng đáp án và xóa chữ cái đã chọn
+    const newArrangeLettersAnswers = { ...arrangeLettersAnswers }
+    newArrangeLettersAnswers[item as keyof typeof newArrangeLettersAnswers] = [
+      ...newArrangeLettersAnswers[item as keyof typeof newArrangeLettersAnswers].slice(0, letterIndex),
+      ...newArrangeLettersAnswers[item as keyof typeof newArrangeLettersAnswers].slice(letterIndex + 1),
+    ]
+
+    // Thêm chữ cái vào mảng chữ cái đã xáo trộn
+    const newScrambledLetters = { ...scrambledLetters }
+    newScrambledLetters[item as keyof typeof newScrambledLetters] = [
+      ...newScrambledLetters[item as keyof typeof newScrambledLetters],
+      letter,
+    ]
+
+    setArrangeLettersAnswers(newArrangeLettersAnswers)
+    setScrambledLetters(newScrambledLetters)
+  }
+
+  // Hàm kiểm tra đáp án và tính điểm
+  const handleSubmit = () => {
+    let correctCount = 0
+    if (activeTab === "complete-words") {
+      // Đếm số câu trả lời đúng cho phần điền vào chỗ trống
+      Object.keys(fillInBlankAnswers).forEach((key) => {
+        if (
+          fillInBlankAnswers[key as keyof typeof fillInBlankAnswers].toLowerCase() ===
+          correctAnswers.fillInBlank[key as keyof typeof correctAnswers.fillInBlank]
+        ) {
+          correctCount++
+        }
+      })
+    } else {
+      // Đếm số câu trả lời đúng cho phần sắp xếp chữ
+      Object.keys(arrangeLettersAnswers).forEach((key) => {
+        const userAnswer = arrangeLettersAnswers[key as keyof typeof arrangeLettersAnswers].join("")
+        if (
+          userAnswer.toLowerCase() ===
+          correctAnswers.arrangeLetters[key as keyof typeof correctAnswers.arrangeLetters].toLowerCase()
+        ) {
+          correctCount++
+        }
+      })
+    }
+
+    setScore(correctCount)
+    setShowResults(true)
+  }
+
+  // Hàm reset để làm lại
+  const handleReset = () => {
+    setShowResults(false)
+    setScore(0)
+
+    if (activeTab === "complete-words") {
+      setFillInBlankAnswers({
+        stapler: "",
+        paintbrush: "",
+        paint: "",
+        ribbon: "",
+        popcorn: "",
+        crackers: "",
+        chalk: "",
+        peanuts: "",
+        paper: "",
+        string: "",
+      })
+    } else {
+      // Reset phần sắp xếp chữ
+      const initialScrambledLetters = {} as any
+      const initialArrangeLettersAnswers = {} as any
+
+      Object.keys(correctAnswers.arrangeLetters).forEach((key) => {
+        const word = correctAnswers.arrangeLetters[key as keyof typeof correctAnswers.arrangeLetters]
+        // Chuyển từ thành mảng các chữ cái và xáo trộn
+        const letters = word.split("").sort(() => Math.random() - 0.5)
+        initialScrambledLetters[key] = letters
+        initialArrangeLettersAnswers[key] = []
+      })
+
+      setScrambledLetters(initialScrambledLetters)
+      setArrangeLettersAnswers(initialArrangeLettersAnswers)
+    }
+  }
+
+  // Hàm xáo trộn lại các chữ cái
+  const handleShuffleLetters = (item: string) => {
+    if (showResults) return
+
+    const letters = [...scrambledLetters[item as keyof typeof scrambledLetters]]
+    const shuffledLetters = letters.sort(() => Math.random() - 0.5)
+
+    setScrambledLetters({
+      ...scrambledLetters,
+      [item]: shuffledLetters,
+    })
+  }
+
+  const fillInBlankItems = [
+    "stapler",
+    "paintbrush",
+    "paint",
+    "ribbon",
+    "popcorn",
+    "crackers",
+    "chalk",
+    "peanuts",
+    "paper",
+    "string",
+  ]
+  const arrangeLettersItems = ["calculator", "scissors", "coloredPencil", "rubberBand", "potatoChips"]
+  // Kéo thả câu 
+  
+  return (
+    <div>
+      <h2 className="text-2xl font-semibold mb-8 text-pink-600 dark:text-pink-300 border-b pb-4">
+        B - Điền vào chỗ trống hoặc sắp xếp các chữ cái sao cho chính xác (Fill in the blanks or arrange the letters
+        correctly)
+      </h2>
+
+      <Tabs
+        defaultValue="complete-words"
+        className="mb-8"
+        onValueChange={(value) => {
+          setActiveTab(value)
+          setShowResults(false)
+          setScore(0)
+        }}
+      >
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="complete-words">I. Complete words</TabsTrigger>
+          <TabsTrigger value="arrange-letters">II. Arrange the letters</TabsTrigger>
+          <TabsTrigger value="drag-and-drop">III. Arrange the words</TabsTrigger>
+        </TabsList>
+
+        <div className="mt-6 mb-6 flex gap-4">
+          <Button
+            onClick={handleSubmit}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg font-medium"
+            disabled={showResults}
+          >
+            Submit
+          </Button>
+
+          {showResults && (
+            <Button
+              onClick={handleReset}
+              className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg text-lg font-medium"
+            >
+              Reset
+            </Button>
+          )}
+        </div>
+
+        {/* Hiển thị điểm số khi đã submit */}
+        {showResults && (
+          <div
+            className={`mb-8 p-4 rounded-lg ${
+              score === (activeTab === "complete-words" ? fillInBlankItems.length : arrangeLettersItems.length)
+                ? "bg-green-100 text-green-800"
+                : "bg-blue-100 text-blue-800"
+            }`}
+          >
+            <h3 className="text-xl font-bold">
+              {score === (activeTab === "complete-words" ? fillInBlankItems.length : arrangeLettersItems.length)
+                ? "Tuyệt vời! Bạn đã trả lời đúng tất cả câu hỏi!"
+                : `Bạn đã trả lời đúng ${score}/${activeTab === "complete-words" ? fillInBlankItems.length : arrangeLettersItems.length} câu hỏi.`}
+            </h3>
+          </div>
+        )}
+
+        <TabsContent value="complete-words">
+          <div className="space-y-8">
+            {fillInBlankItems.map((item, index) => (
+              <Card
+                key={item}
+                className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 transform transition-all duration-200 hover:shadow-lg"
+              >
+                <div className="px-6 pt-6">
+                  <span className="font-bold text-lg bg-purple-200 dark:bg-purple-700 px-4 py-2 rounded-lg inline-block text-purple-700 dark:text-purple-300 mb-4">
+                    Question {index + 1}
+                  </span>
+                </div>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-purple-700 dark:text-purple-300">
+                    <div className="space-y-4 w-full">
+                      {item === "stapler" ? (
+                        <div>
+                          <p className="text-xl mb-4">s _ _ _ l _ _</p>
+                          <img
+                            src={stapler || "/placeholder.svg"}
+                            alt="stapler"
+                            className="mt-2 rounded-lg max-w-sm-[100px] shadow-md w-[300px] h-[300px]"
+                          />
+                        </div>
+                      ) : item === "paintbrush" ? (
+                        <div>
+                          <p className="text-xl mb-4">p_ _ _ _ br_ _ _</p>
+                          <img
+                            src={paintbrush || "/placeholder.svg"}
+                            alt="paintbrush"
+                            className="mt-2 rounded-lg max-w-sm-[100px] shadow-md w-[300px] h-[300px]"
+                          />
+                        </div>
+                      ) : item === "paint" ? (
+                        <div>
+                          <p className="text-xl mb-4">____t</p>
+                          <img
+                            src={paint || "/placeholder.svg"}
+                            alt="paint"
+                            className="mt-2 rounded-lg max-w-sm-[100px] shadow-md w-[300px] h-[300px]"
+                          />
+                        </div>
+                      ) : item === "ribbon" ? (
+                        <div>
+                          <p className="text-xl mb-4">ri____</p>
+                          <img
+                            src={ribbon || "/placeholder.svg"}
+                            alt="ribbon"
+                            className="mt-2 rounded-lg max-w-sm-[100px] shadow-md w-[300px] h-[300px]"
+                          />
+                        </div>
+                      ) : item === "popcorn" ? (
+                        <div>
+                          <p className="text-xl mb-4">p _ _ c _ _ _</p>
+                          <img
+                            src={popcorn || "/placeholder.svg"}
+                            alt="popcorn"
+                            className="mt-2 rounded-lg max-w-sm-[100px] shadow-md w-[300px] h-[300px]"
+                          />
+                        </div>
+                      ) : item === "crackers" ? (
+                        <div>
+                          <p className="text-xl mb-4">cr _ _ _ _ _ s</p>
+                          <img
+                            src={crackers || "/placeholder.svg"}
+                            alt="crackers"
+                            className="mt-2 rounded-lg max-w-sm-[100px] shadow-md w-[300px] h-[300px]"
+                          />
+                        </div>
+                      ) : item === "chalk" ? (
+                        <div>
+                          <p className="text-xl mb-4">ch____</p>
+                          <video className="w-full max-w-[500px] rounded-lg shadow-md" controls src={chalk}>
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      ) : item === "peanuts" ? (
+                        <div>
+                          <p className="text-xl mb-4">p_ _ n _ _ _</p>
+                          <video className="w-full max-w-[500px] rounded-lg shadow-md" controls src={peanuts}>
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      ) : item === "paper" ? (
+                        <div>
+                          <p className="text-xl mb-4">p____</p>
+                          <video className="w-full max-w-[500px] rounded-lg shadow-md" controls src={paper}>
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="text-xl mb-4">str___</p>
+                          <video className="w-full max-w-[500px] rounded-lg shadow-md" controls src={string}>
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      )}
+                    </div>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-4">
+                  <div className="relative">
+                    <Input
+                      name={item}
+                      value={fillInBlankAnswers[item as keyof typeof fillInBlankAnswers]}
+                      onChange={handleFillInBlankChange}
+                      placeholder="Enter your answer"
+                      className={`bg-white dark:bg-gray-800 text-lg p-6 
+                                  ${
+                                    showResults
+                                      ? fillInBlankAnswers[item as keyof typeof fillInBlankAnswers].toLowerCase() ===
+                                        correctAnswers.fillInBlank[item as keyof typeof correctAnswers.fillInBlank]
+                                        ? "border-green-500 ring-2 ring-green-500 focus:ring-green-500"
+                                        : "border-red-500 ring-2 ring-red-500 focus:ring-red-500"
+                                      : "focus:ring-purple-500"
+                                  }`}
+                      disabled={showResults}
+                    />
+
+                    {/* Thêm icon đánh dấu đúng/sai */}
+                    {showResults && (
+                      <div className="absolute right-4 top-4">
+                        {fillInBlankAnswers[item as keyof typeof fillInBlankAnswers].toLowerCase() ===
+                        correctAnswers.fillInBlank[item as keyof typeof correctAnswers.fillInBlank] ? (
+                          <CheckCircle className="h-6 w-6 text-green-500" />
+                        ) : (
+                          <AlertCircle className="h-6 w-6 text-red-500" />
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  {showResults &&
+                    fillInBlankAnswers[item as keyof typeof fillInBlankAnswers].toLowerCase() !==
+                      correctAnswers.fillInBlank[item as keyof typeof correctAnswers.fillInBlank] && (
+                      <p className="text-red-500 mt-4 flex items-center gap-2">
+                        <AlertCircle className="h-5 w-5" />
+                        Correct answer:{" "}
+                        <span className="font-semibold">
+                          {correctAnswers.fillInBlank[item as keyof typeof correctAnswers.fillInBlank]}
+                        </span>
+                      </p>
+                    )}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+        <TabsContent value="arrange-letters">
+          <div className="space-y-8">
+            {arrangeLettersItems.map((item, index) => (
+              <Card
+                key={item}
+                className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 transform transition-all duration-200 hover:shadow-lg"
+              >
+                <div className="px-6 pt-6">
+                  <span className="font-bold text-lg bg-purple-200 dark:bg-purple-700 px-4 py-2 rounded-lg inline-block text-purple-700 dark:text-purple-300 mb-4">
+                    Question {index + 1}
+                  </span>
+                </div>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-purple-700 dark:text-purple-300">
+                    <div className="space-y-4 w-full">
+                      <div>
+                        {item === "calculator" ? (
+                          <img
+                            src={calculator || "/placeholder.svg"}
+                            alt="calculator"
+                            className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
+                          />
+                        ) : item === "scissors" ? (
+                          <img
+                            src={scissors || "/placeholder.svg"}
+                            alt="scissors"
+                            className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
+                          />
+                        ) : item === "coloredPencil" ? (
+                          <div>
+                            <img
+                              src={coloredPencil || "/placeholder.svg"}
+                              alt="colored pencil"
+                              className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
+                            />
+                          </div>
+                        ) : item === "rubberBand" ? (
+                          <div>
+                            <video className="w-full max-w-[500px] rounded-lg shadow-md" controls src={rubberBand}>
+                              Your browser does not support the video tag.
+                            </video>
+                          </div>
+                        ) : (
+                          <div>
+                            <video className="w-full max-w-[500px] rounded-lg shadow-md" controls src={potatoChips}>
+                              Your browser does not support the video tag.
+                            </video>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-4">
+                  {/* Khu vực hiển thị đáp án */}
+                  <div className="mb-6">
+                    <div className="text-lg font-medium mb-2">Your answer:</div>
+                    <div className="flex flex-wrap gap-2 min-h-[60px] p-4 bg-white dark:bg-gray-800 rounded-lg border-2 border-dashed border-purple-300 dark:border-purple-700">
+                      {arrangeLettersAnswers[item as keyof typeof arrangeLettersAnswers]?.map((letter, letterIndex) => (
+                        <Button
+                          key={`answer-${letterIndex}`}
+                          variant="outline"
+                          className={`h-12 w-12 text-xl font-bold transition-all transform hover:scale-105 
+                            ${
+                              showResults
+                                ? arrangeLettersAnswers[item as keyof typeof arrangeLettersAnswers]
+                                    .join("")
+                                    .toLowerCase() ===
+                                  correctAnswers.arrangeLetters[
+                                    item as keyof typeof correctAnswers.arrangeLetters
+                                  ].toLowerCase()
+                                  ? "bg-green-100 border-green-500 text-green-700"
+                                  : "bg-red-100 border-red-500 text-red-700"
+                                : "bg-purple-100 border-purple-300 text-purple-700 dark:bg-purple-900 dark:border-purple-700 dark:text-purple-300"
+                            }`}
+                          onClick={() => handleAnswerLetterClick(item, letterIndex)}
+                          disabled={showResults}
+                        >
+                          {letter}
+                        </Button>
+                      ))}
+                    </div>
+
+                    {/* Hiển thị đáp án đúng khi người dùng trả lời sai */}
+                    {showResults &&
+                      arrangeLettersAnswers[item as keyof typeof arrangeLettersAnswers].join("").toLowerCase() !==
+                        correctAnswers.arrangeLetters[
+                          item as keyof typeof correctAnswers.arrangeLetters
+                        ].toLowerCase() && (
+                        <p className="text-red-500 mt-4 flex items-center gap-2">
+                          <AlertCircle className="h-5 w-5" />
+                          Đáp án đúng:{" "}
+                          <span className="font-semibold">
+                            {correctAnswers.arrangeLetters[item as keyof typeof correctAnswers.arrangeLetters]}
+                          </span>
+                        </p>
+                      )}
+                  </div>
+
+                  {/* Khu vực hiển thị các chữ cái để sắp xếp */}
+                  <div className="mt-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <div className="text-lg font-medium">Available letters:</div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="flex items-center gap-1 text-purple-600 dark:text-purple-400"
+                        onClick={() => handleShuffleLetters(item)}
+                        disabled={showResults || scrambledLetters[item as keyof typeof scrambledLetters]?.length === 0}
+                      >
+                        <RefreshCw className="h-4 w-4" />
+                        Shuffle
+                      </Button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {scrambledLetters[item as keyof typeof scrambledLetters]?.map((letter, letterIndex) => (
+                        <Button
+                          key={`letter-${letterIndex}`}
+                          variant="outline"
+                          className="h-12 w-12 text-xl font-bold bg-blue-100 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-300 transition-all transform hover:scale-110"
+                          onClick={() => handleLetterClick(item, letterIndex)}
+                          disabled={showResults}
+                        >
+                          {letter}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </TabsContent>
+        
+      </Tabs>
+    </div>
+  )
+}
+
+export default PartB
+
