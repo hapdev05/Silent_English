@@ -66,6 +66,7 @@ const vocabularyData = [
     { word: "stapler", pronunciation: "(n)", translation: "dập ghim", image: stapler, video: staplerVideo, example: "Ex: I need a stapler to bind these papers." }
   ];
 import PartB from "./components/PartB";
+import PartC from "./components/PartC";
 
 export default function Unit1({ submenu }: { submenu: string }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,97 +129,7 @@ export default function Unit1({ submenu }: { submenu: string }) {
       case "B - LET’S REVIEW VOCABULARY TOGETHER! (Hãy cùng ôn luyện từ vựng!)":
         return <PartB/>
       case "C - Chọn đáp án đúng (Choose the correct answer)":
-        return (
-          <section>
-            <h2 className="text-2xl font-semibold mb-8 text-pink-600 dark:text-pink-300 border-b pb-4">
-              C - Chọn đáp án đúng (Choose the correct answer)
-            </h2>
-            <div className="space-y-8">
-              {["library", "playground", "cafeteria"].map((item, index) => (
-                <Card
-                  key={item}
-                  className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 transform transition-all duration-200 hover:shadow-lg"
-                >
-                  <div className="px-6 pt-6">
-                    <span className="font-bold text-lg bg-purple-200 dark:bg-purple-700 px-4 py-2 rounded-lg inline-block text-purple-700 dark:text-purple-300 mb-4">
-                      Question {index + 4}
-                    </span>
-                  </div>
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-purple-700 dark:text-purple-300">
-                      <div className="space-y-4 w-full">
-                        <p className="text-xl">
-                        {item === "library"
-                          ? "Where is the library?"
-                          : item === "playground"
-                          ? "Where are the students?"
-                          : "Where is the cafeteria?"}
-                        </p>
-                      </div>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="w-full h-32 bg-white dark:bg-gray-700 rounded-md mb-2 shadow-inner"></div>
-                    <RadioGroup
-                      value={
-                        multipleChoiceAnswers[
-                          item as keyof typeof multipleChoiceAnswers
-                        ]
-                      }
-                      onValueChange={(value) =>
-                        handleMultipleChoiceChange(item, value)
-                      }
-                    >
-                      {["a", "b", "c"].map((option) => (
-                        <div
-                          key={option}
-                          className="flex items-center space-x-2 pl-4"
-                        >
-                          <RadioGroupItem
-                            value={option}
-                            id={`${item}-${option}`}
-                          />
-                          <Label
-                            htmlFor={`${item}-${option}`}
-                            className="text-purple-700 dark:text-purple-300"
-                          >
-                            {item === "library" &&
-                              option === "a" &&
-                              "It's next to the gym."}
-                            {item === "library" &&
-                              option === "b" &&
-                              "He is at the library."}
-                            {item === "library" &&
-                              option === "c" &&
-                              "They are outside."}
-                            {item === "playground" &&
-                              option === "a" &&
-                              "She is in the classroom."}
-                            {item === "playground" &&
-                              option === "b" &&
-                              "They are in the playground."}
-                            {item === "playground" &&
-                              option === "c" &&
-                              "It's on the second floor."}
-                            {item === "cafeteria" &&
-                              option === "a" &&
-                              "He is eating."}
-                            {item === "cafeteria" &&
-                              option === "b" &&
-                              "It's on the first floor."}
-                            {item === "cafeteria" &&
-                              option === "c" &&
-                              "They are in the cafeteria."}
-                          </Label>
-                        </div>
-                      ))}
-                    </RadioGroup>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </section>
-        );
+        return <PartC/>
       default:
         return (
           <div>
