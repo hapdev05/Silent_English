@@ -67,6 +67,7 @@ const vocabularyData = [
   ];
 import PartB from "./components/PartB";
 import PartC from "./components/PartC";
+import PartD from "./components/PartD";
 
 export default function Unit1({ submenu }: { submenu: string }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -128,8 +129,10 @@ export default function Unit1({ submenu }: { submenu: string }) {
         
       case "B - LET’S REVIEW VOCABULARY TOGETHER! (Hãy cùng ôn luyện từ vựng!)":
         return <PartB/>
-      case "C - Chọn đáp án đúng (Choose the correct answer)":
+      case "C -  LET’S REVIEW GRAMMAR TOGETHER!":
         return <PartC/>
+      case "D -  LET’S PRACTICE READING COMPREHENSION TOGETHER!":
+          return <PartD/>
       default:
         return (
           <div>

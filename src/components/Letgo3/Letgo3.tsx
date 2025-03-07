@@ -18,8 +18,8 @@ export default function Letgo3() {
   const submenus = [
     "A - COMPETENCES - VOCABULARY - SENTENCES PATTERNS (Những năng lực - Từ vựng - Các mẫu câu)",
     "B - LET’S REVIEW VOCABULARY TOGETHER! (Hãy cùng ôn luyện từ vựng!)",
-    "C - Chọn đáp án đúng (Choose the correct answer)",
-    "D",
+    "C -  LET’S REVIEW GRAMMAR TOGETHER!",
+    "D -  LET’S PRACTICE READING COMPREHENSION TOGETHER!",
     "E",
     "F",
   ];
