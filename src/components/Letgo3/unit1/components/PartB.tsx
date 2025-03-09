@@ -318,8 +318,7 @@ const PartB = () => {
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-8 text-pink-600 dark:text-pink-300 border-b pb-4">
-        B - Điền vào chỗ trống hoặc sắp xếp các chữ cái sao cho chính xác (Fill in the blanks or arrange the letters
-        correctly)
+      B - LET’S REVIEW VOCABULARY TOGETHER!
       </h2>
 
       {showVideo && (
