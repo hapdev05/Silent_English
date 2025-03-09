@@ -1,6 +1,3 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import React, { useState, useEffect } from "react";
 import popcorn from "../../../assets/imgs/unit1/popcorn.png";
@@ -68,6 +65,7 @@ const vocabularyData = [
 import PartB from "./components/PartB";
 import PartC from "./components/PartC";
 import PartD from "./components/PartD";
+import PartE from "./components/PartE";
 
 export default function Unit1({ submenu }: { submenu: string }) {
   const [currentPage, setCurrentPage] = useState(1);
@@ -84,42 +82,12 @@ export default function Unit1({ submenu }: { submenu: string }) {
   // Hàm chuyển trang
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber);
-  };
+  }
 
-  const [fillInBlankAnswers, ] = useState({
-    musicRoom: "",
-    scienceRoom: "",
-    gym: "",
-    classroom: "",
-    artRoom: "",
-    question4_english: "",
-    question5_1: "",
-    question5_2: "",
-    question5_3: "",
-    question5_4: "",
-    question5_5: "",
-    question5_6: "",
-    question5_7: "",
-  });
-
-  const [multipleChoiceAnswers, setMultipleChoiceAnswers] = useState({
-    library: "",
-    playground: "",
-    cafeteria: "",
-    question4: "",
-  });
-  const handleMultipleChoiceChange = (question: string, value: string) => {
-    setMultipleChoiceAnswers({
-      ...multipleChoiceAnswers,
-      [question]: value,
-    });
-  };
-  useEffect(() => {
-  }, [multipleChoiceAnswers.question4, fillInBlankAnswers.question4_english, fillInBlankAnswers.question5_1, fillInBlankAnswers.question5_2, fillInBlankAnswers.question5_3, fillInBlankAnswers.question5_4, fillInBlankAnswers.question5_5, fillInBlankAnswers.question5_6, fillInBlankAnswers.question5_7]);
 
   const renderContent = () => {
     switch (submenu) {
-      case "A - COMPETENCES - VOCABULARY - SENTENCES PATTERNS (Những năng lực - Từ vựng - Các mẫu câu)":
+      case "A - VOCABULARY - SENTENCES PATTERNS":
         return <PartA 
         currentItems={currentItems} 
         currentPage={currentPage} 
@@ -127,23 +95,14 @@ export default function Unit1({ submenu }: { submenu: string }) {
         handlePageChange={handlePageChange} 
       />
         
-      case "B - LET’S REVIEW VOCABULARY TOGETHER! (Hãy cùng ôn luyện từ vựng!)":
+      case "B - LET’S REVIEW VOCABULARY TOGETHER!":
         return <PartB/>
       case "C -  LET’S REVIEW GRAMMAR TOGETHER!":
         return <PartC/>
       case "D -  LET’S PRACTICE READING COMPREHENSION TOGETHER!":
           return <PartD/>
-      default:
-        return (
-          <div>
-            <h2 className="text-2xl font-semibold mb-4 text-pink-600 dark:text-pink-300">
-              Welcome to topic 2: Places
-            </h2>
-            <p className="text-lg text-gray-700 dark:text-gray-300">
-              Please select a submenu (A, B, or C) to start your lesson.
-            </p>
-          </div>
-        );
+      case "E - LET’S PRACTICE WRITING TOGETHER!":
+        return <PartE/>
     }
   };
   return (

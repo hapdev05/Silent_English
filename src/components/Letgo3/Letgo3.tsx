@@ -16,12 +16,11 @@ import { useState } from "react";
 export default function Letgo3() {
   const units = Array.from({ length: 8 }, (_, i) => `TOPIC ${i + 1}`);
   const submenus = [
-    "A - COMPETENCES - VOCABULARY - SENTENCES PATTERNS (Những năng lực - Từ vựng - Các mẫu câu)",
-    "B - LET’S REVIEW VOCABULARY TOGETHER! (Hãy cùng ôn luyện từ vựng!)",
+    "A - VOCABULARY - SENTENCES PATTERNS",
+    "B - LET’S REVIEW VOCABULARY TOGETHER!",
     "C -  LET’S REVIEW GRAMMAR TOGETHER!",
     "D -  LET’S PRACTICE READING COMPREHENSION TOGETHER!",
-    "E",
-    "F",
+    "E - LET’S PRACTICE WRITING TOGETHER!",
   ];
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
   const [selectedSubmenu, setSelectedSubmenu] = useState<string | null>(null);
