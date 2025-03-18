@@ -199,7 +199,7 @@ export default function ReadingComprehension() {
   return (
     <div className="">
       <h2 className="text-2xl font-semibold mb-8 text-pink-600 dark:text-pink-300 border-b pb-4">
-        Reading Comprehension Exercise
+        D - LET’S PRACTICE READING COMPREHENSION TOGETHER!
       </h2>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -212,6 +212,7 @@ export default function ReadingComprehension() {
           <Card>
             <CardContent className="p-4">
               <p className="text-lg font-semibold">Complete the paragraph:</p>
+              <video src={selectedVideo} controls className="mt-4" />
               <p
                 className="mt-4 text-gray-700"
                 dangerouslySetInnerHTML={{ __html: paragraph }}
@@ -338,7 +339,7 @@ export default function ReadingComprehension() {
               <div className="mt-4 space-y-6">
                 {chooseQuestions.map((item, index) => (
                   <div key={index} className="flex flex-col space-y-2">
-                    <p className="text-lg font-medium">
+                    <u className="text-lg font-medium">
                       <span
                         dangerouslySetInnerHTML={{ __html: item.question }}
                         onClick={(e) => {
@@ -347,7 +348,7 @@ export default function ReadingComprehension() {
                           }
                         }}
                       />
-                    </p>
+                    </u>
                     <div className="mt-2 space-y-2">
                       {item.options.map((option, optionIndex) => (
                         <button

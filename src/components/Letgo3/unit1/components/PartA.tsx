@@ -61,18 +61,10 @@ const PartA = ({ currentItems, currentPage, totalPages, handlePageChange }) => {
   return (
     <section className="mb-12">
       <h2 className="text-2xl font-semibold mb-8 text-pink-600 dark:text-pink-300 border-b pb-4">
-        A - COMPETENCES - VOCABULARY - SENTENCES PATTERNS
+        A - VOCABULARY - SENTENCES PATTERNS
       </h2>
 
-      <div className="mb-6 bg-blue-50 dark:bg-blue-900 p-4 rounded-lg">
-        <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300">1. COMPETENCES</h3>
-        <ul className="list-disc pl-6 space-y-2 text-blue-800 dark:text-blue-200">
-          <li>Describing locations</li>
-          <li>Asking about past and current locations (singular & plural)</li>
-        </ul>
-      </div>
-
-      <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300">2. Vocabulary</h3>
+      <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300">1. Vocabulary</h3>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
         {currentItems.map((item) => (
           <Card key={item.word} className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 hover:shadow-lg transition-shadow duration-200">
@@ -109,7 +101,7 @@ const PartA = ({ currentItems, currentPage, totalPages, handlePageChange }) => {
         <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} className="px-4 py-2 rounded-md bg-blue-500 text-white disabled:bg-gray-300">Next</button>
       </div>
 
-      <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300 mt-8">3. Sentences Patterns</h3>
+      <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300 mt-8">2. Sentences Patterns</h3>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <tbody>

@@ -12,15 +12,15 @@ import paint from "../../../../assets/imgs/paint.png"
 import ribbon from "../../../../assets/imgs/ribbon.png"
 import popcorn from "../../../../assets/imgs/popcorn.png"
 import crackers from "../../../../assets/imgs/crackers.png"
-import chalk from "../../../../assets/videos/chalk.mp4"
-import peanuts from "../../../../assets/videos/peanuts.mp4"
-import paper from "../../../../assets/videos/paper.mp4"
-import string from "../../../../assets/videos/string.mp4"
+import chalk from "../../../../assets/imgs/chalk.jpg"
+import peanuts from "../../../../assets/imgs/peanuts.png"
+import paper from "../../../../assets/imgs/paper.png"
+import string from "../../../../assets/imgs/string.png"
 import calculator from "../../../../assets/imgs/calculator.jpg"
 import scissors from "../../../../assets/imgs/scissors.png"
 import coloredPencil from "../../../../assets/imgs/coloredpencil.jpeg"
-import rubberBand from "../../../../assets/videos/rubberband.mp4"
-import potatoChips from "../../../../assets/videos/potatochips.mp4"
+import rubberBand from "../../../../assets/imgs/rubber.jpg"
+import potatoChips from "../../../../assets/imgs/potato.png"
 // Import videos for questions
 import foodTvVideo from "../../../../assets/videos/food-tv.mp4"
 import craftSuppliesVideo from "../../../../assets/videos/craft-supplies.mp4"
@@ -468,31 +468,39 @@ const PartB = () => {
                         </div>
                       ) : item === "chalk" ? (
                         <div>
+                          <img
+                            src={chalk || "/placeholder.svg"}
+                            alt="chalk"
+                            className="mt-2 rounded-lg max-w-sm-[100px] shadow-md w-[300px] h-[300px]"
+                          />
                           <p className="text-xl mb-4">ch____</p>
-                          <video className="w-full max-w-[500px] rounded-lg shadow-md" controls src={chalk}>
-                            Your browser does not support the video tag.
-                          </video>
                         </div>
                       ) : item === "peanuts" ? (
                         <div>
                           <p className="text-xl mb-4">p_ _ n _ _ _</p>
-                          <video className="w-full max-w-[500px] rounded-lg shadow-md" controls src={peanuts}>
-                            Your browser does not support the video tag.
-                          </video>
+                          <img
+                            src={peanuts || "/placeholder.svg"}
+                            alt="peanuts"
+                            className="mt-2 rounded-lg max-w-sm-[100px] shadow-md w-[300px] h-[300px]"
+                          />
                         </div>
                       ) : item === "paper" ? (
                         <div>
                           <p className="text-xl mb-4">p____</p>
-                          <video className="w-full max-w-[500px] rounded-lg shadow-md" controls src={paper}>
-                            Your browser does not support the video tag.
-                          </video>
+                          <img
+                            src={paper || "/placeholder.svg"}
+                            alt="paper"
+                            className="mt-2 rounded-lg max-w-sm-[100px] shadow-md w-[300px] h-[300px]"
+                          />
                         </div>
                       ) : (
                         <div>
                           <p className="text-xl mb-4">str___</p>
-                          <video className="w-full max-w-[500px] rounded-lg shadow-md" controls src={string}>
-                            Your browser does not support the video tag.
-                          </video>
+                          <img
+                            src={string || "/placeholder.svg"}
+                            alt="string"
+                            className="mt-2 rounded-lg max-w-sm-[100px] shadow-md w-[300px] h-[300px]"
+                          />
                         </div>
                       )}
                     </div>
@@ -599,12 +607,12 @@ const PartB = () => {
                           key={id} 
                           className="p-4 border rounded-lg"
                         >
-                          <p 
+                          <u 
                             className="mb-2 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400" 
                             onClick={() => setShowVideo(questionVideos[id as keyof typeof questionVideos])}
                           >
                             {question}
-                          </p>
+                          </u>
                           <Droppable droppableId={id} direction="horizontal">
                             {(provided) => (
                               <div
@@ -693,15 +701,19 @@ const PartB = () => {
                           </div>
                         ) : item === "rubberBand" ? (
                           <div>
-                            <video className="w-full max-w-[500px] rounded-lg shadow-md" controls src={rubberBand}>
-                              Your browser does not support the video tag.
-                            </video>
+                            <img
+                              src={rubberBand || "/placeholder.svg"}
+                              alt="rubber band"
+                              className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
+                            />
                           </div>
                         ) : (
                           <div>
-                            <video className="w-full max-w-[500px] rounded-lg shadow-md" controls src={potatoChips}>
-                              Your browser does not support the video tag.
-                            </video>
+                            <img
+                              src={potatoChips || "/placeholder.svg"}
+                              alt="potato chips"
+                              className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
+                            />
                           </div>
                         )}
                       </div>

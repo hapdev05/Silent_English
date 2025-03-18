@@ -9,9 +9,6 @@ import Theydont from "../../../../assets/imgs/Theydonthaveanypeanuts.png"
 import FixErrorsVideo from "../../../../assets/videos/Fixerrorsandrewritethesentence.mp4"
 import RewriteSentenceVideo from "../../../../assets/videos/Rewritethesentence.mp4"
 import LookAndWriteVideo from "../../../../assets/videos/Lookandwrite.mp4"
-import Hehassome from "../../../../assets/videos/Hehassomeglue.mp4"
-import Dodayhave from "../../../../assets/videos/Dotheyhaveanyrubberbands.mp4"
-
 // Add new video imports for vocabulary words
 import ColorfulVideo from "../../../../assets/videos/colorful.mp4"
 import StoreVideo from "../../../../assets/videos/store.mp4"
@@ -318,64 +315,6 @@ const PartE = () => {
             />
             {section2Answers[1].isSubmitted && !section2Answers[1].isCorrect && (
               <p className="text-red-500 mt-1">Correct answer: {section2Answers[1].correctAnswer}</p>
-            )}
-          </div>
-        </div>
-      </div>
-
-      {/* Section III */}
-      <div className="mb-8">
-        <h3
-          onClick={() => handleShowVideo("lookAndWrite")}
-          className="text-xl font-bold mb-4 cursor-pointer text-blue-600 hover:underline"
-        >
-          III. Look and write
-        </h3>
-
-        <div className="mb-6">
-          <p>1. He has ...</p>
-          <video className="w-full max-w-[500px] rounded-lg shadow-md mb-2" controls src={Hehassome} />
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="He has ____"
-              className={`border p-2 rounded w-full ${
-                section3Answers[0].isSubmitted
-                  ? section3Answers[0].isCorrect
-                    ? "border-green-500 bg-green-50"
-                    : "border-red-500 bg-red-50"
-                  : ""
-              }`}
-              value={section3Answers[0].userAnswer}
-              onChange={(e) => handleInputChange(3, 0, e.target.value)}
-              disabled={sectionSubmitted.section3}
-            />
-            {section3Answers[0].isSubmitted && !section3Answers[0].isCorrect && (
-              <p className="text-red-500 mt-1">Correct answer: {section3Answers[0].correctAnswer}</p>
-            )}
-          </div>
-        </div>
-
-        <div>
-          <p>2. Do the ...?</p>
-          <video className="w-full max-w-[500px] rounded-lg shadow-md mb-2" controls src={Dodayhave} />
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="Do they ____?"
-              className={`border p-2 rounded w-full ${
-                section3Answers[1].isSubmitted
-                  ? section3Answers[1].isCorrect
-                    ? "border-green-500 bg-green-50"
-                    : "border-red-500 bg-red-50"
-                  : ""
-              }`}
-              value={section3Answers[1].userAnswer}
-              onChange={(e) => handleInputChange(3, 1, e.target.value)}
-              disabled={sectionSubmitted.section3}
-            />
-            {section3Answers[1].isSubmitted && !section3Answers[1].isCorrect && (
-              <p className="text-red-500 mt-1">Correct answer: {section3Answers[1].correctAnswer}</p>
             )}
           </div>
         </div>

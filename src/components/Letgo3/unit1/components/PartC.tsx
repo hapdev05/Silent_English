@@ -4,9 +4,10 @@ import c22 from "@/assets/imgs/unit1/c22.png";
 import c23 from "@/assets/imgs/unit1/c23.png";
 import c24 from "@/assets/imgs/unit1/c24.png";
 import c25 from "@/assets/imgs/unit1/c25.png";
-import c11 from "@/assets/videos/unit1/c11.mp4";
-import c12 from "@/assets/videos/unit1/c12.mp4";
 import c13 from "@/assets/videos/unit1/c13.mp4";
+import human from "@/assets/imgs/human.png";
+import question from "@/assets/imgs/1.png";
+import question1 from "@/assets/imgs/2.png";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -19,17 +20,17 @@ export default function EnglishExercise() {
   const [showAnswers, setShowAnswers] = useState(false); // State để hiển thị đáp án
   const fillQuestions = [
     {
-      video: c11,
+      image: human,
       sentence: "They __ (not have) __ (any / some) chalk and glue.",
       answer: ["dont have", "any"],
     },
     {
-      video: c12,
+      image: question,
       sentence: '"Do you __ (have) __ (any/some) calculators?"',
       answer: ["have", "any"],
     },
     {
-      video: c13,
+      image: question1,
       sentence: "Mai __ (have) __ (any/some) __ in her pencil case.",
       answer: ["has", "some", "colored pencils"],
     },
@@ -49,7 +50,7 @@ export default function EnglishExercise() {
     },
     {
       image: c22,
-      question: "A: _______________ B: No, I don’t.",
+      question: "A: _______________  -> B: No, I don’t.",
       options: [
         "Do you have some rubber bands?",
         "Do they have any rubber bands?",
@@ -82,7 +83,7 @@ export default function EnglishExercise() {
     },
     {
       image: c25,
-      question: "A: Does she have any scissors? B: ______",
+      question: "A: Does she have any scissors? ->B: _____________________",
       options: [
         "Yes, she does.",
         "No, she does not.",
@@ -141,7 +142,7 @@ export default function EnglishExercise() {
   return (
     <div className="">
         <h2 className="text-2xl font-semibold mb-8 text-pink-600 dark:text-pink-300 border-b pb-4">
-        C - LET’S REVIEW GRAMMAR TOGETHER! (Kiểm tra lại ngữ pháp thôi nào!)
+        C - LET’S REVIEW GRAMMAR TOGETHER!
       </h2>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -157,9 +158,7 @@ export default function EnglishExercise() {
               <div className="mt-4 space-y-6">
                 {fillQuestions.map((item, index) => (
                   <div key={index} className="flex flex-col space-y-2">
-                    <video controls className="w-full rounded-lg">
-                      <source src={item.video} type="video/mp4" />
-                    </video>
+                    <img  src={item.image} alt={`Image ${index + 1}`} className="w-[300px] h-[300px] rounded-lg" />
 
                     <p className="mt-2 text-lg font-medium">
                       <span className="font-bold">Câu {index + 1}: </span>
@@ -208,7 +207,7 @@ export default function EnglishExercise() {
               <div className="mt-4 space-y-6">
                 {chooseQuestions.map((item, index) => (
                   <div key={index} className="flex flex-col space-y-2">
-                    <img src={item.image} alt="question" className="w-full rounded-lg" />
+                    <img src={item.image} alt="question" className="rounded-lg w-[300px] h-[300px]" />
                     <p className="text-lg font-medium">
                       <span className="font-bold">Câu {index + 1}: </span>
                       {item.question}

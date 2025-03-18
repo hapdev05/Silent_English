@@ -83,7 +83,7 @@ export default function Letgo3() {
       >
         <div className="p-6">
           <h2 className="text-4xl font-bold mb-6 pt-3 h-[100px] bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">
-            Let&apos;s Go 3
+            Level 2
           </h2>
           <nav>
             <ul className="space-y-2">

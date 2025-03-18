@@ -45,7 +45,7 @@ const HomePage: React.FC = () => {
                       href="/let-go-3"
                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                     >
-                      Let’s go 3
+                      Level 2
                     </a>
                     <a
                       href="/let-go-4"
