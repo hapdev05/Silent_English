@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -7,55 +8,74 @@ import WhatdoeshaveVideo from "@/assets/videos/unit1/Whatdoeshehave.mp4";
 import HehassomechalkVideo from "@/assets/videos/unit1/Hehassomechalk.mp4";
 import DotheyhaveanymagnetsVideo from "@/assets/videos/unit1/Dotheyhaveanymagnets.mp4";
 import YestheydoNotheydontVideo from "@/assets/videos/unit1/Yestheydonotheydon't.mp4";
-import { useState } from "react";
 
+interface VocabularyItem {
+  word: string;
+  pronunciation: string;
+  translation: string;
+  video: string;
+  image: string;
+  example: string;
+}
 
-const PartA = ({ currentItems, currentPage, totalPages, handlePageChange }) => {
-  const [selectedCard, setSelectedCard] = useState(null);
+interface SentencePattern {
+  id: number;
+  content: string[];
+}
 
-  const sentencePatterns = [
-      {
-        id: 1,
-        content: [
-          "1",
-          "I have some crackers.",
-          "Tôi có một ít bánh quy.",
-          "Sign language: ",
-          "⦿ " + IhavesomecrackersVideo,
-          "I don’t have any candy.",
-          "Tôi không có bất kì cái kẹo nào.",
-          "Sign language: ",
-          "⦿ " + IdonthaveanycandyVideo
-        ]
-      },
-      {
-        id: 2,
-        content: [
-          "2",
-          "What does he have?",
-          "Anh ấy có cái gì?",
-          "Sign language: ",
-          "⦿ " + WhatdoeshaveVideo,
-          "He has some chalk.",
-          "Anh ấy có một ít phấn.",
-          "Sign language: ",
-          "⦿ " + HehassomechalkVideo
-        ]
-      },
-      {
-        id: 3,
-        content: [
-          "3",
-          "Do they have any magnets?",
-          "Họ có bất kì cái nam châm nào không?",
-          "Sign language: ",
-          "⦿ " + DotheyhaveanymagnetsVideo,
-          "Yes, they do./ No, they don’t.",
-          "Có, họ có. / Không, họ không có.",
-          "Sign language: ",
-          "⦿ " + YestheydoNotheydontVideo
-        ]
-      }
+interface PartAProps {
+  currentItems: VocabularyItem[];
+  currentPage: number;
+  totalPages: number;
+  handlePageChange: (page: number) => void;
+}
+
+const PartA: React.FC<PartAProps> = ({ currentItems, currentPage, totalPages, handlePageChange }) => {
+  const [selectedCard, setSelectedCard] = useState<string | null>(null);
+
+  const sentencePatterns: SentencePattern[] = [
+    {
+      id: 1,
+      content: [
+        "1",
+        "I have some crackers.",
+        "Tôi có một ít bánh quy.",
+        "Sign language: ",
+        "⦿ " + IhavesomecrackersVideo,
+        "I don’t have any candy.",
+        "Tôi không có bất kì cái kẹo nào.",
+        "Sign language: ",
+        "⦿ " + IdonthaveanycandyVideo,
+      ],
+    },
+    {
+      id: 2,
+      content: [
+        "2",
+        "What does he have?",
+        "Anh ấy có cái gì?",
+        "Sign language: ",
+        "⦿ " + WhatdoeshaveVideo,
+        "He has some chalk.",
+        "Anh ấy có một ít phấn.",
+        "Sign language: ",
+        "⦿ " + HehassomechalkVideo,
+      ],
+    },
+    {
+      id: 3,
+      content: [
+        "3",
+        "Do they have any magnets?",
+        "Họ có bất kì cái nam châm nào không?",
+        "Sign language: ",
+        "⦿ " + DotheyhaveanymagnetsVideo,
+        "Yes, they do./ No, they don’t.",
+        "Có, họ có. / Không, họ không có.",
+        "Sign language: ",
+        "⦿ " + YestheydoNotheydontVideo,
+      ],
+    },
   ];
 
   return (
@@ -65,27 +85,35 @@ const PartA = ({ currentItems, currentPage, totalPages, handlePageChange }) => {
       </h2>
 
       <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300">1. Vocabulary</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {currentItems.map((item) => (
-          <Card key={item.word} className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 hover:shadow-lg transition-shadow duration-200">
-            <CardContent className="p-4">
+      <div className="grid grid-cols-1 gap-6">
+        {currentItems.slice(0, 7).map((item: VocabularyItem) => (
+          <Card key={item.word} className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 hover:shadow-lg transition-shadow duration-200 h-96">
+            <CardContent className="p-4 h-full flex flex-col justify-between">
               <div className="flex items-center justify-between mb-3">
                 <p className="font-semibold text-lg text-purple-700 dark:text-purple-300 min-w-[100px]">{item.word}</p>
                 <p className="text-sm text-gray-600 dark:text-gray-400 px-2">{item.pronunciation}</p>
                 <p className="text-sm font-medium text-pink-600 dark:text-pink-300 min-w-[80px] text-right">{item.translation}</p>
               </div>
-              <div className="relative">
-                {selectedCard === item.word ? (
-                  <ReactPlayer url={item.video} controls width="100%" height="100%" />
-                ) : (
-                  <div className="w-full h-40 bg-gray-200 dark:bg-gray-700 rounded-md mb-3 overflow-hidden relative group">
-                    <img src={item.image} alt="" className="w-full h-full object-cover" />
-                    <button onClick={() => setSelectedCard(item.word)} className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity">
-                      ▶️
-                    </button>
-                  </div>
-                )}
-              </div>
+ <div className="relative flex-grow">
+  {selectedCard === item.word ? (
+    <ReactPlayer url={item.video} controls width="100%" height="100%" />
+  ) : (
+    <div className="w-full h-64 bg-gray-200 dark:bg-gray-700 rounded-md mb-3 overflow-hidden relative group">
+      <img
+        src={item.image}
+        alt=""
+        className="w-full h-full object-cover object-center"
+        style={{ objectPosition: "50% 20%" }} // Điều chỉnh vị trí hiển thị của ảnh
+      />
+      <button
+        onClick={() => setSelectedCard(item.word)}
+        className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity"
+      >
+        ▶️
+      </button>
+    </div>
+  )}
+</div>
               <p className="text-sm text-gray-700 dark:text-gray-300">{item.example}</p>
             </CardContent>
           </Card>
@@ -101,16 +129,32 @@ const PartA = ({ currentItems, currentPage, totalPages, handlePageChange }) => {
         <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} className="px-4 py-2 rounded-md bg-blue-500 text-white disabled:bg-gray-300">Next</button>
       </div>
 
-      <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300 mt-8">2. Sentences Patterns</h3>
+      <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300 mt-8">
+        2. Sentences Patterns
+      </h3>
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <tbody>
-            {sentencePatterns.map((item) => (
+            {sentencePatterns.map((item: SentencePattern) => (
               <tr key={item.id} className="border-b">
                 <td className="p-4 border">
                   {item.content.map((row, index) => (
-                    <div key={index} className={row.startsWith('⦿') ? 'text-red-500' : 'py-3 text-blue-600 font-semibold'}>
-                      {row.startsWith('⦿') ? <video className="w-full max-w-[300px] mt-2" controls src={row.replace('⦿ ', '')} /> : row}
+                    <div key={index} className="py-1">
+                      {row.startsWith("⦿") ? (
+                        <video
+                          className="w-full max-w-[300px] mt-2"
+                          controls
+                          src={row.replace("⦿ ", "")}
+                        />
+                      ) : row === "Sign language:" ? (
+                        <span className="text-black font-semibold">{row}</span>
+                      ) : index % 4 === 1 ? (
+                        <span className="text-red-500 font-semibold text-lg">{row}</span>
+                      ) : index % 4 === 2 ? (
+                        <span className="text-black text-sm">{row}</span>
+                      ) : (
+                        <span className="text-black font-semibold">{row}</span>
+                      )}
                     </div>
                   ))}
                 </td>

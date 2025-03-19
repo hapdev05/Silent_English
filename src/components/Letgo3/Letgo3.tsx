@@ -18,8 +18,8 @@ export default function Letgo3() {
   const submenus = [
     "A - VOCABULARY - SENTENCES PATTERNS",
     "B - LET’S REVIEW VOCABULARY TOGETHER!",
-    "C -  LET’S REVIEW GRAMMAR TOGETHER!",
-    "D -  LET’S PRACTICE READING COMPREHENSION TOGETHER!",
+    "C - LET’S REVIEW GRAMMAR TOGETHER!",
+    "D - LET’S PRACTICE READING SKILL TOGETHER!",
     "E - LET’S PRACTICE WRITING TOGETHER!",
   ];
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
