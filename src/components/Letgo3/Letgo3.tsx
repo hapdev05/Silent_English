@@ -21,6 +21,7 @@ export default function Letgo3() {
     "C - LET’S REVIEW GRAMMAR TOGETHER!",
     "D - LET’S PRACTICE READING SKILL TOGETHER!",
     "E - LET’S PRACTICE WRITING TOGETHER!",
+    "F - LET’S COMMUNICATE!"
   ];
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
   const [selectedSubmenu, setSelectedSubmenu] = useState<string | null>(null);

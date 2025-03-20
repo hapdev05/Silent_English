@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import React, { useState } from "react";
+import  { useState } from "react";
 import popcorn from "../../../assets/imgs/unit1/popcorn.png";
 import candy from "../../../assets/imgs/unit1/candy.png";
 import peanuts from "../../../assets/imgs/unit1/peanuts.png";
@@ -43,6 +43,7 @@ import PartB from "./components/PartB";
 import PartC from "./components/PartC";
 import PartD from "./components/PartD";
 import PartE from "./components/PartE";
+import PartF from "./components/PartF";
 
 // Định nghĩa kiểu dữ liệu cho từ vựng
 interface VocabularyItem {
@@ -114,6 +115,8 @@ export default function Unit1({ submenu }: { submenu: string }) {
         return <PartD />;
       case "E - LET’S PRACTICE WRITING TOGETHER!":
         return <PartE />;
+      case "F - LET’S COMMUNICATE!":
+        return <PartF />;
       default:
         return null;
     }

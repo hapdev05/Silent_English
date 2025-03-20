@@ -26,21 +26,68 @@ import foodTvVideo from "../../../../assets/videos/food-tv.mp4"
 import craftSuppliesVideo from "../../../../assets/videos/craft-supplies.mp4"
 import calculatorVideo from "../../../../assets/videos/calculator.mp4"
 import attachPaperVideo from "../../../../assets/videos/attach-paper.mp4"
+
+// Define types for state objects
+type DragDropAnswersType = {
+  [key: string]: string[]
+}
+
+type FillInBlankAnswersType = {
+  stapler: string;
+  paintbrush: string;
+  paint: string;
+  ribbon: string;
+  popcorn: string;
+  crackers: string;
+  chalk: string;
+  peanuts: string;
+  paper: string;
+  string: string;
+}
+
+type ArrangeLettersItemsType = "calculator" | "scissors" | "coloredPencil" | "rubberBand" | "potatoChips";
+
+type ArrangeLettersAnswersType = {
+  [key in ArrangeLettersItemsType]: string[]
+}
+
+type ScrambledLettersType = {
+  [key in ArrangeLettersItemsType]: string[]
+}
+
+type CorrectAnswersType = {
+  fillInBlank: FillInBlankAnswersType;
+  dragDrop: {
+    [key: string]: string[]
+  };
+  arrangeLetters: {
+    [key in ArrangeLettersItemsType]: string
+  };
+  scrambledWords: {
+    [key in ArrangeLettersItemsType]: string
+  };
+}
+
+type QuestionVideosType = {
+  [key: string]: string
+}
+
 const PartB = () => {
   const [showResults, setShowResults] = useState(false)
   const [score, setScore] = useState(0)
   const [activeTab, setActiveTab] = useState("complete-words")
-  const [dragDropAnswers, setDragDropAnswers] = useState<{[key: string]: string[]}>({"1": [], "2": [], "3": [], "4": []})
+  const [dragDropAnswers, setDragDropAnswers] = useState<DragDropAnswersType>({"1": [], "2": [], "3": [], "4": []})
   const [availableWords, setAvailableWords] = useState(["candy", "tape", "magnet", "glue", "popcorn", "scissors", "crackers", "T-shirt", "calculator", "push pin"])
   const [showVideo, setShowVideo] = useState<string | null>(null)
 
-  const questionVideos = {
+  const questionVideos: QuestionVideosType = {
     "1": foodTvVideo,
     "2": craftSuppliesVideo,
     "3": calculatorVideo,
     "4": attachPaperVideo
   }
-  const [fillInBlankAnswers, setFillInBlankAnswers] = useState({
+
+  const [fillInBlankAnswers, setFillInBlankAnswers] = useState<FillInBlankAnswersType>({
     stapler: "",
     paintbrush: "",
     paint: "",
@@ -53,8 +100,8 @@ const PartB = () => {
     string: "",
   })
 
-  // State mới cho phần sắp xếp chữ
-  const [arrangeLettersAnswers, setArrangeLettersAnswers] = useState({
+  // State for arranging letters
+  const [arrangeLettersAnswers, setArrangeLettersAnswers] = useState<ArrangeLettersAnswersType>({
     calculator: [],
     scissors: [],
     coloredPencil: [],
@@ -62,8 +109,8 @@ const PartB = () => {
     potatoChips: [],
   })
 
-  // State để lưu trữ các chữ cái đã xáo trộn cho mỗi từ
-  const [scrambledLetters, setScrambledLetters] = useState({
+  // State for scrambled letters
+  const [scrambledLetters, setScrambledLetters] = useState<ScrambledLettersType>({
     calculator: [],
     scissors: [],
     coloredPencil: [],
@@ -72,12 +119,14 @@ const PartB = () => {
   })
 
   const handleFillInBlankChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFillInBlankAnswers({
-      ...fillInBlankAnswers,
-      [e.target.name]: e.target.value,
-    })
+    const { name, value } = e.target;
+    setFillInBlankAnswers(prev => ({
+      ...prev,
+      [name]: value
+    }) as FillInBlankAnswersType)
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleDragEnd = (result: any) => {
     if (!result.destination) return;
 
@@ -106,7 +155,7 @@ const PartB = () => {
     }
   };
 
-  const correctAnswers = {
+  const correctAnswers: CorrectAnswersType = {
     fillInBlank: {
       stapler: "stapler",
       paintbrush: "paint brush",
@@ -141,116 +190,128 @@ const PartB = () => {
     },
   }
 
-  // Khởi tạo các chữ cái đã xáo trộn
+  // Initialize scrambled letters
   useEffect(() => {
-    const initialScrambledLetters = {} as any
-
-    Object.keys(correctAnswers.arrangeLetters).forEach((key) => {
-      const word = correctAnswers.arrangeLetters[key as keyof typeof correctAnswers.arrangeLetters]
-      // Chuyển từ thành mảng các chữ cái và xáo trộn
-      const letters = word.split("").sort(() => Math.random() - 0.5)
-      initialScrambledLetters[key] = letters
-    })
-
-    setScrambledLetters(initialScrambledLetters)
-
-    // Khởi tạo mảng rỗng cho các đáp án
-    const initialArrangeLettersAnswers = {} as any
-    Object.keys(correctAnswers.arrangeLetters).forEach((key) => {
-      initialArrangeLettersAnswers[key] = []
-    })
-    setArrangeLettersAnswers(initialArrangeLettersAnswers)
-  }, [])
-
-  // Hàm xử lý khi người dùng nhấp vào một chữ cái
-  const handleLetterClick = (item: string, letterIndex: number) => {
-    if (showResults) return
-
-    const letter = scrambledLetters[item as keyof typeof scrambledLetters][letterIndex]
-
-    // Tạo bản sao của mảng chữ cái đã xáo trộn và xóa chữ cái đã chọn
-    const newScrambledLetters = { ...scrambledLetters }
-    newScrambledLetters[item as keyof typeof newScrambledLetters] = [
-      ...newScrambledLetters[item as keyof typeof newScrambledLetters].slice(0, letterIndex),
-      ...newScrambledLetters[item as keyof typeof newScrambledLetters].slice(letterIndex + 1),
-    ]
-
-    // Thêm chữ cái vào mảng đáp án
-    const newArrangeLettersAnswers = { ...arrangeLettersAnswers }
-    newArrangeLettersAnswers[item as keyof typeof newArrangeLettersAnswers] = [
-      ...newArrangeLettersAnswers[item as keyof typeof newArrangeLettersAnswers],
-      letter,
-    ]
-
-    setScrambledLetters(newScrambledLetters)
-    setArrangeLettersAnswers(newArrangeLettersAnswers)
-  }
-
-  // Hàm xử lý khi người dùng nhấp vào một chữ cái trong ô đáp án để xóa
-  const handleAnswerLetterClick = (item: string, letterIndex: number) => {
-    if (showResults) return
-
-    const letter = arrangeLettersAnswers[item as keyof typeof arrangeLettersAnswers][letterIndex]
-
-    // Tạo bản sao của mảng đáp án và xóa chữ cái đã chọn
-    const newArrangeLettersAnswers = { ...arrangeLettersAnswers }
-    newArrangeLettersAnswers[item as keyof typeof newArrangeLettersAnswers] = [
-      ...newArrangeLettersAnswers[item as keyof typeof newArrangeLettersAnswers].slice(0, letterIndex),
-      ...newArrangeLettersAnswers[item as keyof typeof newArrangeLettersAnswers].slice(letterIndex + 1),
-    ]
-
-    // Thêm chữ cái vào mảng chữ cái đã xáo trộn
-    const newScrambledLetters = { ...scrambledLetters }
-    newScrambledLetters[item as keyof typeof newScrambledLetters] = [
-      ...newScrambledLetters[item as keyof typeof newScrambledLetters],
-      letter,
-    ]
-
-    setArrangeLettersAnswers(newArrangeLettersAnswers)
-    setScrambledLetters(newScrambledLetters)
-  }
-
-  // Hàm kiểm tra đáp án và tính điểm
-  const handleSubmit = () => {
-    let correctCount = 0
-    if (activeTab === "complete-words") {
-      // Đếm số câu trả lời đúng cho phần điền vào chỗ trống
-      Object.keys(fillInBlankAnswers).forEach((key) => {
-        if (
-          fillInBlankAnswers[key as keyof typeof fillInBlankAnswers].toLowerCase() ===
-          correctAnswers.fillInBlank[key as keyof typeof correctAnswers.fillInBlank]
-        ) {
-          correctCount++
-        }
-      })
-    } else if (activeTab === "arrange-letters") {
-      // Đếm số câu trả lời đúng cho phần sắp xếp chữ
-      Object.keys(arrangeLettersAnswers).forEach((key) => {
-        const userAnswer = arrangeLettersAnswers[key as keyof typeof arrangeLettersAnswers].join("")
-        if (
-          userAnswer.toLowerCase() ===
-          correctAnswers.arrangeLetters[key as keyof typeof correctAnswers.arrangeLetters].toLowerCase()
-        ) {
-          correctCount++
-        }
-      })
-    } else if (activeTab === "drag-drop") {
-      // Đếm số câu trả lời đúng cho phần kéo thả
-      Object.keys(dragDropAnswers).forEach((key) => {
-        if (JSON.stringify(dragDropAnswers[key]) === JSON.stringify(correctAnswers.dragDrop[key])) {
-          correctCount++
-        }
-      })
+    const initialScrambledLetters: ScrambledLettersType = {
+      calculator: [],
+      scissors: [],
+      coloredPencil: [],
+      rubberBand: [],
+      potatoChips: [],
     }
 
-    setScore(correctCount)
-    setShowResults(true)
-  }
+    const initialArrangeLettersAnswers: ArrangeLettersAnswersType = {
+      calculator: [],
+      scissors: [],
+      coloredPencil: [],
+      rubberBand: [],
+      potatoChips: [],
+    }
 
-  // Hàm reset để làm lại
+    Object.keys(correctAnswers.arrangeLetters).forEach((key) => {
+      const itemKey = key as ArrangeLettersItemsType;
+      const word = correctAnswers.arrangeLetters[itemKey];
+      // Convert word to array of letters and shuffle
+      const letters = word.split("").sort(() => Math.random() - 0.5);
+      initialScrambledLetters[itemKey] = letters;
+      initialArrangeLettersAnswers[itemKey] = [];
+    });
+
+    setScrambledLetters(initialScrambledLetters);
+    setArrangeLettersAnswers(initialArrangeLettersAnswers);
+  }, []);
+
+  // Handle clicking on a letter in the scrambled area
+  const handleLetterClick = (item: ArrangeLettersItemsType, letterIndex: number) => {
+    if (showResults) return;
+
+    const letter = scrambledLetters[item][letterIndex];
+
+    // Create a copy of scrambled letters and remove the selected letter
+    const newScrambledLetters = { ...scrambledLetters };
+    newScrambledLetters[item] = [
+      ...newScrambledLetters[item].slice(0, letterIndex),
+      ...newScrambledLetters[item].slice(letterIndex + 1),
+    ];
+
+    // Add the letter to the answer array
+    const newArrangeLettersAnswers = { ...arrangeLettersAnswers };
+    newArrangeLettersAnswers[item] = [
+      ...newArrangeLettersAnswers[item],
+      letter,
+    ];
+
+    setScrambledLetters(newScrambledLetters);
+    setArrangeLettersAnswers(newArrangeLettersAnswers);
+  };
+
+  // Handle clicking on a letter in the answer area to remove it
+  const handleAnswerLetterClick = (item: ArrangeLettersItemsType, letterIndex: number) => {
+    if (showResults) return;
+
+    const letter = arrangeLettersAnswers[item][letterIndex];
+
+    // Create a copy of the answer array and remove the selected letter
+    const newArrangeLettersAnswers = { ...arrangeLettersAnswers };
+    newArrangeLettersAnswers[item] = [
+      ...newArrangeLettersAnswers[item].slice(0, letterIndex),
+      ...newArrangeLettersAnswers[item].slice(letterIndex + 1),
+    ];
+
+    // Add the letter back to the scrambled letters array
+    const newScrambledLetters = { ...scrambledLetters };
+    newScrambledLetters[item] = [
+      ...newScrambledLetters[item],
+      letter,
+    ];
+
+    setArrangeLettersAnswers(newArrangeLettersAnswers);
+    setScrambledLetters(newScrambledLetters);
+  };
+
+  // Check answers and calculate score
+  const handleSubmit = () => {
+    let correctCount = 0;
+    if (activeTab === "complete-words") {
+      // Count correct answers for fill-in-the-blank
+      Object.keys(fillInBlankAnswers).forEach((key) => {
+        const typedKey = key as keyof FillInBlankAnswersType;
+        if (
+          fillInBlankAnswers[typedKey].toLowerCase() ===
+          correctAnswers.fillInBlank[typedKey]
+        ) {
+          correctCount++;
+        }
+      });
+    } else if (activeTab === "arrange-letters") {
+      // Count correct answers for letter arrangement
+      Object.keys(arrangeLettersAnswers).forEach((key) => {
+        const typedKey = key as ArrangeLettersItemsType;
+        const userAnswer = arrangeLettersAnswers[typedKey].join("");
+        if (
+          userAnswer.toLowerCase() ===
+          correctAnswers.arrangeLetters[typedKey].toLowerCase()
+        ) {
+          correctCount++;
+        }
+      });
+    } else if (activeTab === "drag-drop") {
+      // Count correct answers for drag-and-drop
+      Object.keys(dragDropAnswers).forEach((key) => {
+        if (JSON.stringify(dragDropAnswers[key]) === JSON.stringify(correctAnswers.dragDrop[key])) {
+          correctCount++;
+        }
+      });
+    }
+
+    setScore(correctCount);
+    setShowResults(true);
+  };
+
+  // Reset function for starting over
   const handleReset = () => {
-    setShowResults(false)
-    setScore(0)
+    setShowResults(false);
+    setScore(0);
 
     if (activeTab === "complete-words") {
       setFillInBlankAnswers({
@@ -264,41 +325,55 @@ const PartB = () => {
         peanuts: "",
         paper: "",
         string: "",
-      })
+      });
     } else if (activeTab === "arrange-letters") {
-      // Reset phần sắp xếp chữ
-      const initialScrambledLetters = {} as any
-      const initialArrangeLettersAnswers = {} as any
+      // Reset letter arrangement
+      const initialScrambledLetters: ScrambledLettersType = {
+        calculator: [],
+        scissors: [],
+        coloredPencil: [],
+        rubberBand: [],
+        potatoChips: [],
+      };
+      
+      const initialArrangeLettersAnswers: ArrangeLettersAnswersType = {
+        calculator: [],
+        scissors: [],
+        coloredPencil: [],
+        rubberBand: [],
+        potatoChips: [],
+      };
 
       Object.keys(correctAnswers.arrangeLetters).forEach((key) => {
-        const word = correctAnswers.arrangeLetters[key as keyof typeof correctAnswers.arrangeLetters]
-        // Chuyển từ thành mảng các chữ cái và xáo trộn
-        const letters = word.split("").sort(() => Math.random() - 0.5)
-        initialScrambledLetters[key] = letters
-        initialArrangeLettersAnswers[key] = []
-      })
+        const typedKey = key as ArrangeLettersItemsType;
+        const word = correctAnswers.arrangeLetters[typedKey];
+        // Convert word to array of letters and shuffle
+        const letters = word.split("").sort(() => Math.random() - 0.5);
+        initialScrambledLetters[typedKey] = letters;
+        initialArrangeLettersAnswers[typedKey] = [];
+      });
 
-      setScrambledLetters(initialScrambledLetters)
-      setArrangeLettersAnswers(initialArrangeLettersAnswers)
+      setScrambledLetters(initialScrambledLetters);
+      setArrangeLettersAnswers(initialArrangeLettersAnswers);
     } else if (activeTab === "drag-drop") {
-      // Reset phần kéo thả
-      setDragDropAnswers({"1": [], "2": [], "3": [], "4": []})
-      setAvailableWords(["candy", "tape", "magnet", "glue", "popcorn", "scissors", "crackers", "T-shirt", "calculator", "push pin"])
+      // Reset drag-and-drop
+      setDragDropAnswers({"1": [], "2": [], "3": [], "4": []});
+      setAvailableWords(["candy", "tape", "magnet", "glue", "popcorn", "scissors", "crackers", "T-shirt", "calculator", "push pin"]);
     }
-  }
+  };
 
-  // Hàm xáo trộn lại các chữ cái
-  const handleShuffleLetters = (item: string) => {
-    if (showResults) return
+  // Shuffle letters function
+  const handleShuffleLetters = (item: ArrangeLettersItemsType) => {
+    if (showResults) return;
 
-    const letters = [...scrambledLetters[item as keyof typeof scrambledLetters]]
-    const shuffledLetters = letters.sort(() => Math.random() - 0.5)
+    const letters = [...scrambledLetters[item]];
+    const shuffledLetters = letters.sort(() => Math.random() - 0.5);
 
     setScrambledLetters({
       ...scrambledLetters,
       [item]: shuffledLetters,
-    })
-  }
+    });
+  };
 
   const fillInBlankItems = [
     "stapler",
@@ -311,10 +386,10 @@ const PartB = () => {
     "peanuts",
     "paper",
     "string",
-  ]
-  const arrangeLettersItems = ["calculator", "scissors", "coloredPencil", "rubberBand", "potatoChips"]
-  // Kéo thả câu 
+  ];
   
+  const arrangeLettersItems: ArrangeLettersItemsType[] = ["calculator", "scissors", "coloredPencil", "rubberBand", "potatoChips"];
+ 
   return (
     <div>
       <h2 className="text-2xl font-semibold mb-8 text-pink-600 dark:text-pink-300 border-b pb-4">
