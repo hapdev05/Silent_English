@@ -9,6 +9,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/admin-home" element={<HomePage />} />
           <Route path="/homepage" element={<HomePage />} />
           <Route path="/let-go-3" element={<Letgo3 />} />
           <Route path="/let-go-4" element={<Letgo4 />} />

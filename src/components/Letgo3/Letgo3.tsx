@@ -1,4 +1,4 @@
-import Unit1 from "./Unit1";
+import Unit1 from "../Letgo3/unit1/Unit1";
 import Unit2 from "./Unit2";
 import Unit3 from "./Unit3";
 import Unit4 from "./Unit4";
@@ -16,12 +16,12 @@ import { useState } from "react";
 export default function Letgo3() {
   const units = Array.from({ length: 8 }, (_, i) => `TOPIC ${i + 1}`);
   const submenus = [
-    "A - COMPETENCES - VOCABULARY - SENTENCES PATTERNS (Những năng lực - Từ vựng - Các mẫu câu)",
-    "B - LET’S REVIEW VOCABULARY TOGETHER! (Hãy cùng ôn luyện từ vựng!)",
-    "C - Chọn đáp án đúng (Choose the correct answer)",
-    "D",
-    "E",
-    "F",
+    "A - VOCABULARY - SENTENCES PATTERNS",
+    "B - LET’S REVIEW VOCABULARY TOGETHER!",
+    "C - LET’S REVIEW GRAMMAR TOGETHER!",
+    "D - LET’S PRACTICE READING SKILL TOGETHER!",
+    "E - LET’S PRACTICE WRITING TOGETHER!",
+    "F - LET’S COMMUNICATE!"
   ];
   const [selectedUnit, setSelectedUnit] = useState<string | null>(null);
   const [selectedSubmenu, setSelectedSubmenu] = useState<string | null>(null);
@@ -84,7 +84,7 @@ export default function Letgo3() {
       >
         <div className="p-6">
           <h2 className="text-4xl font-bold mb-6 pt-3 h-[100px] bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">
-            Let&apos;s Go 3
+            Level 2
           </h2>
           <nav>
             <ul className="space-y-2">

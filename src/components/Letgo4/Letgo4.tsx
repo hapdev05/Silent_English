@@ -11,7 +11,7 @@ export default function Letgo4() {
       <ScrollArea className="w-1/4 h-full border-r border-indigo-100 bg-white/50 backdrop-blur-sm">
         <div className="p-6">
           <h2 className="text-4xl font-bold mb-3 pt-3 h-[100px] bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent">
-            Let's go 4
+            Level 3
           </h2>
           <nav>
             <ul className="space-y-10">
