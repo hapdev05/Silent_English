@@ -436,26 +436,7 @@ const PartB = () => {
           <TabsTrigger value="drag-drop">III. Arrange the words</TabsTrigger>
         </TabsList>
 
-        <div className="mt-6 mb-6 flex gap-4">
-          <Button
-            onClick={handleSubmit}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg font-medium"
-            disabled={showResults}
-          >
-            Submit
-          </Button>
-
-          {showResults && (
-            <Button
-              onClick={handleReset}
-              className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg text-lg font-medium"
-            >
-              Reset
-            </Button>
-          )}
-        </div>
-
-        {/* Hiển thị điểm số khi đã submit */}
+        {/* Display score when submitted */}
         {showResults && (
           <div
             className={`mb-8 p-4 rounded-lg ${
@@ -466,8 +447,8 @@ const PartB = () => {
           >
             <h3 className="text-xl font-bold">
               {score === (activeTab === "complete-words" ? fillInBlankItems.length : arrangeLettersItems.length)
-                ? "Tuyệt vời! Bạn đã trả lời đúng tất cả câu hỏi!"
-                : `Bạn đã trả lời đúng ${score}/${activeTab === "complete-words" ? fillInBlankItems.length : arrangeLettersItems.length} câu hỏi.`}
+                ? "Great job! You answered all questions correctly!"
+                : `You answered ${score}/${activeTab === "complete-words" ? fillInBlankItems.length : arrangeLettersItems.length} questions correctly.`}
             </h3>
           </div>
         )}
@@ -479,6 +460,7 @@ const PartB = () => {
                 key={item}
                 className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 transform transition-all duration-200 hover:shadow-lg"
               >
+                {/* Question content */}
                 <div className="px-6 pt-6">
                   <span className="font-bold text-lg bg-purple-200 dark:bg-purple-700 px-4 py-2 rounded-lg inline-block text-purple-700 dark:text-purple-300 mb-4">
                     Question {index + 1}
@@ -486,6 +468,7 @@ const PartB = () => {
                 </div>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-purple-700 dark:text-purple-300">
+                    {/* Display image and hint */}
                     <div className="space-y-4 w-full">
                       {item === "stapler" ? (
                         <div>
@@ -582,6 +565,7 @@ const PartB = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="pt-4">
+                  {/* Input for answer */}
                   <div className="relative">
                     <Input
                       name={item}
@@ -600,7 +584,7 @@ const PartB = () => {
                       disabled={showResults}
                     />
 
-                    {/* Thêm icon đánh dấu đúng/sai */}
+                    {/* Display correct/incorrect icon */}
                     {showResults && (
                       <div className="absolute right-4 top-4">
                         {fillInBlankAnswers[item as keyof typeof fillInBlankAnswers].toLowerCase() ===
@@ -613,6 +597,7 @@ const PartB = () => {
                     )}
                   </div>
 
+                  {/* Display correct answer if user answers incorrectly */}
                   {showResults &&
                     fillInBlankAnswers[item as keyof typeof fillInBlankAnswers].toLowerCase() !==
                       correctAnswers.fillInBlank[item as keyof typeof correctAnswers.fillInBlank] && (
@@ -628,7 +613,188 @@ const PartB = () => {
               </Card>
             ))}
           </div>
+
+          {/* Submit and Reset buttons for "complete-words" tab */}
+          <div className="mt-6 mb-6 flex gap-4">
+            <Button
+              onClick={handleSubmit}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg font-medium"
+              disabled={showResults}
+            >
+              Submit
+            </Button>
+
+            {showResults && (
+              <Button
+                onClick={handleReset}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg text-lg font-medium"
+              >
+                Reset
+              </Button>
+            )}
+          </div>
         </TabsContent>
+
+        <TabsContent value="arrange-letters">
+          <div className="space-y-8">
+            {arrangeLettersItems.map((item, index) => (
+              <Card
+                key={item}
+                className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 transform transition-all duration-200 hover:shadow-lg"
+              >
+                {/* Question content */}
+                <div className="px-6 pt-6">
+                  <span className="font-bold text-lg bg-purple-200 dark:bg-purple-700 px-4 py-2 rounded-lg inline-block text-purple-700 dark:text-purple-300 mb-4">
+                    Question {index + 1}
+                  </span>
+                </div>
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-purple-700 dark:text-purple-300">
+                    {/* Display image */}
+                    <div className="space-y-4 w-full">
+                      <div>
+                        {item === "calculator" ? (
+                          <img
+                            src={calculator || "/placeholder.svg"}
+                            alt="calculator"
+                            className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
+                          />
+                        ) : item === "scissors" ? (
+                          <img
+                            src={scissors || "/placeholder.svg"}
+                            alt="scissors"
+                            className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
+                          />
+                        ) : item === "coloredPencil" ? (
+                          <div>
+                            <img
+                              src={coloredPencil || "/placeholder.svg"}
+                              alt="colored pencil"
+                              className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
+                            />
+                          </div>
+                        ) : item === "rubberBand" ? (
+                          <div>
+                            <img
+                              src={rubberBand || "/placeholder.svg"}
+                              alt="rubber band"
+                              className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div>
+                            <img
+                              src={potatoChips || "/placeholder.svg"}
+                              alt="potato chips"
+                              className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-4">
+                  {/* Display answer area */}
+                  <div className="mb-6">
+                    <div className="text-lg font-medium mb-2">Your answer:</div>
+                    <div className="flex flex-wrap gap-2 min-h-[60px] p-4 bg-white dark:bg-gray-800 rounded-lg border-2 border-dashed border-purple-300 dark:border-purple-700">
+                      {arrangeLettersAnswers[item as keyof typeof arrangeLettersAnswers]?.map((letter, letterIndex) => (
+                        <Button
+                          key={`answer-${letterIndex}`}
+                          variant="outline"
+                          className={`h-12 w-12 text-xl font-bold transition-all transform hover:scale-105 
+                            ${
+                              showResults
+                                ? arrangeLettersAnswers[item as keyof typeof arrangeLettersAnswers]
+                                    .join("")
+                                    .toLowerCase() ===
+                                  correctAnswers.arrangeLetters[
+                                    item as keyof typeof correctAnswers.arrangeLetters
+                                  ].toLowerCase()
+                                  ? "bg-green-100 border-green-500 text-green-700"
+                                  : "bg-red-100 border-red-500 text-red-700"
+                                : "bg-purple-100 border-purple-300 text-purple-700 dark:bg-purple-900 dark:border-purple-700 dark:text-purple-300"
+                            }`}
+                          onClick={() => handleAnswerLetterClick(item, letterIndex)}
+                          disabled={showResults}
+                        >
+                          {letter}
+                        </Button>
+                      ))}
+                    </div>
+
+                    {/* Display correct answer if user answers incorrectly */}
+                    {showResults &&
+                      arrangeLettersAnswers[item as keyof typeof arrangeLettersAnswers].join("").toLowerCase() !==
+                        correctAnswers.arrangeLetters[
+                          item as keyof typeof correctAnswers.arrangeLetters
+                        ].toLowerCase() && (
+                        <p className="text-red-500 mt-4 flex items-center gap-2">
+                          <AlertCircle className="h-5 w-5" />
+                          Correct answer:{" "}
+                          <span className="font-semibold">
+                            {correctAnswers.arrangeLetters[item as keyof typeof correctAnswers.arrangeLetters]}
+                          </span>
+                        </p>
+                      )}
+                  </div>
+
+                  {/* Display scrambled letters */}
+                  <div className="mt-4">
+                    <div className="flex justify-between items-center mb-2">
+                      <div className="text-lg font-medium">Available letters:</div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="flex items-center gap-1 text-purple-600 dark:text-purple-400"
+                        onClick={() => handleShuffleLetters(item)}
+                        disabled={showResults || scrambledLetters[item as keyof typeof scrambledLetters]?.length === 0}
+                      >
+                        <RefreshCw className="h-4 w-4" />
+                        Shuffle
+                      </Button>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {scrambledLetters[item as keyof typeof scrambledLetters]?.map((letter, letterIndex) => (
+                        <Button
+                          key={`letter-${letterIndex}`}
+                          variant="outline"
+                          className="h-12 w-12 text-xl font-bold bg-blue-100 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-300 transition-all transform hover:scale-110"
+                          onClick={() => handleLetterClick(item, letterIndex)}
+                          disabled={showResults}
+                        >
+                          {letter}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Submit and Reset buttons for "arrange-letters" tab */}
+          <div className="mt-6 mb-6 flex gap-4">
+            <Button
+              onClick={handleSubmit}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg font-medium"
+              disabled={showResults}
+            >
+              Submit
+            </Button>
+
+            {showResults && (
+              <Button
+                onClick={handleReset}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg text-lg font-medium"
+              >
+                Reset
+              </Button>
+            )}
+          </div>
+        </TabsContent>
+
         <TabsContent value="drag-drop">
           <DragDropContext onDragEnd={handleDragEnd}>
             <div className="space-y-6">
@@ -736,150 +902,30 @@ const PartB = () => {
               </Card>
             </div>
           </DragDropContext>
-        </TabsContent>
 
-        <TabsContent value="arrange-letters">
-          <div className="space-y-8">
-            {arrangeLettersItems.map((item, index) => (
-              <Card
-                key={item}
-                className="bg-gradient-to-r from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 transform transition-all duration-200 hover:shadow-lg"
+          {/* Submit and Reset buttons for "drag-drop" tab */}
+          <div className="mt-6 mb-6 flex gap-4">
+            <Button
+              onClick={handleSubmit}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg text-lg font-medium"
+              disabled={showResults}
+            >
+              Submit
+            </Button>
+
+            {showResults && (
+              <Button
+                onClick={handleReset}
+                className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg text-lg font-medium"
               >
-                <div className="px-6 pt-6">
-                  <span className="font-bold text-lg bg-purple-200 dark:bg-purple-700 px-4 py-2 rounded-lg inline-block text-purple-700 dark:text-purple-300 mb-4">
-                    Question {index + 1}
-                  </span>
-                </div>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-purple-700 dark:text-purple-300">
-                    <div className="space-y-4 w-full">
-                      <div>
-                        {item === "calculator" ? (
-                          <img
-                            src={calculator || "/placeholder.svg"}
-                            alt="calculator"
-                            className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
-                          />
-                        ) : item === "scissors" ? (
-                          <img
-                            src={scissors || "/placeholder.svg"}
-                            alt="scissors"
-                            className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
-                          />
-                        ) : item === "coloredPencil" ? (
-                          <div>
-                            <img
-                              src={coloredPencil || "/placeholder.svg"}
-                              alt="colored pencil"
-                              className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
-                            />
-                          </div>
-                        ) : item === "rubberBand" ? (
-                          <div>
-                            <img
-                              src={rubberBand || "/placeholder.svg"}
-                              alt="rubber band"
-                              className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
-                            />
-                          </div>
-                        ) : (
-                          <div>
-                            <img
-                              src={potatoChips || "/placeholder.svg"}
-                              alt="potato chips"
-                              className="mt-2 rounded-lg shadow-md w-[300px] h-[300px] object-cover"
-                            />
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pt-4">
-                  {/* Khu vực hiển thị đáp án */}
-                  <div className="mb-6">
-                    <div className="text-lg font-medium mb-2">Your answer:</div>
-                    <div className="flex flex-wrap gap-2 min-h-[60px] p-4 bg-white dark:bg-gray-800 rounded-lg border-2 border-dashed border-purple-300 dark:border-purple-700">
-                      {arrangeLettersAnswers[item as keyof typeof arrangeLettersAnswers]?.map((letter, letterIndex) => (
-                        <Button
-                          key={`answer-${letterIndex}`}
-                          variant="outline"
-                          className={`h-12 w-12 text-xl font-bold transition-all transform hover:scale-105 
-                            ${
-                              showResults
-                                ? arrangeLettersAnswers[item as keyof typeof arrangeLettersAnswers]
-                                    .join("")
-                                    .toLowerCase() ===
-                                  correctAnswers.arrangeLetters[
-                                    item as keyof typeof correctAnswers.arrangeLetters
-                                  ].toLowerCase()
-                                  ? "bg-green-100 border-green-500 text-green-700"
-                                  : "bg-red-100 border-red-500 text-red-700"
-                                : "bg-purple-100 border-purple-300 text-purple-700 dark:bg-purple-900 dark:border-purple-700 dark:text-purple-300"
-                            }`}
-                          onClick={() => handleAnswerLetterClick(item, letterIndex)}
-                          disabled={showResults}
-                        >
-                          {letter}
-                        </Button>
-                      ))}
-                    </div>
-
-                    {/* Hiển thị đáp án đúng khi người dùng trả lời sai */}
-                    {showResults &&
-                      arrangeLettersAnswers[item as keyof typeof arrangeLettersAnswers].join("").toLowerCase() !==
-                        correctAnswers.arrangeLetters[
-                          item as keyof typeof correctAnswers.arrangeLetters
-                        ].toLowerCase() && (
-                        <p className="text-red-500 mt-4 flex items-center gap-2">
-                          <AlertCircle className="h-5 w-5" />
-                          Đáp án đúng:{" "}
-                          <span className="font-semibold">
-                            {correctAnswers.arrangeLetters[item as keyof typeof correctAnswers.arrangeLetters]}
-                          </span>
-                        </p>
-                      )}
-                  </div>
-
-                  {/* Khu vực hiển thị các chữ cái để sắp xếp */}
-                  <div className="mt-4">
-                    <div className="flex justify-between items-center mb-2">
-                      <div className="text-lg font-medium">Available letters:</div>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="flex items-center gap-1 text-purple-600 dark:text-purple-400"
-                        onClick={() => handleShuffleLetters(item)}
-                        disabled={showResults || scrambledLetters[item as keyof typeof scrambledLetters]?.length === 0}
-                      >
-                        <RefreshCw className="h-4 w-4" />
-                        Shuffle
-                      </Button>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      {scrambledLetters[item as keyof typeof scrambledLetters]?.map((letter, letterIndex) => (
-                        <Button
-                          key={`letter-${letterIndex}`}
-                          variant="outline"
-                          className="h-12 w-12 text-xl font-bold bg-blue-100 border-blue-300 text-blue-700 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-300 transition-all transform hover:scale-110"
-                          onClick={() => handleLetterClick(item, letterIndex)}
-                          disabled={showResults}
-                        >
-                          {letter}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+                Reset
+              </Button>
+            )}
           </div>
         </TabsContent>
-        
       </Tabs>
     </div>
   )
 }
 
 export default PartB
-

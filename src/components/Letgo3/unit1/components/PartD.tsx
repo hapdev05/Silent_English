@@ -26,6 +26,7 @@ import tapeStaplerVideo from "@/assets/videos/unit1/tape_stapler.mp4";
 import excitedArtTogetherVideo from "@/assets/videos/unit1/excited_art_together.mp4";
 import coloredPencilsPaintVideo from "@/assets/videos/unit1/colored_pencils_paint.mp4";
 import greatTimeCreativeVideo from "@/assets/videos/unit1/great_time_creative.mp4";
+import u1d1 from "@/assets/imgs/unit1/d1.png";
 
 export default function ReadingComprehension() {
   const [activeTab, setActiveTab] = useState<string>("fill");
@@ -181,7 +182,7 @@ export default function ReadingComprehension() {
       }
     });
 
-    setResult(`Bạn đã làm đúng ${correctCount} trên ${fillQuestions.length + chooseQuestions.length} câu.`);
+    setResult(`You answered ${correctCount} out of ${fillQuestions.length + chooseQuestions.length} correctly.`);
   };
 
   // Xử lý khi nhấn nút Reset
@@ -206,7 +207,7 @@ export default function ReadingComprehension() {
   return (
     <div className="">
       <h2 className="text-2xl font-semibold mb-8 text-pink-600 dark:text-pink-300 border-b pb-4">
-        D - LET’S PRACTICE READING COMPREHENSION TOGETHER!
+      D - LET’S PRACTICE READING SKILL TOGETHER!
       </h2>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -219,7 +220,7 @@ export default function ReadingComprehension() {
           <Card>
             <CardContent className="p-4">
               <p className="text-lg font-semibold">Complete the paragraph:</p>
-              <video src={selectedVideo || ""} controls className="mt-4 w-full max-w-2xl mx-auto" />
+              <img src={u1d1} alt="Unit 1 D1" className="mt-4 w-full max-w-2xl mx-auto" />
               <p
                 className="mt-4 text-gray-700"
                 dangerouslySetInnerHTML={{ __html: paragraph }}
@@ -250,14 +251,14 @@ export default function ReadingComprehension() {
                     {showAnswers && (
                       <div className="mt-2">
                         <p className="text-sm text-gray-600">
-                          <span className="font-bold">Đáp án: </span>
+                          <span className="font-bold">Answer: </span>
                           {item.options[item.answer]}
                         </p>
                         <p className="text-sm mt-1">
                           {fillAnswers[index] === item.answer ? (
-                            <span className="text-green-600">✅ Đúng</span>
+                            <span className="text-green-600">✅ Correct</span>
                           ) : (
-                            <span className="text-red-600">❌ Sai</span>
+                            <span className="text-red-600">❌ Incorrect</span>
                           )}
                         </p>
                       </div>
@@ -382,7 +383,7 @@ export default function ReadingComprehension() {
                     {showAnswers && (
                       <div className="mt-2">
                         <p className="text-sm text-gray-600">
-                          <span className="font-bold">Đáp án: </span>
+                          <span className="font-bold">Answer: </span>
                           <span
                             dangerouslySetInnerHTML={{ __html: item.options[item.answer] }}
                             onClick={(e) => {
@@ -394,9 +395,9 @@ export default function ReadingComprehension() {
                         </p>
                         <p className="text-sm mt-1">
                           {chooseAnswers[index] === item.answer ? (
-                            <span className="text-green-600">✅ Đúng</span>
+                            <span className="text-green-600">✅ Correct</span>
                           ) : (
-                            <span className="text-red-600">❌ Sai</span>
+                            <span className="text-red-600">❌ Incorrect</span>
                           )}
                         </p>
                       </div>
