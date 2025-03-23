@@ -21,7 +21,7 @@ import pushPin from "../../../assets/imgs/unit1/push_pin.jpg";
 import paintBrush from "../../../assets/imgs/unit1/paint_brush.jpg";
 import stapler from "../../../assets/imgs/unit1/stapler.jpg";
 
-import popcornVideo from "../../../assets/videos/unit1/Popcorn.mp4";
+import popcornVideo from "../../../assets/videos/unit1/popcorn.mp4";
 import candyVideo from "../../../assets/videos/unit1/candy.mp4";
 import peanutsVideo from "../../../assets/videos/unit1/peanuts.mp4";
 import crackersVideo from "../../../assets/videos/unit1/crackers.mp4";
