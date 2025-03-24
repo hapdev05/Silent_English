@@ -14,6 +14,8 @@ import ColorfulVideo from "../../../../assets/videos/colorful.mp4"
 import StoreVideo from "../../../../assets/videos/store.mp4"
 import EmptyVideo from "../../../../assets/videos/empty.mp4"
 import FridgeVideo from "../../../../assets/videos/fridge.mp4"
+// Import icon
+import { FaPlay } from "react-icons/fa"
 
 type Answer = {
   userAnswer: string
@@ -160,42 +162,66 @@ const PartE = () => {
 
   return (
     <div>
+      {/* Inline CSS */}
+      <style>
+        {`
+          .modal-close-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: white;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+          }
+
+          .video-modal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+          }
+
+          @media (max-width: 600px) {
+            .video-modal {
+              width: 95%;
+              padding: 15px;
+            }
+
+            .modal-close-button {
+              top: 5px;
+              right: 5px;
+              font-size: 20px;
+              padding: 3px 8px;
+            }
+          }
+        `}
+      </style>
+
       <div className="mb-8">
         <h2 className="text-2xl font-semibold mb-2 text-pink-600 dark:text-pink-300 border-b pb-4">
           E - LET'S PRACTICE WRITING TOGETHER!
         </h2>
-        <div className="flex gap-2 mb-6 justify-end">
-          <button
-            onClick={() => {
-              handleSubmit(1)
-              handleSubmit(2)
-              handleSubmit(3)
-            }}
-            className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
-            disabled={sectionSubmitted.section1 && sectionSubmitted.section2 && sectionSubmitted.section3}
-          >
-            Submit All
-          </button>
-          <button
-            onClick={() => {
-              handleReset(1)
-              handleReset(2)
-              handleReset(3)
-            }}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-          >
-            Reset All
-          </button>
-        </div>
       </div>
 
       {/* Section I */}
       <div className="mb-8">
         <h3
           onClick={() => handleShowVideo("fixErrors")}
-          className="text-xl font-bold mb-4 cursor-pointer text-blue-600 hover:underline"
+          className="text-xl font-bold mb-4 cursor-pointer text-blue-600 hover:underline flex items-center gap-2"
         >
-          I. Fix errors and rewrite the sentence
+          I. Fix errors and rewrite the sentence (<FaPlay className="text-m" title="Click to watch video" />)
         </h3>
 
         <div className="mb-6">
@@ -255,9 +281,9 @@ const PartE = () => {
       <div className="mb-8">
         <h3
           onClick={() => handleShowVideo("rewriteSentence")}
-          className="text-xl font-bold mb-4 cursor-pointer text-blue-600 hover:underline"
+          className="text-xl font-bold mb-4 cursor-pointer text-blue-600 hover:underline flex items-center gap-2"
         >
-          II. Rewrite the sentence
+          II. Rewrite the sentence (<FaPlay className="text-m" title="Click to watch video" />)
         </h3>
 
         <p className="text-lg text-red-600 mb-4">
@@ -323,17 +349,44 @@ const PartE = () => {
       {/* Video Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg max-w-lg w-full relative">
-            <button onClick={handleCloseModal} className="absolute top-2 right-2 text-red-500 text-xl font-bold">
+          <div className="video-modal">
+            <button
+              onClick={handleCloseModal}
+              className="modal-close-button"
+            >
               X
             </button>
             {activeVideo && <video controls src={activeVideo} className="w-full h-auto"></video>}
           </div>
         </div>
       )}
+
+      {/* Submit and Reset Buttons at the Bottom */}
+      <div className="flex gap-2 justify-end mt-8">
+        <button
+          onClick={() => {
+            handleSubmit(1)
+            handleSubmit(2)
+            handleSubmit(3)
+          }}
+          className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded"
+          disabled={sectionSubmitted.section1 && sectionSubmitted.section2 && sectionSubmitted.section3}
+        >
+          Submit
+        </button>
+        <button
+          onClick={() => {
+            handleReset(1)
+            handleReset(2)
+            handleReset(3)
+          }}
+          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+        >
+          Reset
+        </button>
+      </div>
     </div>
   )
 }
 
 export default PartE
-

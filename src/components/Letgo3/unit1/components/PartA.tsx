@@ -85,32 +85,35 @@ const PartA: React.FC<PartAProps> = ({ currentItems, currentPage, totalPages, ha
       </h2>
 
       <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300">1. Vocabulary</h3>
-      <div className="grid grid-cols-1 gap-6">
-        {currentItems.slice(0, 7).map((item: VocabularyItem) => (
-          <Card key={item.word} className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 hover:shadow-lg transition-shadow duration-200 h-96">
+      {/* Responsive grid: 1 cột trên điện thoại, 2 cột trên máy tính */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {currentItems.slice(0, 8).map((item: VocabularyItem) => (
+          <Card key={item.word} className="bg-gradient-to-br from-blue-100 to-purple-100 dark:from-blue-800 dark:to-purple-800 hover:shadow-lg transition-shadow duration-200 h-auto w-full max-w-sm mx-auto">
             <CardContent className="p-4 h-full flex flex-col justify-between">
               <div className="flex items-center justify-between mb-3">
                 <p className="font-semibold text-lg text-purple-700 dark:text-purple-300 min-w-[100px]">{item.word}</p>
                 <p className="text-sm text-gray-600 dark:text-gray-400 px-2">{item.pronunciation}</p>
                 <p className="text-sm font-medium text-pink-600 dark:text-pink-300 min-w-[80px] text-right">{item.translation}</p>
               </div>
- <div className="relative flex-grow">
+              <div className="relative flex-grow">
   {selectedCard === item.word ? (
     <ReactPlayer url={item.video} controls width="100%" height="100%" />
   ) : (
-    <div className="w-full h-64 bg-gray-200 dark:bg-gray-700 rounded-md mb-3 overflow-hidden relative group">
+    <div className="w-full h-65 bg-gray-200 dark:bg-gray-700 rounded-md mb-3 overflow-hidden relative group">
       <img
         src={item.image}
         alt=""
         className="w-full h-full object-cover object-center"
-        style={{ objectPosition: "50% 20%" }} // Điều chỉnh vị trí hiển thị của ảnh
       />
-      <button
-        onClick={() => setSelectedCard(item.word)}
-        className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity"
-      >
-        ▶️
-      </button>
+      {/* Chỉ hiển thị nút phát nếu có video */}
+      {item.video && (
+        <button
+          onClick={() => setSelectedCard(item.word)}
+          className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          ▶️
+        </button>
+      )}
     </div>
   )}
 </div>
@@ -122,11 +125,31 @@ const PartA: React.FC<PartAProps> = ({ currentItems, currentPage, totalPages, ha
 
       {/* Pagination */}
       <div className="flex justify-center mt-6 gap-2">
-        <button onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} className="px-4 py-2 rounded-md bg-blue-500 text-white disabled:bg-gray-300">Previous</button>
+        <button
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+          className="px-4 py-2 rounded-md bg-blue-500 text-white disabled:bg-gray-300"
+        >
+          Previous
+        </button>
         {Array.from({ length: totalPages }, (_, i) => (
-          <button key={i + 1} onClick={() => handlePageChange(i + 1)} className={`px-4 py-2 rounded-md ${currentPage === i + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'}`}>{i + 1}</button>
+          <button
+            key={i + 1}
+            onClick={() => handlePageChange(i + 1)}
+            className={`px-4 py-2 rounded-md ${
+              currentPage === i + 1 ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+            }`}
+          >
+            {i + 1}
+          </button>
         ))}
-        <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} className="px-4 py-2 rounded-md bg-blue-500 text-white disabled:bg-gray-300">Next</button>
+        <button
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 rounded-md bg-blue-500 text-white disabled:bg-gray-300"
+        >
+          Next
+        </button>
       </div>
 
       <h3 className="text-xl font-semibold mb-3 text-blue-700 dark:text-blue-300 mt-8">

@@ -36,8 +36,10 @@ export default function EnglishExercise() {
   const [activeTab, setActiveTab] = useState<string>("fill");
   const [fillAnswers, setFillAnswers] = useState<FillAnswers>({});
   const [chooseAnswers, setChooseAnswers] = useState<ChooseAnswers>({});
-  const [result, setResult] = useState<string | null>(null);
-  const [showAnswers, setShowAnswers] = useState<boolean>(false);
+  const [fillResult, setFillResult] = useState<string | null>(null);
+  const [chooseResult, setChooseResult] = useState<string | null>(null);
+  const [showFillAnswers, setShowFillAnswers] = useState<boolean>(false);
+  const [showChooseAnswers, setShowChooseAnswers] = useState<boolean>(false);
   
   const fillQuestions: FillQuestion[] = [
     {
@@ -82,7 +84,7 @@ export default function EnglishExercise() {
     },
     {
       image: c23,
-      question: "", // Không có câu hỏi, chỉ có hình ảnh
+      question: "", // No question, only image
       options: [
         "Phong and his friend doesn't have any string.",
         "Phong and his friend don't have any string.",
@@ -93,7 +95,7 @@ export default function EnglishExercise() {
     },
     {
       image: c24,
-      question: "", // Không có câu hỏi, chỉ có hình ảnh
+      question: "", // No question, only image
       options: [
         "Our teacher has some magnets and staplers.",
         "Our teacher has any magnets and paint brushes.",
@@ -130,33 +132,39 @@ export default function EnglishExercise() {
   };
 
   const handleSubmit = () => {
-    setShowAnswers(true);
-    let correctCount = 0;
-
-    // Kiểm tra phần Fill in the blank
-    fillQuestions.forEach((question, qIndex) => {
-      const isCorrect = question.answer.every((ans, aIndex) => {
-        const userAnswer = fillAnswers[`${qIndex}-${aIndex}`]?.trim().toLowerCase();
-        return userAnswer === ans.toLowerCase();
+    if (activeTab === "fill") {
+      setShowFillAnswers(true);
+      let correctCount = 0;
+      fillQuestions.forEach((question, qIndex) => {
+        const isCorrect = question.answer.every((ans, aIndex) => {
+          const userAnswer = fillAnswers[`${qIndex}-${aIndex}`]?.trim().toLowerCase();
+          return userAnswer === ans.toLowerCase();
+        });
+        if (isCorrect) correctCount++;
       });
-      if (isCorrect) correctCount++;
-    });
-
-    // Kiểm tra phần Choose the correct answer
-    chooseQuestions.forEach((question, index) => {
-      if (chooseAnswers[index] === question.answer) {
-        correctCount++;
-      }
-    });
-
-    setResult(`Bạn đã làm đúng ${correctCount} trên ${fillQuestions.length + chooseQuestions.length} câu.`);
+      setFillResult(`You have answered ${correctCount} out of ${fillQuestions.length} questions correctly.`);
+    } else if (activeTab === "choose") {
+      setShowChooseAnswers(true);
+      let correctCount = 0;
+      chooseQuestions.forEach((question, index) => {
+        if (chooseAnswers[index] === question.answer) {
+          correctCount++;
+        }
+      });
+      setChooseResult(`You have answered ${correctCount} out of ${chooseQuestions.length} questions correctly.`);
+    }
   };
 
   const handleReset = () => {
-    setFillAnswers({});
-    setChooseAnswers({});
-    setResult(null);
-    setShowAnswers(false);
+    if (activeTab === "fill") {
+      setFillAnswers({});
+      setFillResult(null);
+      setShowFillAnswers(false);
+    } else if (activeTab === "choose") {
+      setChooseAnswers({});
+      setChooseResult(null);
+      setShowChooseAnswers(false);
+    }
   };
 
   return (
@@ -181,7 +189,7 @@ export default function EnglishExercise() {
                     <img src={item.image} alt={`Image ${index + 1}`} className="w-[300px] h-[300px] rounded-lg" />
 
                     <p className="mt-2 text-lg font-medium">
-                      <span className="font-bold">Câu {index + 1}: </span>
+                      <span className="font-bold">Question {index + 1}: </span>
                       {item.sentence.split("__").map((part, i) => (
                         <span key={i}>
                           {part}
@@ -191,24 +199,24 @@ export default function EnglishExercise() {
                               className="border-b-2 border-gray-500 text-center w-20 mx-1"
                               placeholder="?"
                               onChange={(e) => handleFillInput(index, i, e.target.value)}
-                              disabled={showAnswers}
+                              disabled={showFillAnswers}
                               value={fillAnswers[`${index}-${i}`] || ""}
                             />
                           )}
                         </span>
                       ))}
                     </p>
-                    {showAnswers && (
+                    {showFillAnswers && (
                       <div className="mt-2">
                         <p className="text-sm text-gray-600">
-                          <span className="font-bold">Đáp án: </span>
+                          <span className="font-bold">Answer: </span>
                           {item.answer.join(" - ")}
                         </p>
                         <p className="text-sm mt-1">
                           {item.answer.every((ans, aIndex) => fillAnswers[`${index}-${aIndex}`]?.trim().toLowerCase() === ans.toLowerCase()) ? (
-                            <span className="text-green-600">✅ Đúng</span>
+                            <span className="text-green-600">✅ Correct</span>
                           ) : (
-                            <span className="text-red-600">❌ Sai</span>
+                            <span className="text-red-600">❌ Incorrect</span>
                           )}
                         </p>
                       </div>
@@ -229,7 +237,7 @@ export default function EnglishExercise() {
                   <div key={index} className="flex flex-col space-y-2">
                     <img src={item.image} alt="question" className="rounded-lg w-[300px] h-[300px]" />
                     <p className="text-lg font-medium">
-                      <span className="font-bold">Câu {index + 1}: </span>
+                      <span className="font-bold">Question {index + 1}: </span>
                       {item.question}
                     </p>
                     <div className="mt-2 space-y-2">
@@ -240,23 +248,23 @@ export default function EnglishExercise() {
                             chooseAnswers[index] === optionIndex ? "bg-blue-200" : "hover:bg-gray-200"
                           }`}
                           onClick={() => handleChooseSelect(index, optionIndex)}
-                          disabled={showAnswers}
+                          disabled={showChooseAnswers}
                         >
                           {String.fromCharCode(97 + optionIndex)}. {option}
                         </button>
                       ))}
                     </div>
-                    {showAnswers && (
+                    {showChooseAnswers && (
                       <div className="mt-2">
                         <p className="text-sm text-gray-600">
-                          <span className="font-bold">Đáp án: </span>
+                          <span className="font-bold">Answer: </span>
                           {String.fromCharCode(97 + item.answer)}. {item.options[item.answer]}
                         </p>
                         <p className="text-sm mt-1">
                           {chooseAnswers[index] === item.answer ? (
-                            <span className="text-green-600">✅ Đúng</span>
+                            <span className="text-green-600">✅ Correct</span>
                           ) : (
-                            <span className="text-red-600">❌ Sai</span>
+                            <span className="text-red-600">❌ Incorrect</span>
                           )}
                         </p>
                       </div>
@@ -277,7 +285,8 @@ export default function EnglishExercise() {
               Reset
             </Button>
           </div>
-          {result && <p className="mt-2 text-lg font-semibold text-green-600">{result}</p>}
+          {activeTab === "fill" && fillResult && <p className="mt-2 text-lg font-semibold text-green-600">{fillResult}</p>}
+          {activeTab === "choose" && chooseResult && <p className="mt-2 text-lg font-semibold text-green-600">{chooseResult}</p>}
         </div>
       </Tabs>
     </div>

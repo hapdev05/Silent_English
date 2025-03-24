@@ -1,5 +1,5 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
-import  { useState } from "react";
+import { useState } from "react";
 import popcorn from "../../../assets/imgs/unit1/popcorn.png";
 import candy from "../../../assets/imgs/unit1/candy.png";
 import peanuts from "../../../assets/imgs/unit1/peanuts.png";
@@ -57,31 +57,31 @@ interface VocabularyItem {
 
 // Dữ liệu từ vựng
 const vocabularyData: VocabularyItem[] = [
-  { word: "popcorn", pronunciation: "(n)", translation: "bỏng ngô", image: popcorn, video: popcornVideo, example: "Ex: I love eating popcorn at the movies." },
-  { word: "candy", pronunciation: "(n)", translation: "kẹo", image: candy, video: candyVideo, example: "Ex: She gave me some candy." },
-  { word: "peanuts", pronunciation: "(n)", translation: "đậu phộng", image: peanuts, video: peanutsVideo, example: "Ex: He is allergic to peanuts." },
-  { word: "crackers", pronunciation: "(n)", translation: "bánh quy giòn", image: crackers, video: crackersVideo, example: "Ex: I had some crackers with cheese." },
-  { word: "potato chips", pronunciation: "(n)", translation: "khoai tây chiên", image: potatoChips, video: potatoChipsVideo, example: "Ex: She bought a bag of potato chips." },
-  { word: "chalk", pronunciation: "(n)", translation: "phấn", image: chalk, video: chalkVideo, example: "Ex: The teacher wrote on the board with chalk." },
+  { word: "popcorn", pronunciation: "(n)", translation: "", image: popcorn, video: popcornVideo, example: "Ex: I love eating popcorn at the movies." },
+  { word: "candy", pronunciation: "(n)", translation: "", image: candy, video: candyVideo, example: "Ex: She gave me some candy." },
+  { word: "peanuts", pronunciation: "(n)", translation: "", image: peanuts, video: peanutsVideo, example: "Ex: He is allergic to peanuts." },
+  { word: "crackers", pronunciation: "(n)", translation: "", image: crackers, video: crackersVideo, example: "Ex: I had some crackers with cheese." },
+  { word: "potato chips", pronunciation: "(n)", translation: "", image: potatoChips, video: potatoChipsVideo, example: "Ex: She bought a bag of potato chips." },
+  { word: "chalk", pronunciation: "(n)", translation: "", image: chalk, video: chalkVideo, example: "Ex: The teacher wrote on the board with chalk." },
   { word: "paint", pronunciation: "(n)", translation: "sơn / màu vẽ", image: paint, video: "", example: "Ex: He used blue paint for the sky." }, // Thêm video: "" nếu không có video
   { word: "tape", pronunciation: "(n)", translation: "băng dính", image: tape, video: "", example: "Ex: She used tape to wrap the gift." }, // Thêm video: "" nếu không có video
-  { word: "scissors", pronunciation: "(n)", translation: "cây kéo", image: scissors, video: scissorsVideo, example: "Ex: Please pass me the scissors." },
-  { word: "glue", pronunciation: "(n)", translation: "keo dán", image: glue, video: glueVideo, example: "Ex: I need glue to fix this paper." },
-  { word: "paper", pronunciation: "(n)", translation: "giấy", image: paper, video: paperVideo, example: "Ex: He wrote his name on the paper." },
+  { word: "scissors", pronunciation: "(n)", translation: "", image: scissors, video: scissorsVideo, example: "Ex: Please pass me the scissors." },
+  { word: "glue", pronunciation: "(n)", translation: "", image: glue, video: glueVideo, example: "Ex: I need glue to fix this paper." },
+  { word: "paper", pronunciation: "(n)", translation: "", image: paper, video: paperVideo, example: "Ex: He wrote his name on the paper." },
   { word: "ribbon", pronunciation: "(n)", translation: "ruy băng", image: ribbon, video: "", example: "Ex: She tied a ribbon around the gift box." }, // Thêm video: "" nếu không có video
-  { word: "string", pronunciation: "(n)", translation: "sợi dây", image: string, video: stringVideo, example: "Ex: The package was tied with a string." },
-  { word: "magnet", pronunciation: "(n)", translation: "nam châm", image: magnet, video: magnetVideo, example: "Ex: The magnet stuck to the fridge." },
-  { word: "calculator", pronunciation: "(n)", translation: "máy tính", image: calculator, video: calculatorVideo, example: "Ex: I use a calculator for math homework." },
-  { word: "colored pencil", pronunciation: "(n)", translation: "bút chì màu", image: coloredPencil, video: coloredPencilVideo, example: "Ex: She drew a picture with colored pencils." },
-  { word: "rubber band", pronunciation: "(n)", translation: "dây thun", image: rubberBand, video: rubberBandVideo, example: "Ex: He stretched the rubber band." },
+  { word: "string", pronunciation: "(n)", translation: "", image: string, video: stringVideo, example: "Ex: The package was tied with a string." },
+  { word: "magnet", pronunciation: "(n)", translation: "", image: magnet, video: magnetVideo, example: "Ex: The magnet stuck to the fridge." },
+  { word: "calculator", pronunciation: "(n)", translation: "", image: calculator, video: calculatorVideo, example: "Ex: I use a calculator for math homework." },
+  { word: "colored pencil", pronunciation: "(n)", translation: "", image: coloredPencil, video: coloredPencilVideo, example: "Ex: She drew a picture with colored pencils." },
+  { word: "rubber band", pronunciation: "(n)", translation: "", image: rubberBand, video: rubberBandVideo, example: "Ex: He stretched the rubber band." },
   { word: "push pin", pronunciation: "(n)", translation: "ghim bấm", image: pushPin, video: "", example: "Ex: She used a push pin to attach the note." }, // Thêm video: "" nếu không có video
-  { word: "paint brush", pronunciation: "(n)", translation: "cọ vẽ", image: paintBrush, video: paintBrushVideo, example: "Ex: He dipped the paint brush in blue paint." },
-  { word: "stapler", pronunciation: "(n)", translation: "dập ghim", image: stapler, video: staplerVideo, example: "Ex: I need a stapler to bind these papers." }
+  { word: "paint brush", pronunciation: "(n)", translation: "", image: paintBrush, video: paintBrushVideo, example: "Ex: He dipped the paint brush in blue paint." },
+  { word: "stapler", pronunciation: "(n)", translation: "", image: stapler, video: staplerVideo, example: "Ex: I need a stapler to bind these papers." }
 ];
 
 export default function Unit1({ submenu }: { submenu: string }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 9; // Số từ vựng trên mỗi trang
+  const itemsPerPage = 8; // Số từ vựng trên mỗi trang
 
   // Tính toán từ vựng cho trang hiện tại
   const indexOfLastItem = currentPage * itemsPerPage;
