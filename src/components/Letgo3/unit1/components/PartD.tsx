@@ -1,41 +1,46 @@
-import { useState } from "react";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import * as Dialog from "@radix-ui/react-dialog";
-import craftClassVideo from "@/assets/videos/unit1/craft_class.mp4";
-import bringVideo from "@/assets/videos/unit1/bring.mp4";
-import differentVideo from "@/assets/videos/unit1/different.mp4";
-import suppliesVideo from "@/assets/videos/unit1/supplies.mp4";
-import projectsVideo from "@/assets/videos/unit1/project.mp4";
-import excitedVideo from "@/assets/videos/unit1/excited.mp4";
-import togetherVideo from "@/assets/videos/unit1/together.mp4";
-import finishVideo from "@/assets/videos/unit1/finish.mp4";
-import lookForVideo from "@/assets/videos/unit1/look_for.mp4";
-import ruleVideo from "@/assets/videos/unit1/rule.mp4";
-import newVideo from "@/assets/videos/unit1/new.mp4";
-import byYourselfVideo from "@/assets/videos/unit1/by_myself.mp4";
-import cau1 from "@/assets/videos/unit1/p42c1.mp4";
-import cau2 from "@/assets/videos/unit1/p42c2.mp4";
-import cau3 from "@/assets/videos/unit1/p42c3.mp4";
-import cau4 from "@/assets/videos/unit1/p42c4.mp4";
-import hiPhuongVideo from "@/assets/videos/unit1/hi_phuong.mp4";
-import inOurCraftClassVideo from "@/assets/videos/unit1/in_our_craft_class.mp4";
-import paperGlueScissorsVideo from "@/assets/videos/unit1/paper_glue_scissors.mp4";
-import tapeStaplerVideo from "@/assets/videos/unit1/tape_stapler.mp4";
-import excitedArtTogetherVideo from "@/assets/videos/unit1/excited_art_together.mp4";
-import coloredPencilsPaintVideo from "@/assets/videos/unit1/colored_pencils_paint.mp4";
-import greatTimeCreativeVideo from "@/assets/videos/unit1/great_time_creative.mp4";
-import u1d1 from "@/assets/imgs/unit1/d1.png";
+"use client"
+
+import { useState } from "react"
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
+import { Card, CardContent } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import * as Dialog from "@radix-ui/react-dialog"
+import craftClassVideo from "@/assets/videos/unit1/craft_class.mp4"
+import bringVideo from "@/assets/videos/unit1/bring.mp4"
+import differentVideo from "@/assets/videos/unit1/different.mp4"
+import suppliesVideo from "@/assets/videos/unit1/supplies.mp4"
+import projectsVideo from "@/assets/videos/unit1/project.mp4"
+import excitedVideo from "@/assets/videos/unit1/excited.mp4"
+import togetherVideo from "@/assets/videos/unit1/together.mp4"
+import finishVideo from "@/assets/videos/unit1/finish.mp4"
+import lookForVideo from "@/assets/videos/unit1/look_for.mp4"
+import ruleVideo from "@/assets/videos/unit1/rule.mp4"
+import newVideo from "@/assets/videos/unit1/new.mp4"
+import byYourselfVideo from "@/assets/videos/unit1/by_myself.mp4"
+import cau1 from "@/assets/videos/unit1/p42c1.mp4"
+import cau2 from "@/assets/videos/unit1/p42c2.mp4"
+import cau3 from "@/assets/videos/unit1/p42c3.mp4"
+import cau4 from "@/assets/videos/unit1/p42c4.mp4"
+import hiPhuongVideo from "@/assets/videos/unit1/hi_phuong.mp4"
+import inOurCraftClassVideo from "@/assets/videos/unit1/in_our_craft_class.mp4"
+import paperGlueScissorsVideo from "@/assets/videos/unit1/paper_glue_scissors.mp4"
+import tapeStaplerVideo from "@/assets/videos/unit1/tape_stapler.mp4"
+import excitedArtTogetherVideo from "@/assets/videos/unit1/excited_art_together.mp4"
+import coloredPencilsPaintVideo from "@/assets/videos/unit1/colored_pencils_paint.mp4"
+import greatTimeCreativeVideo from "@/assets/videos/unit1/great_time_creative.mp4"
+import u1d1 from "@/assets/imgs/unit1/d1.png"
 
 export default function ReadingComprehension() {
-  const [activeTab, setActiveTab] = useState<string>("fill");
-  const [fillAnswers, setFillAnswers] = useState<Record<number, number>>({});
-  const [chooseAnswers, setChooseAnswers] = useState<Record<number, number>>({});
-  const [result, setResult] = useState<string | null>(null);
-  const [showAnswers, setShowAnswers] = useState<boolean>(false);
-  const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
-  const [showTranslation, setShowTranslation] = useState<boolean>(false);
+  const [activeTab, setActiveTab] = useState<string>("fill")
+  const [fillAnswers, setFillAnswers] = useState<Record<number, number>>({})
+  const [chooseAnswers, setChooseAnswers] = useState<Record<number, number>>({})
+  const [fillResult, setFillResult] = useState<string | null>(null)
+  const [chooseResult, setChooseResult] = useState<string | null>(null)
+  const [fillShowAnswers, setFillShowAnswers] = useState<boolean>(false)
+  const [chooseShowAnswers, setChooseShowAnswers] = useState<boolean>(false)
+  const [selectedVideo, setSelectedVideo] = useState<string | null>(null)
+  const [fillShowTranslation, setFillShowTranslation] = useState<boolean>(false)
+  const [chooseShowTranslation, setChooseShowTranslation] = useState<boolean>(false)
 
   // Danh sách video tương ứng với các từ
   const wordVideos: Record<string, string> = {
@@ -51,7 +56,7 @@ export default function ReadingComprehension() {
     rule: ruleVideo,
     new: newVideo,
     "by yourself": byYourselfVideo,
-    cau1: cau1, 
+    cau1: cau1,
     cau2: cau2,
     cau3: cau3,
     cau4: cau4,
@@ -62,11 +67,10 @@ export default function ReadingComprehension() {
     "So we are excited about creating cool art together.mp4": excitedArtTogetherVideo,
     "We also need some colored pencils and paint to fin.mp4": coloredPencilsPaintVideo,
     "It’s a great time to be creative and help each o.mp4": greatTimeCreativeVideo,
-  };
+  }
 
   // Đoạn văn với các từ có thể nhấp để xem video
-  const paragraph = 
-    `Hi, I’m Phuong. ___ (1) our <span data-word="craft class" class="text-blue-500 cursor-pointer hover:underline">craft class</span>, 
+  const paragraph = `Hi, I’m Phuong. ___ (1) our <span data-word="craft class" class="text-blue-500 cursor-pointer hover:underline">craft class</span>, 
     we <span data-word="bring" class="text-blue-500 cursor-pointer hover:underline">bring</span> 
     <span data-word="different" class="text-blue-500 cursor-pointer hover:underline">different</span> 
     <span data-word="supplies" class="text-blue-500 cursor-pointer hover:underline">supplies</span> 
@@ -76,7 +80,6 @@ export default function ReadingComprehension() {
     about creating cool art <span data-word="together" class="text-blue-500 cursor-pointer hover:underline">together</span>. 
     We also need some colored pencils and paint to <span data-word="finish" class="text-blue-500 cursor-pointer hover:underline">finish</span> 
     our work. It’s a ____ (4) time to be creative and help each other.`
-  ;
 
   // Câu hỏi điền vào chỗ trống
   const fillQuestions = [
@@ -100,12 +103,13 @@ export default function ReadingComprehension() {
       options: ["greatness", "greatly", "great", "greatful"],
       answer: 2, // great
     },
-  ];
+  ]
 
   // Câu hỏi chọn câu trả lời đúng
   const chooseQuestions = [
     {
-      question: "<span data-word='cau1' class='text-blue-500 cursor-pointer hover:underline'>1. What supplies does Phuong have for the craft project?",
+      question:
+        "<span data-word='cau1' class='text-blue-500 cursor-pointer hover:underline'>1. What supplies does Phuong have for the craft project?",
       options: [
         "a. Tape and a stapler",
         "b. Paper, glue, and scissors",
@@ -115,17 +119,14 @@ export default function ReadingComprehension() {
       answer: 1, // b. Paper, glue, and scissors
     },
     {
-      question: "<span data-word='cau2' class='text-blue-500 cursor-pointer hover:underline'>2. Which of these is NOT mentioned as something Phuong or her friend has?",
-      options: [
-        "a. Paper",
-        "b. Tape",
-        "c. Markers",
-        "d. Scissors",
-      ],
+      question:
+        "<span data-word='cau2' class='text-blue-500 cursor-pointer hover:underline'>2. Which of these is NOT mentioned as something Phuong or her friend has?",
+      options: ["a. Paper", "b. Tape", "c. Markers", "d. Scissors"],
       answer: 2, // c. Markers
     },
     {
-      question: "<span data-word='cau3' class='text-blue-500 cursor-pointer hover:underline'>3. What is the main idea of the passage?</span>",
+      question:
+        "<span data-word='cau3' class='text-blue-500 cursor-pointer hover:underline'>3. What is the main idea of the passage?</span>",
       options: [
         "a. Phuong and her friend make art together.",
         "b. Phuong <span data-word='look for' class='text-blue-500 cursor-pointer hover:underline'>looks for</span> more supplies.",
@@ -135,7 +136,8 @@ export default function ReadingComprehension() {
       answer: 0, // a. Phuong and her friend make art together.
     },
     {
-      question: "<span data-word='cau4' class='text-blue-500 cursor-pointer hover:underline'>4. What does the word \"creative\" mean in this passage?</span>",
+      question:
+        "<span data-word='cau4' class='text-blue-500 cursor-pointer hover:underline'>4. What does the word \"creative\" mean in this passage?</span>",
       options: [
         "A. Following <span data-word='rule' class='text-blue-500 cursor-pointer hover:underline'>rules</span>",
         "B. Making <span data-word='new' class='text-blue-500 cursor-pointer hover:underline'>new</span> things",
@@ -144,70 +146,86 @@ export default function ReadingComprehension() {
       ],
       answer: 1, // B. Making new things
     },
-  ];
+  ]
 
   // Xử lý chọn đáp án cho phần điền vào chỗ trống
   const handleFillSelect = (index: number, optionIndex: number) => {
     setFillAnswers((prev) => ({
       ...prev,
       [index]: optionIndex,
-    }));
-  };
+    }))
+  }
 
   // Xử lý chọn đáp án cho phần chọn câu trả lời đúng
   const handleChooseSelect = (index: number, optionIndex: number) => {
     setChooseAnswers((prev) => ({
       ...prev,
       [index]: optionIndex,
-    }));
-  };
+    }))
+  }
 
   // Xử lý khi nhấn nút Submit
   const handleSubmit = () => {
-    setShowAnswers(true);
-    setShowTranslation(true);
-    let correctCount = 0;
+    if (activeTab === "fill") {
+      setFillShowAnswers(true)
+      setFillShowTranslation(true)
 
-    // Kiểm tra phần điền vào chỗ trống
-    fillQuestions.forEach((question, index) => {
-      if (fillAnswers[index] === question.answer) {
-        correctCount++;
-      }
-    });
+      let fillCorrectCount = 0
 
-    // Kiểm tra phần chọn câu trả lời đúng
-    chooseQuestions.forEach((question, index) => {
-      if (chooseAnswers[index] === question.answer) {
-        correctCount++;
-      }
-    });
+      // Kiểm tra phần điền vào chỗ trống
+      fillQuestions.forEach((question, index) => {
+        if (fillAnswers[index] === question.answer) {
+          fillCorrectCount++
+        }
+      })
 
-    setResult(`You answered ${correctCount} out of ${fillQuestions.length + chooseQuestions.length} correctly.`);
-  };
+      setFillResult(`Part I: You answered ${fillCorrectCount} out of ${fillQuestions.length} correctly.`)
+    } else {
+      setChooseShowAnswers(true)
+      setChooseShowTranslation(true)
+
+      let chooseCorrectCount = 0
+
+      // Kiểm tra phần chọn câu trả lời đúng
+      chooseQuestions.forEach((question, index) => {
+        if (chooseAnswers[index] === question.answer) {
+          chooseCorrectCount++
+        }
+      })
+
+      setChooseResult(`Part II: You answered ${chooseCorrectCount} out of ${chooseQuestions.length} correctly.`)
+    }
+  }
 
   // Xử lý khi nhấn nút Reset
   const handleReset = () => {
-    setFillAnswers({});
-    setChooseAnswers({});
-    setResult(null);
-    setShowAnswers(false);
-    setShowTranslation(false);
-  };
+    if (activeTab === "fill") {
+      setFillAnswers({})
+      setFillResult(null)
+      setFillShowAnswers(false)
+      setFillShowTranslation(false)
+    } else {
+      setChooseAnswers({})
+      setChooseResult(null)
+      setChooseShowAnswers(false)
+      setChooseShowTranslation(false)
+    }
+  }
 
   // Xử lý khi click vào từ để hiển thị video
   const handleWordClick = (word: string) => {
-    setSelectedVideo(wordVideos[word]);
-  };
+    setSelectedVideo(wordVideos[word])
+  }
 
   // Đóng modal
   const closeModal = () => {
-    setSelectedVideo(null);
-  };
+    setSelectedVideo(null)
+  }
 
   return (
     <div className="">
       <h2 className="text-2xl font-semibold mb-8 text-pink-600 dark:text-pink-300 border-b pb-4">
-      D - LET’S PRACTICE READING SKILL TOGETHER!
+        D - LET’S PRACTICE READING SKILL TOGETHER!
       </h2>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -220,13 +238,13 @@ export default function ReadingComprehension() {
           <Card>
             <CardContent className="p-4">
               <p className="text-lg font-semibold">Complete the paragraph:</p>
-              <img src={u1d1} alt="Unit 1 D1" className="mt-4 w-full max-w-2xl mx-auto" />
+              <img src={u1d1 || "/placeholder.svg"} alt="Unit 1 D1" className="mt-4 w-full max-w-2xl mx-auto" />
               <p
                 className="mt-4 text-gray-700"
                 dangerouslySetInnerHTML={{ __html: paragraph }}
                 onClick={(e) => {
                   if (e.target instanceof HTMLElement && e.target.dataset.word) {
-                    handleWordClick(e.target.dataset.word);
+                    handleWordClick(e.target.dataset.word)
                   }
                 }}
               />
@@ -242,13 +260,13 @@ export default function ReadingComprehension() {
                             fillAnswers[index] === optionIndex ? "bg-blue-200" : "hover:bg-gray-200"
                           }`}
                           onClick={() => handleFillSelect(index, optionIndex)}
-                          disabled={showAnswers}
+                          disabled={fillShowAnswers}
                         >
                           {option}
                         </button>
                       ))}
                     </div>
-                    {showAnswers && (
+                    {fillShowAnswers && (
                       <div className="mt-2">
                         <p className="text-sm text-gray-600">
                           <span className="font-bold">Answer: </span>
@@ -277,63 +295,99 @@ export default function ReadingComprehension() {
                     Reset
                   </Button>
                 </div>
-                {result && <p className="mt-2 text-lg font-semibold text-green-600">{result}</p>}
+                {fillResult && <p className="mt-2 text-lg font-semibold text-green-600">{fillResult}</p>}
               </div>
 
               {/* Thanh gạch ngang ở trên cùng */}
               <hr className="my-10 border-t border-gray-300" />
 
               {/* Phần dịch và video */}
-              {showTranslation && (
+              {fillShowTranslation && (
                 <div className="mt-8">
                   <h3 className="text-2xl underline font-semibold mb-6">Translate:</h3>
                   <div className="space-y-8">
                     {/* Cặp 1 */}
                     <div className="flex flex-col items-center space-y-4">
                       <p className="text-lg font-medium text-center">Hi, I’m Phuong.</p>
-                      <video controls src={wordVideos["Hi, I'm Phuong.mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <video
+                        controls
+                        src={wordVideos["Hi, I'm Phuong.mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                     <hr className="w-1/3 mx-auto border-t border-gray-300" />
 
                     {/* Cặp 2 */}
                     <div className="flex flex-col items-center space-y-4">
-                      <p className="text-lg font-medium text-center">In our craft class, we bring different supplies to make fun projects.</p>
-                      <video controls src={wordVideos["In our craft class, we bring different supplies to.mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <p className="text-lg font-medium text-center">
+                        In our craft class, we bring different supplies to make fun projects.
+                      </p>
+                      <video
+                        controls
+                        src={wordVideos["In our craft class, we bring different supplies to.mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                     <hr className="w-1/3 mx-auto border-t border-gray-300" />
 
                     {/* Cặp 3 */}
                     <div className="flex flex-col items-center space-y-4">
                       <p className="text-lg font-medium text-center">I have some paper, glue, and scissors.</p>
-                      <video controls src={wordVideos["I have some paper, glue, and scissors..mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <video
+                        controls
+                        src={wordVideos["I have some paper, glue, and scissors..mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                     <hr className="w-1/3 mx-auto border-t border-gray-300" />
 
                     {/* Cặp 4 */}
                     <div className="flex flex-col items-center space-y-4">
                       <p className="text-lg font-medium text-center">My friend has some tape and a stapler.</p>
-                      <video controls src={wordVideos["My friend has some tape and a stapler..mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <video
+                        controls
+                        src={wordVideos["My friend has some tape and a stapler..mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                     <hr className="w-1/3 mx-auto border-t border-gray-300" />
 
                     {/* Cặp 5 */}
                     <div className="flex flex-col items-center space-y-4">
-                      <p className="text-lg font-medium text-center">So we are excited about creating cool art together.</p>
-                      <video controls src={wordVideos["So we are excited about creating cool art together.mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <p className="text-lg font-medium text-center">
+                        So we are excited about creating cool art together.
+                      </p>
+                      <video
+                        controls
+                        src={wordVideos["So we are excited about creating cool art together.mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                     <hr className="w-1/3 mx-auto border-t border-gray-300" />
 
                     {/* Cặp 6 */}
                     <div className="flex flex-col items-center space-y-4">
-                      <p className="text-lg font-medium text-center">We also need some colored pencils and paint to finish our work.</p>
-                      <video controls src={wordVideos["We also need some colored pencils and paint to fin.mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <p className="text-lg font-medium text-center">
+                        We also need some colored pencils and paint to finish our work.
+                      </p>
+                      <video
+                        controls
+                        src={wordVideos["We also need some colored pencils and paint to fin.mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                     <hr className="w-1/3 mx-auto border-t border-gray-300" />
 
                     {/* Cặp 7 */}
                     <div className="flex flex-col items-center space-y-4">
-                      <p className="text-lg font-medium text-center">It’s a great time to be creative and help each other.</p>
-                      <video controls src={wordVideos["It’s a great time to be creative and help each o.mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <p className="text-lg font-medium text-center">
+                        It’s a great time to be creative and help each other.
+                      </p>
+                      <video
+                        controls
+                        src={wordVideos["It’s a great time to be creative and help each o.mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                   </div>
                 </div>
@@ -354,7 +408,7 @@ export default function ReadingComprehension() {
                         dangerouslySetInnerHTML={{ __html: item.question }}
                         onClick={(e) => {
                           if (e.target instanceof HTMLElement && e.target.dataset.word) {
-                            handleWordClick(e.target.dataset.word);
+                            handleWordClick(e.target.dataset.word)
                           }
                         }}
                       />
@@ -367,20 +421,20 @@ export default function ReadingComprehension() {
                             chooseAnswers[index] === optionIndex ? "bg-blue-200" : "hover:bg-gray-200"
                           }`}
                           onClick={() => handleChooseSelect(index, optionIndex)}
-                          disabled={showAnswers}
+                          disabled={chooseShowAnswers}
                         >
                           <span
                             dangerouslySetInnerHTML={{ __html: option }}
                             onClick={(e) => {
                               if (e.target instanceof HTMLElement && e.target.dataset.word) {
-                                handleWordClick(e.target.dataset.word);
+                                handleWordClick(e.target.dataset.word)
                               }
                             }}
                           />
                         </button>
                       ))}
                     </div>
-                    {showAnswers && (
+                    {chooseShowAnswers && (
                       <div className="mt-2">
                         <p className="text-sm text-gray-600">
                           <span className="font-bold">Answer: </span>
@@ -388,7 +442,7 @@ export default function ReadingComprehension() {
                             dangerouslySetInnerHTML={{ __html: item.options[item.answer] }}
                             onClick={(e) => {
                               if (e.target instanceof HTMLElement && e.target.dataset.word) {
-                                handleWordClick(e.target.dataset.word);
+                                handleWordClick(e.target.dataset.word)
                               }
                             }}
                           />
@@ -416,63 +470,99 @@ export default function ReadingComprehension() {
                     Reset
                   </Button>
                 </div>
-                {result && <p className="mt-2 text-lg font-semibold text-green-600">{result}</p>}
+                {chooseResult && <p className="mt-2 text-lg font-semibold text-green-600">{chooseResult}</p>}
               </div>
 
               {/* Thanh gạch ngang ở trên cùng */}
               <hr className="my-10 border-t border-gray-300" />
 
               {/* Phần dịch và video */}
-              {showTranslation && (
+              {chooseShowTranslation && (
                 <div className="mt-8">
                   <h3 className="text-2xl underline font-semibold mb-6">Translate:</h3>
                   <div className="space-y-8">
                     {/* Cặp 1 */}
                     <div className="flex flex-col items-center space-y-4">
                       <p className="text-lg font-medium text-center">Hi, I’m Phuong.</p>
-                      <video controls src={wordVideos["Hi, I'm Phuong.mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <video
+                        controls
+                        src={wordVideos["Hi, I'm Phuong.mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                     <hr className="w-1/3 mx-auto border-t border-gray-300" />
 
                     {/* Cặp 2 */}
                     <div className="flex flex-col items-center space-y-4">
-                      <p className="text-lg font-medium text-center">In our craft class, we bring different supplies to make fun projects.</p>
-                      <video controls src={wordVideos["In our craft class, we bring different supplies to.mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <p className="text-lg font-medium text-center">
+                        In our craft class, we bring different supplies to make fun projects.
+                      </p>
+                      <video
+                        controls
+                        src={wordVideos["In our craft class, we bring different supplies to.mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                     <hr className="w-1/3 mx-auto border-t border-gray-300" />
 
                     {/* Cặp 3 */}
                     <div className="flex flex-col items-center space-y-4">
                       <p className="text-lg font-medium text-center">I have some paper, glue, and scissors.</p>
-                      <video controls src={wordVideos["I have some paper, glue, and scissors..mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <video
+                        controls
+                        src={wordVideos["I have some paper, glue, and scissors..mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                     <hr className="w-1/3 mx-auto border-t border-gray-300" />
 
                     {/* Cặp 4 */}
                     <div className="flex flex-col items-center space-y-4">
                       <p className="text-lg font-medium text-center">My friend has some tape and a stapler.</p>
-                      <video controls src={wordVideos["My friend has some tape and a stapler..mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <video
+                        controls
+                        src={wordVideos["My friend has some tape and a stapler..mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                     <hr className="w-1/3 mx-auto border-t border-gray-300" />
 
                     {/* Cặp 5 */}
                     <div className="flex flex-col items-center space-y-4">
-                      <p className="text-lg font-medium text-center">So we are excited about creating cool art together.</p>
-                      <video controls src={wordVideos["So we are excited about creating cool art together.mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <p className="text-lg font-medium text-center">
+                        So we are excited about creating cool art together.
+                      </p>
+                      <video
+                        controls
+                        src={wordVideos["So we are excited about creating cool art together.mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                     <hr className="w-1/3 mx-auto border-t border-gray-300" />
 
                     {/* Cặp 6 */}
                     <div className="flex flex-col items-center space-y-4">
-                      <p className="text-lg font-medium text-center">We also need some colored pencils and paint to finish our work.</p>
-                      <video controls src={wordVideos["We also need some colored pencils and paint to fin.mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <p className="text-lg font-medium text-center">
+                        We also need some colored pencils and paint to finish our work.
+                      </p>
+                      <video
+                        controls
+                        src={wordVideos["We also need some colored pencils and paint to fin.mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                     <hr className="w-1/3 mx-auto border-t border-gray-300" />
 
                     {/* Cặp 7 */}
                     <div className="flex flex-col items-center space-y-4">
-                      <p className="text-lg font-medium text-center">It’s a great time to be creative and help each other.</p>
-                      <video controls src={wordVideos["It’s a great time to be creative and help each o.mp4"]} className="w-2/3 h-auto rounded-lg shadow-md" />
+                      <p className="text-lg font-medium text-center">
+                        It’s a great time to be creative and help each other.
+                      </p>
+                      <video
+                        controls
+                        src={wordVideos["It’s a great time to be creative and help each o.mp4"]}
+                        className="w-2/3 h-auto rounded-lg shadow-md"
+                      />
                     </div>
                   </div>
                 </div>
@@ -490,13 +580,12 @@ export default function ReadingComprehension() {
               <div className="flex justify-center">
                 <video controls src={selectedVideo || ""} className="w-full h-auto max-h-[80vh]" />
               </div>
-              <Dialog.Close className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">
-                &times;
-              </Dialog.Close>
+              <Dialog.Close className="absolute top-4 right-4 text-gray-500 hover:text-gray-700">&times;</Dialog.Close>
             </Dialog.Content>
           </Dialog.Overlay>
         </Dialog.Portal>
       </Dialog.Root>
     </div>
-  );
+  )
 }
+
